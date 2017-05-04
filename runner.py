@@ -48,7 +48,7 @@ def runTests():
     processes = []
 
     for i in range(0, num_of_connected_devices):
-        p = subprocess.Popen([sys.executable, "testsuite.py"])
+        p = subprocess.Popen([sys.executable, "SystemReady.py"])
         processes.append(p)
 
     for process in processes:

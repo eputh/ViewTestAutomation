@@ -36,7 +36,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
-from viewTestAutomation.common import commonFunctions as common
+from common import commonFunctions as common
 
 """
 Helper functions for creating schedules

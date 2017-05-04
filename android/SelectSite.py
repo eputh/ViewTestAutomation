@@ -43,7 +43,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
-from viewTestAutomation.common import config as config
+from common import config as config
 
 
 class SelectSite(unittest.TestCase):

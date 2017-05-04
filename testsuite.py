@@ -34,8 +34,8 @@ import unittest
 from android import Control
 from android import SelectSite
 
-from viewTestAutomation import SystemReady
-from viewTestAutomation.third_party import HTMLTestRunner
+import SystemReady
+from third_party import HTMLTestRunner
 
 
 class RunTests(unittest.TestCase):

@@ -8,7 +8,7 @@ from common import site as site
 from selenium import webdriver
 from selenium.common.exceptions import *
 
-from viewTestAutomation.common import config as config
+from common import config as config
 
 
 class SystemReady(unittest.TestCase):
