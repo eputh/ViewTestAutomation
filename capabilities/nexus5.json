@@ -1,0 +1,23 @@
+{
+    "capabilities": [
+        {
+            "applicationName": "09c119410bfc3c60",
+            "deviceName": "09c119410bfc3c60",
+            "platformVersion":"6.0.1",
+            "browserName": "Nexus 5",
+            "platformName": "ANDROID",
+            "maxInstances": 1
+        }
+    ],
+    "configuration": {
+        "cleanUpCycle": 2000,
+        "timeout": 30000,
+        "proxy": "org.openqa.grid.selenium.proxy.DefaultRemoteProxy",
+        "port": 3030,
+        "maxSession": 1,
+        "register": true,
+        "registerCycle": 5000,
+        "hubPort": 4444,
+        "hubHost": "localhost"
+    }
+}

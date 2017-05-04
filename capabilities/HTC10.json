@@ -1,0 +1,23 @@
+{
+    "capabilities": [
+        {
+            "applicationName": "HT6AE0100527",
+          "deviceName": "HT6AE0100527",
+            "platformVersion":"6.0.1",
+            "browserName": "HTC 10",
+            "platformName": "ANDROID",
+            "maxInstances": 1
+        }
+    ],
+    "configuration": {
+        "cleanUpCycle": 2000,
+        "timeout": 30000,
+        "proxy": "org.openqa.grid.selenium.proxy.DefaultRemoteProxy",
+        "port": 4730,
+        "maxSession": 1,
+        "register": true,
+        "registerCycle": 5000,
+        "hubPort": 4444,
+        "hubHost": "localhost"
+    }
+}
