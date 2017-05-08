@@ -31,24 +31,16 @@
 
 import sys
 import subprocess
-import glob
 
-# test = glob.glob('test.py')
-# processes = []
-# for test in tests:
-# processes.append(Popen('python %s' % test, shell=True))
-#
-# for process in processes:
-#     process.wait()
 
-num_of_connected_devices = 3
+num_of_connected_devices = 2
 
 
 def runTests():
     processes = []
 
     for i in range(0, num_of_connected_devices):
-        p = subprocess.Popen([sys.executable, "SystemReady.py"])
+        p = subprocess.Popen([sys.executable, "HTMLTestRunner.py"])
         processes.append(p)
 
     for process in processes:

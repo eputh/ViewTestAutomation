@@ -14,11 +14,9 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 from common import config as config
 
-logging.basicConfig(filename="log.txt", level=logging.INFO)
-
 
 # print("In the test with device: ", runner.getDeviceID())
-class SelectSite(unittest.TestCase):
+class Test(unittest.TestCase):
     """Class to run tests against the View app"""
     def setUp(self):
         """Setup for the test"""
@@ -41,25 +39,26 @@ class SelectSite(unittest.TestCase):
         """
         Verify the functionality of the search bar for selecting a site
         """
-        if auth.isUserLoggedIn(self.driver):
-            if common.foundAlert(self.driver):
-                common.respondToAlert(self.driver, 0)
-            auth.logout(self.driver)
-            sleep(30)
-        auth.login(self.driver, config.users['CRUDO']['username'], config.users['CRUDO']['password'])
-
-        if WebDriverWait(self.driver, 50).until(EC.presence_of_element_located((By.ID, "com.view.viewglass:id/search_image_view"))):
-            search = self.driver.find_element_by_id("com.view.viewglass:id/search_image_view")
-            search.click()
-            search_text = self.driver.find_element_by_id("com.view.viewglass:id/search_site_edit_text")
-            # search for the site and press ENTER
-            search_text.send_keys(config.site)
-            # self.driver.press_keycode(66)
-            self.driver.find_element_by_id("com.view.viewglass:id/login_bg_LL").click()
-        else:
-            raiseExceptions("Failed to reach Select Site screen")
+        print("Hello! I can open the app.")
+        # if auth.isUserLoggedIn(self.driver):
+        #     if common.foundAlert(self.driver):
+        #         common.respondToAlert(self.driver, 0)
+        #     auth.logout(self.driver)
+        #     sleep(30)
+        # auth.login(self.driver, config.users['CRUDO']['username'], config.users['CRUDO']['password'])
+        #
+        # if WebDriverWait(self.driver, 50).until(EC.presence_of_element_located((By.ID, "com.view.viewglass:id/search_image_view"))):
+        #     search = self.driver.find_element_by_id("com.view.viewglass:id/search_image_view")
+        #     search.click()
+        #     search_text = self.driver.find_element_by_id("com.view.viewglass:id/search_site_edit_text")
+        #     # search for the site and press ENTER
+        #     search_text.send_keys(config.site)
+        #     # self.driver.press_keycode(66)
+        #     self.driver.find_element_by_id("com.view.viewglass:id/login_bg_LL").click()
+        # else:
+        #     raiseExceptions("Failed to reach Select Site screen")
 
 
 if __name__ == '__main__':
-    suite = unittest.TestLoader().loadTestsFromTestCase(SelectSite)
+    suite = unittest.TestLoader().loadTestsFromTestCase(Test)
     unittest.TextTestRunner(verbosity=2).run(suite)

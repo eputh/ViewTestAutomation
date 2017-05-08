@@ -190,7 +190,7 @@ class Template_mixin(object):
     <title>%(title)s</title>
     <meta name="generator" content="%(generator)s"/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    %(stylesheet)s
+    <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
 <script language="javascript" type="text/javascript"><!--
@@ -396,7 +396,7 @@ a.popup_link:hover {
     # Heading
     #
 
-    HEADING_TMPL = """<div class='heading'>
+    HEADING_TMPL = """<div class='header heading'>
 <h1>%(title)s</h1>
 %(parameters)s
 <p class='description'>%(description)s</p>
@@ -628,7 +628,7 @@ class HTMLTestRunner(Template_mixin):
         test(result)
         self.stopTime = datetime.datetime.now()
         self.generateReport(test, result)
-        print >>sys.stderr, '\nTime Elapsed: %s' % (self.stopTime-self.startTime)
+        print(sys.stderr, '\nTime Elapsed: %s' % (self.stopTime-self.startTime))
         return result
 
 
@@ -684,7 +684,7 @@ class HTMLTestRunner(Template_mixin):
             report = report,
             ending = ending,
         )
-        self.stream.write(output.encode('utf8'))
+        self.stream.write(output)
 
 
     def _generate_stylesheet(self):
