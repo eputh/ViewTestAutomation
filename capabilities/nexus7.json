@@ -2,9 +2,9 @@
     "capabilities": [
         {
             "applicationName": "092326c6",
-            "deviceName": "092326c6",
+            "deviceName": "Nexus7",
             "platformVersion":"6.0.1",
-            "browserName": "Nexus 7",
+            "browserName": "Nexus7",
             "platformName": "ANDROID",
             "maxInstances": 1
         }

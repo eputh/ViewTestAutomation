@@ -30,39 +30,42 @@ from __future__ import print_function
 ########################################################################
 """
 
-import unittest
 import os
-import datetime
-from bs4 import BeautifulSoup
-import sys
-import time
 import unittest
+from appium import webdriver
 from random import randint
 
 import SystemReady
-import test
 from third_party import HTMLTestRunner as TestRunner
+
+from test import Test
+from android import Control
+from android import LiveView
+from android import Authentication
+from android import SelectSite
 
 
 class RunTests(unittest.TestCase):
+
     def test_main(self):
         # Run HTMLTestRunner. Verify the HTML report.
         self.systemReadySuite = unittest.defaultTestLoader.loadTestsFromTestCase(SystemReady.SystemReady)
         # suite of TestCases
         self.suite = unittest.TestSuite()
         self.suite.addTests([
-            unittest.defaultTestLoader.loadTestsFromTestCase(test.Test)
-            # unittest.defaultTestLoader.loadTestsFromTestCase(Control.Control),
-            # unittest.defaultTestLoader.loadTestsFromTestCase(LiveView.LiveView),
+            unittest.defaultTestLoader.loadTestsFromTestCase(Test),
+            unittest.defaultTestLoader.loadTestsFromTestCase(LiveView.LiveView),
+            unittest.defaultTestLoader.loadTestsFromTestCase(Control.Control),
             #         unittest.defaultTestLoader.loadTestsFromTestCase(Schedule.Schedule),
-            # unittest.defaultTestLoader.loadTestsFromTestCase(Authentication.authentication),
-            # unittest.defaultTestLoader.loadTestsFromTestCase(SelectSite.SelectSite)
+            unittest.defaultTestLoader.loadTestsFromTestCase(Authentication.Authentication),
+            unittest.defaultTestLoader.loadTestsFromTestCase(SelectSite.SelectSite)
             #             unittest.defaultTestLoader.loadTestsFromTestCase(Zones.Zones)
         ])
 
         # Invoke TestRunner
         random = randint(1, 200)
         reportfile = os.path.abspath(os.path.join(os.path.dirname(__file__), 'report/ViewTestReport' + str(random) + '.html'))
+        print("Creating file: ", reportfile)
         outfile = open(reportfile, "w+")
         # runner = unittest.TextTestRunner(buf)       #DEBUG: this is the unittest baseline
         runner = TestRunner.HTMLTestRunner(
@@ -70,49 +73,12 @@ class RunTests(unittest.TestCase):
             title='View Inc Automation',
             description='View Inc Automation TestCases for iOS and Android.'
         )
-        if runner.run(self.systemReadySuite).wasSuccessful():
-            runner.run(self.suite)
+        # if runner.run(self.systemReadySuite).wasSuccessful():
+        print("Beginning test suite")
+        runner.run(self.suite)
+        # else:
+        #     print("Unsuccessful launch of test suite. System was not ready.")
         outfile.close()
-
-
-# class HTMLTestRunner(unittest.TestProgram):
-#
-#     def __init__(self, stream=sys.stdout, verbosity=1):
-#         self.stream = stream
-#         self.soup = BeautifulSoup(self.stream, "html.parser")
-#         self.verbosity = verbosity
-#         self.startTime = datetime.datetime.now()
-#
-#     def run(self, test):
-#         """
-#         Run the given test case or test suite.
-#         """
-#         result = unittest.TextTestRunner().run(test)
-#         self.stopTime = datetime.datetime.now()
-#         self.generate_report()
-#         print(sys.stderr, '\nTime Elapsed: %s' % (self.stopTime-self.startTime))
-#         return result
-#
-#     def generate_report(self):
-#         report = self.soup.find("div", {"class": "reports"})
-#         print("tyring to generate report")
-#         # device_report = self.soup.new_tag("div")
-#         # device_report['class'] = "container bgcolor-" + str(randint(1, 10))
-#         #
-#         # col = self.soup.new_tag("div")
-#         # col['class'] = "col-xs-offset-1 col-xs-10 col-sm-10 col-md-10 col-lg-10"
-#         #
-#         # heading = self.soup.new_tag("h2")
-#         # heading.string = "Device: Device Name Here"
-#         #
-#         # col.append(heading)
-#         # device_report.append(col)
-#         # report.append(device_report)
-#         #
-#         # self.stream.write(str(report))
-#
-#     def end_report(self):
-#         self.stream.write('</div></div></body></html>"')
 
 
 if __name__ == '__main__':

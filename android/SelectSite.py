@@ -69,7 +69,7 @@ class SelectSite(unittest.TestCase):
         """
         Verify the by logging using valid CRUDO privilege user
         """
-        auth.checkIfUserIsLoggedIn(self.driver, 0)
+        auth.checkIfUserIsLoggedIn(self.driver, 0, 'CRUDO')
         auth.login(self.driver, config.users['CRUDO']['username'], config.users['CRUDO']['password'])
 
         if WebDriverWait(self.driver, 50).until(EC.presence_of_element_located((By.XPATH, "//android.widget.TextView[@text='Select Site']"))):
@@ -86,7 +86,7 @@ class SelectSite(unittest.TestCase):
         """
         Verify the app authentication by logging using valid RUO privilege user
         """
-        auth.checkIfUserIsLoggedIn(self.driver, 0)
+        auth.checkIfUserIsLoggedIn(self.driver, 0, 'RUO')
         auth.login(self.driver, config.users['RUO']['username'], config.users['RUO']['password'])
 
         if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='Select Site']")) > 0:
@@ -98,7 +98,7 @@ class SelectSite(unittest.TestCase):
         """
         Verify the app authentication by logging using valid RO privilege user
         """
-        auth.checkIfUserIsLoggedIn(self.driver, 0)
+        auth.checkIfUserIsLoggedIn(self.driver, 0, 'RO')
         auth.login(self.driver, config.users['RO']['username'], config.users['RO']['password'])
 
         if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='Select Site']")) > 0:
@@ -111,7 +111,7 @@ class SelectSite(unittest.TestCase):
     #     Verify the exceptional handling by logging into a site while network
     #     connectivity is lost
     #     """
-    #     auth.checkIfUserIsLoggedIn(self.driver, 0)
+    #     auth.checkIfUserIsLoggedIn(self.driver, 0, 'CRUDO')
     #     self.driver.set_network_connection(0)
     #     if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='Retry']")) > 0:
     #         self.driver.set_network_connection(6)
@@ -124,7 +124,7 @@ class SelectSite(unittest.TestCase):
         """
         Verify the exceptional handling by logging into a site that is not reachable
         """
-        auth.checkIfUserIsLoggedIn(self.driver, 0)
+        auth.checkIfUserIsLoggedIn(self.driver, 0, 'CRUDO')
         auth.login(self.driver, config.users['CRUDO']['username'], config.users['CRUDO']['password'])
 
         if WebDriverWait(self.driver, 50).until(EC.presence_of_element_located((By.ID, "com.view.viewglass:id/search_image_view"))):
@@ -153,7 +153,7 @@ class SelectSite(unittest.TestCase):
         Verify the functionality of logging into a user assigned
         to multiple sites
         """
-        auth.checkIfUserIsLoggedIn(self.driver, 0)
+        auth.checkIfUserIsLoggedIn(self.driver, 0, 'CRUDO')
         auth.login(self.driver, config.users['CRUDO']['username'], config.users['CRUDO']['password'])
 
         if WebDriverWait(self.driver, 50).until(EC.presence_of_element_located((By.XPATH, "//android.widget.TextView[@text='Select Site']"))):
@@ -171,7 +171,7 @@ class SelectSite(unittest.TestCase):
         Verify the functionality of logging into a user assigned
         to only one site
         """
-        auth.checkIfUserIsLoggedIn(self.driver, 0)
+        auth.checkIfUserIsLoggedIn(self.driver, 0, 'RUO')
         auth.login(self.driver, config.users['RUO']['username'], config.users['RUO']['password'])
 
         if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='Select Site']")) > 0:
@@ -184,7 +184,7 @@ class SelectSite(unittest.TestCase):
     #     Verify the functionality of logging into a user not assigned
     #     to any site
     #     """
-    #     auth.checkIfUserIsLoggedIn(self.driver, 0)
+    #     auth.checkIfUserIsLoggedIn(self.driver, 0, 'CRUDO')
     #     auth.login(self.driver, config.users['MissingPwd']['username'], config.users['MissingPwd']['password'])
     #     auth.loginScreenValidations(self.driver)
 
@@ -192,7 +192,7 @@ class SelectSite(unittest.TestCase):
         """
         Verify the functionality of the Sign Out button
         """
-        auth.checkIfUserIsLoggedIn(self.driver, 0)
+        auth.checkIfUserIsLoggedIn(self.driver, 0, 'CRUDO')
         auth.login(self.driver, config.users['CRUDO']['username'], config.users['CRUDO']['password'])
 
         if WebDriverWait(self.driver, 50).until(EC.presence_of_element_located((By.ID, "com.view.viewglass:id/button_cancel"))):
@@ -204,7 +204,7 @@ class SelectSite(unittest.TestCase):
         """
         Verify the functionality of the search bar for selecting a site
         """
-        auth.checkIfUserIsLoggedIn(self.driver, 0)
+        auth.checkIfUserIsLoggedIn(self.driver, 0, 'CRUDO')
         auth.login(self.driver, config.users['CRUDO']['username'], config.users['CRUDO']['password'])
 
         if WebDriverWait(self.driver, 50).until(EC.presence_of_element_located((By.ID, "com.view.viewglass:id/search_image_view"))):
@@ -231,7 +231,7 @@ class SelectSite(unittest.TestCase):
         """
         Verify the functionality of the cancel button
         """
-        auth.checkIfUserIsLoggedIn(self.driver, 0)
+        auth.checkIfUserIsLoggedIn(self.driver, 0, 'CRUDO')
         auth.login(self.driver, config.users['CRUDO']['username'], config.users['CRUDO']['password'])
 
         site.selectSite(self.driver, config.site)

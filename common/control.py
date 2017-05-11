@@ -51,8 +51,8 @@ def changeTint(driver):
 
 
 def changeRepeat(driver, repeat):
-    driver.find_element_by_xpath("//*[@id='repeats_value_schdSceneTintTV']").click()
-    WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, "//*[@text='" + repeat + "']")))
+    driver.find_element_by_id("com.view.viewglass:id/repeats_value_schdSceneTintTV").click()
+    WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, "//android.widget.TextView[@text='" + repeat + "']")))
     driver.find_element_by_xpath("//android.widget.TextView[@text='" + repeat + "']").click()
 
 
@@ -68,10 +68,9 @@ def quickCreateSchedule(driver):
     if commonFunctions.foundAlert(driver):
         commonFunctions.respondToAlert(driver, 1)
         commonFunctions.goback(driver)
-
+    
 
 def deleteSchedule(driver, schedule):
-    print(schedule.size, schedule.location)
     size = schedule.size
     location = schedule.location
     x = location['x'] + size['width'] - 10

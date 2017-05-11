@@ -282,6 +282,7 @@
 			.testcase   { margin-left: 2em; }
   		</style>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+		<script src="https://code.jquery.com/jquery-3.2.1.min.js" type="text/javascript"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
 		<!--[if IE]>
   		<script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -306,11 +307,11 @@
 				<span class="test_case_list">
 					<label class="checkbox-inline"><input class="checkbox" type="checkbox" value="on" name="authentication">Authentication</label>
 					<label class="checkbox-inline"><input class="checkbox" type="checkbox" value="on" name="control">Control</label>
-					<!--<label class="checkbox-inline"><input class="checkbox" type="checkbox" value="">LiveView</label>-->
-					<!--<label class="checkbox-inline"><input class="checkbox" type="checkbox" value="">Scenes</label>-->
-					<!--<label class="checkbox-inline"><input class="checkbox" type="checkbox" value="">Schedule</label>-->
+					<label class="checkbox-inline"><input class="checkbox" type="checkbox" value="">LiveView</label>
+					<label class="checkbox-inline"><input class="checkbox" type="checkbox" value="">Scenes</label>
+					<label class="checkbox-inline"><input class="checkbox" type="checkbox" value="">Schedule</label>
 					<label class="checkbox-inline"><input class="checkbox" type="checkbox" value="on" name="select-site">SelectSite</label>
-					<!--<label class="checkbox-inline"><input class="checkbox" type="checkbox" value="">Zones</label>-->
+					<label class="checkbox-inline"><input class="checkbox" type="checkbox" value="">Zones</label>
 				</span>
 				<button type="submit" class="btn btn-info">Launch Tests</button>
 			</form>
@@ -399,7 +400,6 @@
 			<!--</div>-->
 		</div>
 	</div>
-	<script src="https://code.jquery.com/jquery-3.2.1.min.js" type="text/javascript"></script>
 	<script type="text/javascript">
 		$(document).ready(function(){
 			checkboxes = document.getElementsByClassName('checkbox');

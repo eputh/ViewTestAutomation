@@ -75,7 +75,7 @@ class LiveView(unittest.TestCase):
         """
         To verify the UI components of the "LiveView screen"
         """
-        auth.checkIfUserIsLoggedIn(self.driver, 1)
+        auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         commonFunctions.navIcon(self.driver)
         if WebDriverWait(self.driver, 10).until(
                 EC.presence_of_element_located((By.ID, "com.view.viewglass:id/navigation_live_viewTV"))):
@@ -118,7 +118,7 @@ class LiveView(unittest.TestCase):
         """
         To verify the functionality of "navigation icon" in the upper left corner of the screen
         """
-        auth.checkIfUserIsLoggedIn(self.driver, 1)
+        auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/title_LiveViewTV")) <= 0:
             commonFunctions.navIcon(self.driver)
             if WebDriverWait(self.driver, 10).until(
@@ -139,7 +139,7 @@ class LiveView(unittest.TestCase):
         """
         To verify the functionality of list of zones when any of the zone is selected
         """
-        auth.checkIfUserIsLoggedIn(self.driver, 1)
+        auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/title_LiveViewTV")) <= 0:
             commonFunctions.navIcon(self.driver)
             if WebDriverWait(self.driver, 10).until(
@@ -165,7 +165,7 @@ class LiveView(unittest.TestCase):
         """
         To check if the scroller on the arc is moved, then the tint event details also scroll with the time.
         """
-        auth.checkIfUserIsLoggedIn(self.driver, 1)
+        auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/title_LiveViewTV")) <= 0:
             commonFunctions.navIcon(self.driver)
             if WebDriverWait(self.driver, 10).until(
@@ -194,7 +194,7 @@ class LiveView(unittest.TestCase):
         To verify if the first tint applied of the day is before 6 am.
         then the last applied tint should be displayed with the time and date.
         """
-        auth.checkIfUserIsLoggedIn(self.driver, 1)
+        auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/title_LiveViewTV")) <= 0:
             commonFunctions.navIcon(self.driver)
             if WebDriverWait(self.driver, 10).until(
@@ -225,7 +225,7 @@ class LiveView(unittest.TestCase):
         """
         To apply a tint from UI and check if it is updated on the UI of the LiveView.
         """
-        auth.checkIfUserIsLoggedIn(self.driver, 1)
+        auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/title_LiveViewTV")) <= 0:
             commonFunctions.navIcon(self.driver)
             if WebDriverWait(self.driver, 10).until(
@@ -302,7 +302,7 @@ class LiveView(unittest.TestCase):
         """
          Create a schedule from schedule screen and verify the entry  with Schedule in  LiveView
         """
-        auth.checkIfUserIsLoggedIn(self.driver, 1)
+        auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/title_LiveViewTV")) <= 0:
             commonFunctions.navIcon(self.driver)
             if WebDriverWait(self.driver, 10).until(
@@ -354,7 +354,7 @@ class LiveView(unittest.TestCase):
         """
          Create a scene schedule from scene screen and  verify the entry with scene schedule in  LiveView
         """
-        auth.checkIfUserIsLoggedIn(self.driver, 1)
+        auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/title_LiveViewTV")) <= 0:
             commonFunctions.navIcon(self.driver)
             if WebDriverWait(self.driver, 10).until(
@@ -412,7 +412,7 @@ class LiveView(unittest.TestCase):
         """
         Open any LiveView for zone and verify at least one entry with reason Sunrise is displayed to user
         """
-        auth.checkIfUserIsLoggedIn(self.driver, 1)
+        auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/title_LiveViewTV")) <= 0:
             commonFunctions.navIcon(self.driver)
             if WebDriverWait(self.driver, 10).until(
@@ -438,7 +438,7 @@ class LiveView(unittest.TestCase):
         """
         Open any LiveView for zone and verify at lease one entry with reason Sunset is displayed to user
         """
-        auth.checkIfUserIsLoggedIn(self.driver, 1)
+        auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/title_LiveViewTV")) <= 0:
             commonFunctions.navIcon(self.driver)
             if WebDriverWait(self.driver, 10).until(
@@ -458,7 +458,7 @@ class LiveView(unittest.TestCase):
             raiseExceptions("Bug: there are no tint activities in the list")
 
         if not hasSunsetEntry:
-            raiseExceptions("Bug: No Sunrise entry in UI")
+            raiseExceptions("Bug: No Sunset entry in UI")
 
     def testDisplayDataEntryAndGraphSync(self):
         """
@@ -467,7 +467,7 @@ class LiveView(unittest.TestCase):
         Eg: If user clicks on A20 Zone and selects the 9:35AM entry in table then in graph user should immediately
         see the Tint icon, control,carat icon moved to 9:35 am, reason for Tint and in center of graph time display should e 9:35 am
         """
-        auth.checkIfUserIsLoggedIn(self.driver, 1)
+        auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/title_LiveViewTV")) <= 0:
             commonFunctions.navIcon(self.driver)
             if WebDriverWait(self.driver, 10).until(
@@ -515,7 +515,7 @@ class LiveView(unittest.TestCase):
         if now < sunset:
             print("Cannot test because it is not after sunset yet")
         else:
-            auth.checkIfUserIsLoggedIn(self.driver, 1)
+            auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
             if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/title_LiveViewTV")) <= 0:
                 commonFunctions.navIcon(self.driver)
                 if WebDriverWait(self.driver, 10).until(
@@ -538,7 +538,7 @@ class LiveView(unittest.TestCase):
         if now < sunset:
             print("Cannot test because it is not after sunset yet")
         else:
-            auth.checkIfUserIsLoggedIn(self.driver, 1)
+            auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
             if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/title_LiveViewTV")) <= 0:
                 commonFunctions.navIcon(self.driver)
                 if WebDriverWait(self.driver, 10).until(

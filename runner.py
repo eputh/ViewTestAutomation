@@ -32,11 +32,9 @@
 import sys
 import subprocess
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template, redirect, url_for, request
 from flask import make_response
 app = Flask(__name__)
-
-import test
 
 
 @app.route("/")

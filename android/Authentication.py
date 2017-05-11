@@ -127,7 +127,7 @@ class Authentication(unittest.TestCase):
         """
         Verify the app authentication by logging using valid CRUDO privilege user
         """
-        auth.checkIfUserIsLoggedIn(self.driver, 0)
+        auth.checkIfUserIsLoggedIn(self.driver, 0, 'CRUDO')
         logging.info(" login with CRUDO user")
         auth.login(self.driver, config.users['CRUDO']['username'], config.users['CRUDO']['password'])
         auth.signout(self.driver)
@@ -138,7 +138,7 @@ class Authentication(unittest.TestCase):
         """
         Verify the app authentication by logging using valid RUO privilege user
         """
-        auth.checkIfUserIsLoggedIn(self.driver, 0)
+        auth.checkIfUserIsLoggedIn(self.driver, 0, 'RUO')
         auth.login(self.driver, config.users['RUO']['username'], config.users['RUO']['password'])
         auth.signout(self.driver)
 
@@ -148,9 +148,11 @@ class Authentication(unittest.TestCase):
         """
         Verify the app authentication by logging using valid RO privilege user
         """
-        auth.checkIfUserIsLoggedIn(self.driver, 0)
+        auth.checkIfUserIsLoggedIn(self.driver, 0, 'RO')
         auth.login(self.driver, config.users['RO']['username'], config.users['RO']['password'])
-        auth.signout(self.driver)
+        WebDriverWait(self.driver, 30).until(
+            EC.presence_of_element_located((By.ID, "com.view.viewglass:id/home_controlIV")))
+        auth.logout(self.driver)
 
     # @attr('acceptance', sid='TC-login-1.5-06', bv=10)
     # @unittest.skip('Test case temporarily disabled')
@@ -158,7 +160,7 @@ class Authentication(unittest.TestCase):
         """
         Verify the app authentication by logging using valid RO privilege user
         """
-        auth.checkIfUserIsLoggedIn(self.driver, 0)
+        auth.checkIfUserIsLoggedIn(self.driver, 0, 'CRUDO')
         auth.login(self.driver, config.users['1dot2System']['username'], config.users['1dot2System']['password'])
         site.selectSite(self.driver, 'B195 Ballroom')
         auth.logout(self.driver)
@@ -169,7 +171,7 @@ class Authentication(unittest.TestCase):
         """
         Verify the exceptional handling by logging using invalid user
         """
-        auth.checkIfUserIsLoggedIn(self.driver, 0)
+        auth.checkIfUserIsLoggedIn(self.driver, 0, 'CRUDO')
         auth.negativeTestCaseLoginValidation(self.driver, config.users['InvalidEmail']['username'], config.users['InvalidEmail']['password'])
         auth.loginScreenValidations(self.driver)
         
@@ -179,22 +181,22 @@ class Authentication(unittest.TestCase):
         """
         Verify the exceptional handling by logging using invalid user
         """
-        auth.checkIfUserIsLoggedIn(self.driver, 0)
+        auth.checkIfUserIsLoggedIn(self.driver, 0, 'CRUDO')
         auth.negativeTestCaseLoginValidation(self.driver, config.users['InvalidPwd']['username'], config.users['InvalidPwd']['password'])
         auth.loginScreenValidations(self.driver)
     
     # @attr('acceptance', sid='TC-login-1.5-17', bv=10)
     # @unittest.skip('Test case temporarily disabled')
     def testLoginUsingSpecialPwd(self):
-        auth.checkIfUserIsLoggedIn(self.driver, 0)
+        auth.checkIfUserIsLoggedIn(self.driver, 0, 'CRUDO')
         auth.login(self.driver, config.users['PwdStartingSpecialChar']['username'], config.users['PwdStartingSpecialChar']['password'])
-        auth.signout(self.driver)        
-            
+        auth.loginScreenValidations(self.driver)
+
     def testLoginUsingMissingUsername(self):
         """
         Verify the exceptional handling by logging using invalid user
         """
-        auth.checkIfUserIsLoggedIn(self.driver, 0)
+        auth.checkIfUserIsLoggedIn(self.driver, 0, 'CRUDO')
         auth.negativeTestCaseLoginValidation(self.driver, config.users['MissingEmail']['username'], config.users['MissingEmail']['password'])
         auth.loginScreenValidations(self.driver)           
         
@@ -202,7 +204,7 @@ class Authentication(unittest.TestCase):
         """
         Verify the exceptional handling by logging using invalid user
         """
-        auth.checkIfUserIsLoggedIn(self.driver, 0)
+        auth.checkIfUserIsLoggedIn(self.driver, 0, 'CRUDO')
         auth.negativeTestCaseLoginValidation(self.driver, config.users['MissingPwd']['username'], config.users['MissingPwd']['password'])
         auth.loginScreenValidations(self.driver)
 
@@ -235,22 +237,24 @@ class Authentication(unittest.TestCase):
         """
         Verify the exceptional handling by logging using invalid user
         """
+        auth.checkIfUserIsLoggedIn(self.driver, 0, 'UserNotConfiguredInVRM')
         auth.login(self.driver, config.users['UserNotConfiguredInVRM']['username'], config.users['UserNotConfiguredInVRM']['password'])
-        auth.loginScreenValidations(self.driver)       
-      
+
     # @attr('acceptance', sid='TC-login-1.5-09', bv=10)
     # @unittest.skip('Test case temporarily disabled')  
     def testNoSiteAssignedForUserInVRM(self):
         """
         Verify the exceptional handling by logging using invalid user
         """
+        auth.checkIfUserIsLoggedIn(self.driver, 0, 'RO')
         auth.login(self.driver, config.users['RO']['username'], config.users['RO']['password'])
-        auth.signout(self.driver)
+        auth.logout(self.driver)
 
     def testSingleSiteUserLogin(self):
         """
         Verify the exceptional handling by logging using invalid user
         """
+        auth.checkIfUserIsLoggedIn(self.driver, 0, 'RUO')
         auth.login(self.driver, config.users['RUO']['username'], config.users['RUO']['password'])
         sleep(30)
         auth.logout(self.driver)
@@ -261,9 +265,10 @@ class Authentication(unittest.TestCase):
         """
         Verify the logout functionality
         """
-        auth.login(self.driver, config.users['RUO']['username'], config.users['RUO']['password'])
+        auth.checkIfUserIsLoggedIn(self.driver, 0, 'CRUDO')
+        auth.login(self.driver, config.users['CRUDO']['username'], config.users['CRUDO']['password'])
         sleep(30)
-        auth.logout(self.driver)    
+        auth.signout(self.driver)
 
 
 if __name__ == '__main__':

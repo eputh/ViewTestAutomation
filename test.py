@@ -1,23 +1,13 @@
-import logging
 import os
 import unittest
-from logging import raiseExceptions
-from time import sleep
 
 from appium import webdriver
-from common import auth as auth
-from common import commonFunctions as common
 from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.support.ui import WebDriverWait
-
-from common import config as config
 
 
-# print("In the test with device: ", runner.getDeviceID())
 class Test(unittest.TestCase):
     """Class to run tests against the View app"""
+
     def setUp(self):
         """Setup for the test"""
         desired_caps = {}
@@ -35,13 +25,12 @@ class Test(unittest.TestCase):
         """Tear down the test"""
         self.driver.quit()
 
-    def getDeviceName(self):
+    def testGetDeviceName(self):
         """
         Get the device name
         """
-        name = self.driver.desired_capabilities.get("deviceName")
-        print("Device : ", name)
-        return name
+        device = self.driver.desired_capabilities.get("deviceName")
+        print("Device : ", device)
 
 
 if __name__ == '__main__':
