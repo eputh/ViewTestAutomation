@@ -51,7 +51,11 @@ def selectSite(driver, site):
         # search for the site and press ENTER
         search_text.send_keys(site)
         # self.driver.press_keycode(66)
-        driver.find_element_by_id("com.view.viewglass:id/login_bg_LL").click()
+        size = driver.find_element_by_id("com.view.viewglass:id/siteList_searchResultCountTV").size
+        location = driver.find_element_by_id("com.view.viewglass:id/siteList_searchResultCountTV").location
+        x = size['width']/2
+        y = location['y'] + size['height'] * 3
+        driver.tap([(x, y)])
     else:
         raiseExceptions("Failed to reach Select Site screen")
 

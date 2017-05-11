@@ -36,7 +36,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
-from common import commonFunctions as common
+from common import commonFunctions
 
 """
 Helper functions for creating schedules
@@ -44,7 +44,7 @@ Helper functions for creating schedules
 
 
 def changeTint(driver):
-    tint_level = common.generateRandomNumber(1, 4)
+    tint_level = commonFunctions.generateRandomNumber(1, 4)
     WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, "//android.widget.TextView[@text='Tint Level']")))
     driver.find_element_by_xpath("//android.widget.TextView[@text='Tint Level']").click()
     driver.find_element_by_xpath("//android.widget.TextView[@text='" + tint_level + "']").click()
@@ -55,6 +55,28 @@ def changeRepeat(driver, repeat):
     WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, "//*[@text='" + repeat + "']")))
     driver.find_element_by_xpath("//android.widget.TextView[@text='" + repeat + "']").click()
 
+
+def quickCreateSchedule(driver):
+    if WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.ID, "com.view.viewglass:id/add_schdIV"))):
+        commonFunctions.addbutton(driver)
+        changeTint(driver)
+        commonFunctions.savebutton(driver)
+    else:
+        raiseExceptions("add schedule button is missing")
+
+    if commonFunctions.foundAlert(driver):
+        commonFunctions.respondToAlert(driver, 1)
+        commonFunctions.goback(driver)
+
+
+def deleteSchedule(driver, schedule):
+    print(schedule.size, schedule.location)
+    size = schedule.size
+    location = schedule.location
+    x = location['x'] + size['width'] - 10
+    y = location['y'] + 10
+    driver.tap([(x, y)])
 
 """
 Helper functions for navigating through the control ring
@@ -118,8 +140,8 @@ def getTint4(driver):
 def clickTintLevelNum(driver):
     if len(driver.find_elements(By.ID, "com.view.viewglass:id/tintImage_controlIV")) > 0:
         driver.find_element_by_id("com.view.viewglass:id/tintImage_controlIV").click()
-        if common.foundAlert(driver):
-            common.respondToAlert(driver, 1)
+        if commonFunctions.foundAlert(driver):
+            commonFunctions.respondToAlert(driver, 1)
     elif len(driver.find_elements(By.ID, "com.view.viewglass:id/tintLevelNum_controlTV")) > 0:
         pass
     else:
@@ -129,8 +151,8 @@ def clickTintLevelNum(driver):
 def getCurrentTint(driver):
     if len(driver.find_elements(By.ID, "com.view.viewglass:id/tintImage_controlIV")) > 0:
         driver.find_element_by_id("com.view.viewglass:id/tintImage_controlIV").click()
-        if common.foundAlert(driver):
-            common.respondToAlert(driver, 1)
+        if commonFunctions.foundAlert(driver):
+            commonFunctions.respondToAlert(driver, 1)
     elif len(driver.find_elements(By.ID, "com.view.viewglass:id/tintLevelNum_controlTV")) > 0:
         pass
     else:
@@ -144,8 +166,8 @@ def verifyValidTintFound(driver, tint):
     print(tintStr)
     if len(driver.find_elements(By.ID, "com.view.viewglass:id/tintImage_controlIV")) > 0:
         driver.find_element_by_id("com.view.viewglass:id/tintImage_controlIV").click()
-        if common.foundAlert(driver):
-            common.respondToAlert(driver, 1)
+        if commonFunctions.foundAlert(driver):
+            commonFunctions.respondToAlert(driver, 1)
         driver.find_element_by_xpath(tintStr)
     elif len(driver.find_elements(By.ID, "com.view.viewglass:id/tintLevelNum_controlTV")) > 0:
         driver.find_element_by_xpath(tintStr)
@@ -156,8 +178,8 @@ def verifyValidTintFound(driver, tint):
 def verifyInvalidTintsNotFound(driver, tint):
     if len(driver.find_elements(By.ID, "com.view.viewglass:id/tintImage_controlIV")) > 0:
         driver.find_element_by_id("com.view.viewglass:id/tintImage_controlIV").click()
-        if common.foundAlert(driver):
-            common.respondToAlert(driver, 1)
+        if commonFunctions.foundAlert(driver):
+            commonFunctions.respondToAlert(driver, 1)
     elif len(driver.find_elements(By.ID, "com.view.viewglass:id/tintLevelNum_controlTV")) > 0:
         pass
     else:
@@ -181,7 +203,7 @@ def selectTint(driver, t):
     elif t == 4:
         tint = getTint4(driver)
     driver.tap([(tint[0], tint[1])])
-    common.overridebutton(driver)
+    commonFunctions.overridebutton(driver)
 
 
 def selectRandomTint(driver):
@@ -196,41 +218,5 @@ def selectRandomTint(driver):
     elif r == 4:
         tint = getTint4(driver)
     driver.tap([(tint[0], tint[1])])
-    common.overridebutton(driver)
+    commonFunctions.overridebutton(driver)
     return r
-
-
-# def create_schedule(driver, repeat):
-#     # navigate to the SCHEDULE screen
-#     navigation = driver.find_element_by_id("com.view.viewglass:id/home_controlIV")
-#     navigation.click()
-#     schedule = driver.find_element_by_id("com.view.viewglass:id/navigation_scheduleTV")
-#     schedule.click()
-#     add_schedule = driver.find_element_by_id("com.view.viewglass:id/add_schdIV")
-#     add_schedule.click()
-#     # select tint level (1 in this case)
-#     driver.find_element_by_id("com.view.viewglass:id/tint_level_value_schdSceneTintTV").click()
-#     driver.find_element_by_id("com.view.viewglass:id/sel_schdSceneTintCircle1TV").click()
-#     # select repeat
-#     driver.find_element_by_id("com.view.viewglass:id/repeats_schdSceneTintTV").click()
-#     driver.find_element_by_name(repeat).click()
-#     # Line below: used to save the schedule being created
-#     # driver.find_element_by_id("com.view.viewglass:id/saveBtn_schdTintTV").click()
-#
-#     # The current site "APPCloudTest1" does not allow for new schedules to be saved, so the
-#     # line below presses the back button and proceeds with the rest of the test case
-#     driver.find_element_by_id("com.view.viewglass:id/backBtn_schdTintTV").click()
-#
-#
-# def change_tint(driver):
-#     # navigate to CONTROL
-#     navigation = driver.find_element_by_id("com.view.viewglass:id/home_controlIV")
-#     navigation.click()
-#     control = driver.find_element_by_id("com.view.viewglass:id/navigation_controlTV")
-#     control.click()
-#     sleep(5)
-#     # select the tint level (2 in this case) - this is based on its location on the screen
-#     driver.swipe(270, 900, 270, 900, 3)
-#     # approve of override
-#     driver.find_element_by_id("com.view.viewglass:id/tick_button_controlLL").click()
-#

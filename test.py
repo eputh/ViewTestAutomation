@@ -35,28 +35,13 @@ class Test(unittest.TestCase):
         """Tear down the test"""
         self.driver.quit()
 
-    def testSelectSiteSearchFunctionality(self):
+    def getDeviceName(self):
         """
-        Verify the functionality of the search bar for selecting a site
+        Get the device name
         """
-        print("Hello! I can open the app.")
-        # if auth.isUserLoggedIn(self.driver):
-        #     if common.foundAlert(self.driver):
-        #         common.respondToAlert(self.driver, 0)
-        #     auth.logout(self.driver)
-        #     sleep(30)
-        # auth.login(self.driver, config.users['CRUDO']['username'], config.users['CRUDO']['password'])
-        #
-        # if WebDriverWait(self.driver, 50).until(EC.presence_of_element_located((By.ID, "com.view.viewglass:id/search_image_view"))):
-        #     search = self.driver.find_element_by_id("com.view.viewglass:id/search_image_view")
-        #     search.click()
-        #     search_text = self.driver.find_element_by_id("com.view.viewglass:id/search_site_edit_text")
-        #     # search for the site and press ENTER
-        #     search_text.send_keys(config.site)
-        #     # self.driver.press_keycode(66)
-        #     self.driver.find_element_by_id("com.view.viewglass:id/login_bg_LL").click()
-        # else:
-        #     raiseExceptions("Failed to reach Select Site screen")
+        name = self.driver.desired_capabilities.get("deviceName")
+        print("Device : ", name)
+        return name
 
 
 if __name__ == '__main__':

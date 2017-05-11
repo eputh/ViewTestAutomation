@@ -42,7 +42,6 @@ from datetime import datetime
 from time import sleep
 
 
-
 def changeSite(driver, site):
     navIcon(driver)
     driver.find_element_by_id("username_navigationTV").click()
@@ -62,29 +61,38 @@ def changeSite(driver, site):
         driver.find_element_by_xpath("//android.widget.Button[@text='Yes']").click()
     else:
         raiseExceptions("confirmation message for changing tint is missing")
+    WebDriverWait(driver, 20).until(
+        EC.presence_of_element_located((By.ID, "com.view.viewglass:id/home_btn_myProfileLL")))
+    goback(driver)
+    navIcon(driver)
 
 
 def navIcon(driver):
-    if len(driver.find_elements(By.ID, "com.view.viewglass:id/Control_headingTV")) > 0:
+    if len(driver.find_elements(By.ID, "com.view.viewglass:id/home_controlIV")) > 0:
         driver.find_element_by_id("com.view.viewglass:id/home_controlIV").click()
-    elif len(driver.find_elements(By.ID, "com.view.viewglass:id/title_zonesTV")) > 0:
+    elif len(driver.find_elements(By.ID, "com.view.viewglass:id/home_zonesIV")) > 0:
         driver.find_element_by_id("com.view.viewglass:id/home_zonesIV").click()
-    elif len(driver.find_elements(By.ID, "com.view.viewglass:id/title_LiveViewTV")) > 0:
-        driver.find_element_by_xpath(
-            "//*[@class='android.widget.ImageView' and ./parent::*[@id='homeBtnLiveViewLL']]").click()
-    elif len(driver.find_elements(By.ID, "com.view.viewglass:id/scheduleTV")) > 0:
+    elif len(driver.find_elements(By.ID, "com.view.viewglass:id/homeBtnLiveViewLL")) > 0:
+        driver.find_element_by_id("com.view.viewglass:id/homeBtnLiveViewLL").click()
+    elif len(driver.find_elements(By.ID, "com.view.viewglass:id/home_schdIV")) > 0:
         driver.find_element_by_id("com.view.viewglass:id/home_schdIV").click()
-    elif len(driver.find_elements(By.ID, "com.view.viewglass:id/scene_headertext")) > 0:
+    elif len(driver.find_elements(By.ID, "com.view.viewglass:id/menuBtn_scene")) > 0:
         driver.find_element_by_id("com.view.viewglass:id/menuBtn_scene").click()
 
 
 def goback(driver):
-    if len(driver.find_elements(By.XPATH, "//*[@id='backBtn_schdSTintLL']")) > 0:
-        driver.find_element_by_xpath("//*[@resource-id='com.view.viewglass:id/backBtn_schdSTintLL']").click()
-    elif len(driver.find_elements(By.XPATH, "//*[@id='backBtn_allZonesSelectLL']")) > 0:
-        driver.find_element_by_xpath("//*[@id='backBtn_allZonesSelectLL']").click()
-    elif len(driver.find_elements(By.XPATH, "//*[@id='backBtn_schdSTintLL']")) > 0:
-        driver.find_element_by_xpath("//*[@id='backBtn_schdSTintLL']").click()
+    if len(driver.find_elements(By.ID, "com.view.viewglass:id/backBtn_schdTintTV")) > 0:
+        driver.find_element_by_id("com.view.viewglass:id/backBtn_schdTintTV").click()
+    elif len(driver.find_elements(By.ID, "com.view.viewglass:id/backBtn_allZonesSelectLL']")) > 0:
+        driver.find_element_by_id("com.view.viewglass:id/backBtn_allZonesSelectLL']").click()
+    elif len(driver.find_elements(By.ID, "com.view.viewglass:id/backBtn_schdSTintLL']")) > 0:
+        driver.find_element_by_id("com.view.viewglass:id/backBtn_schdSTintLL']").click()
+    elif len(driver.find_elements(By.ID, "com.view.viewglass:id/home_btn_myProfileLL")) > 0:
+        driver.find_element_by_id("com.view.viewglass:id/home_btn_myProfileLL").click()
+    elif len(driver.find_elements(By.ID, "com.view.viewglass:id/back_copy_tint_eventIV")) > 0:
+        driver.find_element_by_id("com.view.viewglass:id/back_copy_tint_eventIV").click()
+    else:
+        raiseExceptions("Back button is missing")
 
 
 def savebutton(driver):
@@ -93,13 +101,15 @@ def savebutton(driver):
 
 
 def addbutton(driver):
-    if len(driver.find_elements(By.XPATH, "//*[@id='add_schdIV']")) > 0:
-        driver.find_element_by_xpath("//*[@id='add_schdIV']").click()
+    if len(driver.find_elements(By.ID, "com.view.viewglass:id/add_schdIV")) > 0:
+        driver.find_element_by_id("com.view.viewglass:id/add_schdIV").click()
+    else:
+        raiseExceptions("Add button is missing")
 
 
 def editbutton(driver):
-    if len(driver.find_elements(By.XPATH, "//*[@id='saveBtn_schdTintTV']")) > 0:
-        driver.find_element_by_xpath("//*[@id='saveBtn_schdTintTV']").click()
+    if len(driver.find_elements(By.ID, "com.view.viewglass:id/saveBtn_schdTintTV")) > 0:
+        driver.find_element_by_id("com.view.viewglass:id/saveBtn_schdTintTV").click()
     elif len(driver.find_elements(By.XPATH, "//android.widget.TextView[@text='Edit']")) > 0:
         driver.find_element_by_xpath("//android.widget.TextView[@text='Edit']").click()
 
@@ -185,3 +195,21 @@ def generateRandomNumber(min, max):
 def getToday():
     today = datetime.now()
     return today.day
+
+
+"""
+Helper functions to navigate through LiveView
+"""
+
+
+def checkLiveViewAccess(driver):
+    if len(driver.find_elements(By.ID, "com.view.viewglass:id/noLiveView_liveViewTV")) > 0:
+        print("Live View Data not available")
+        # change site? find a zone with accessible zone data?
+        changeSite(driver, "APPCloudTest1")
+        WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.ID, "com.view.viewglass:id/zoneSelector_liveViewTV")))
+        driver.find_element_by_id("com.view.viewglass:id/zoneSelector_liveViewTV").click()
+        x = driver.find_element_by_class_name("android.widget.RelativeLayout").size['width'] + 10
+        y = driver.find_element_by_class_name("android.widget.RelativeLayout").location['y'] + 10
+        driver.tap([(x, y)])

@@ -48,22 +48,33 @@ def isUserLoggedIn(driver):
         if WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, "//android.widget.Button[@content-desc='LOGIN']"))):
             return False
     except TimeoutException:
-        print("user is logged in")
         return True
 
 
-def checkIfUserIsLoggedIn(driver):
-    if not isUserLoggedIn(driver):
-        login(driver, config.users['CRUDO']['username'], config.users['CRUDO']['password'])
-        site.selectSite(driver, config.site)
-        sleep(30)
-    else:
-        sleep(20)
+def checkIfUserIsLoggedIn(driver, loginbool):
+    """ Check if user needs to be logged in or logged out"""
+    # user needs to be logged in
+    if loginbool:
+        if not isUserLoggedIn(driver):
+            login(driver, config.users['CRUDO']['username'], config.users['CRUDO']['password'])
+            site.selectSite(driver, config.site)
+            sleep(20)
 
-    if common.foundAlert(driver):
-        common.respondToAlert(driver, 0)
-    if common.foundTour(driver):
-        common.exitTour(driver)
+        if common.foundAlert(driver):
+            common.respondToAlert(driver, 0)
+        if common.foundTour(driver):
+            common.exitTour(driver)
+        if len(driver.find_elements(By.ID, "com.view.viewglass:id/view_btnTV")) > 0:
+            common.navIcon(driver)
+    # User needs to be logged out
+    else:
+        if isUserLoggedIn(driver):
+            if common.foundAlert(driver):
+                common.respondToAlert(driver, 0)
+            if common.foundTour(driver):
+                common.exitTour(driver)
+            logout(driver)
+            sleep(20)
 
 
 def login(driver, username, password):
@@ -129,8 +140,8 @@ def logout(driver):
 
 def signout(driver):
     if WebDriverWait(driver, 50).until(
-            EC.presence_of_element_located((By.XPATH, "//android.widget.TextView[@text='Sign Out']"))):
-        driver.find_element_by_xpath("//android.widget.TextView[@text='Sign Out']").click()
+            EC.presence_of_element_located((By.XPATH, "//android.widget.Button[@resource-id='com.view.viewglass:id/button_cancel']"))):
+        driver.find_element_by_xpath("//android.widget.Button[@resource-id='com.view.viewglass:id/button_cancel']").click()
     else:
         raiseExceptions("Missing Sign Out button in Select Site screen")
 

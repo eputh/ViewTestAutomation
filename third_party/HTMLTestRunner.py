@@ -510,6 +510,7 @@ a.popup_link:hover {
 
 TestResult = unittest.TestResult
 
+
 class _TestResult(TestResult):
     # note: _TestResult is a pure representation of results.
     # It lacks the output and reporting ability compares to unittest._TextTestResult.
@@ -532,7 +533,6 @@ class _TestResult(TestResult):
         # )
         self.result = []
 
-
     def startTest(self, test):
         TestResult.startTest(self, test)
         # just one buffer for both stdout and stderr
@@ -543,7 +543,6 @@ class _TestResult(TestResult):
         self.stderr0 = sys.stderr
         sys.stdout = stdout_redirector
         sys.stderr = stderr_redirector
-
 
     def complete_output(self):
         """
@@ -557,13 +556,11 @@ class _TestResult(TestResult):
             self.stderr0 = None
         return self.outputBuffer.getvalue()
 
-
     def stopTest(self, test):
         # Usually one of addSuccess, addError or addFailure would have been called.
         # But there are some path in unittest that would bypass this.
         # We must disconnect stdout in stopTest(), which is guaranteed to be called.
         self.complete_output()
-
 
     def addSuccess(self, test):
         self.success_count += 1
@@ -621,7 +618,6 @@ class HTMLTestRunner(Template_mixin):
 
         self.startTime = datetime.datetime.now()
 
-
     def run(self, test):
         "Run the given test case or test suite."
         result = _TestResult(self.verbosity)
@@ -630,7 +626,6 @@ class HTMLTestRunner(Template_mixin):
         self.generateReport(test, result)
         print(sys.stderr, '\nTime Elapsed: %s' % (self.stopTime-self.startTime))
         return result
-
 
     def sortResult(self, result_list):
         # unittest does not seems to run in any particular order.
@@ -645,7 +640,6 @@ class HTMLTestRunner(Template_mixin):
             rmap[cls].append((n,t,o,e))
         r = [(cls, rmap[cls]) for cls in classes]
         return r
-
 
     def getReportAttributes(self, result):
         """
@@ -668,7 +662,6 @@ class HTMLTestRunner(Template_mixin):
             ('Status', status),
         ]
 
-
     def generateReport(self, test, result):
         report_attrs = self.getReportAttributes(result)
         generator = 'HTMLTestRunner %s' % __version__
@@ -686,10 +679,8 @@ class HTMLTestRunner(Template_mixin):
         )
         self.stream.write(output)
 
-
     def _generate_stylesheet(self):
         return self.STYLESHEET_TMPL
-
 
     def _generate_heading(self, report_attrs):
         a_lines = []
@@ -705,7 +696,6 @@ class HTMLTestRunner(Template_mixin):
             description = saxutils.escape(self.description),
         )
         return heading
-
 
     def _generate_report(self, result):
         rows = []
@@ -748,7 +738,6 @@ class HTMLTestRunner(Template_mixin):
             error = str(result.error_count),
         )
         return report
-
 
     def _generate_report_test(self, rows, cid, tid, n, t, o, e):
         # e.g. 'pt1.1', 'ft1.1', etc

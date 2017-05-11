@@ -34,12 +34,19 @@
 
 import os
 import unittest
+import logging
 from logging import raiseExceptions
 from time import sleep
 
 from appium import webdriver
-from common import auth as auth
-from common import commonFunctions as common
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
+
+from common import auth
+from common import commonFunctions
+from common import config
+from common import site
 
 
 class Authentication(unittest.TestCase):
@@ -48,229 +55,217 @@ class Authentication(unittest.TestCase):
         """Setup for the test"""
         desired_caps = {}
         desired_caps['platformName'] = 'Android'
-        desired_caps['platformVersion'] = '6.0.1'
         desired_caps['deviceName'] = 'Android Emulator'
-        desired_caps['app'] = os.path.abspath(os.path.join(os.path.dirname(__file__), 'apps/Android.apk'))
+        desired_caps['app'] = os.path.abspath(os.path.join(os.getcwd(), 'apps\\Android.apk'))
         desired_caps['appPackage'] = 'com.view.viewglass'
         desired_caps['appActivity'] = 'com.view.viewglass.Splash'
         desired_caps['autoGrantPermissions'] = True
         desired_caps['noReset'] = True
-        # desired_caps['clearSystemFiles'] = True
-        self.driver = webdriver.Remote('http://localhost:4723/wd/hub', desired_caps)
+        desired_caps['clearSystemFiles'] = True
+        self.driver = webdriver.Remote('http://localhost:4444/wd/hub', desired_caps)
 
-    #@attr('acceptance', sid='TC-login-1.5-01', bv=10)
-    #@unittest.skip('Test case temporarily disabled')    
+    def tearDown(self):
+        """Tear down the test"""
+        self.driver.quit()
+
+    # @attr('acceptance', sid='TC-login-1.5-01', bv=10)
+    # @unittest.skip('Test case temporarily disabled')
     def testUIComponentsOfLoginScreen(self):
         """
         Verify the UI components of login screen like logo, user credentials parameters
         """
         if auth.isUserLoggedIn(self.driver):
-            if common.foundAlert(self.driver):
-                common.respondToAlert(self.driver, 0)
+            if commonFunctions.foundAlert(self.driver):
+                commonFunctions.respondToAlert(self.driver, 0)
             auth.logout(self.driver)
             sleep(30)
 
-        if(self.client.isElementFound("NATIVE", "xpath=//*[@text='view']", 0)):
+        if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='view']")) > 0:
                 pass
         else:
             raiseExceptions("View logo is missing")
-        if(self.client.isElementFound("NATIVE", "xpath=//*[@text='Dynamic Glass']", 0)):
+        if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='Dynamic Glass']")) > 0:
                 # If statement
                 pass
         else:
-            raiseExceptions("Dynamic Glass logo is missing")    
-        
-        if((self.client.waitForElement("WEB", "xpath=//*[@class='android.widget.EditText']", 0 , 3000)) or (self.client.waitForElement("NATIVE", "xpath=//*[@class='android.widget.EditText']", 0 , 3000))):
-            if(self.client.isElementFound("WEB", "xpath=//*[@class='android.widget.EditText']", 0) and (self.client.getText("WEB", "xpath=//*[@class='android.widget.EditText']") != "Email")):
-                self.client.click("WEB", "xpath=//*[@class='android.widget.EditText']", 0, 3)
-                self.client.sendText("{BKSP}")
-            elif(self.client.isElementFound("NATIVE", "xpath=//*[@class='android.widget.EditText']", 0) and (self.client.elementGetText("NATIVE", "xpath=//*[@class='android.widget.EditText']", 0) != "Email")):
-                self.client.click("NATIVE", "xpath=//*[@class='android.widget.EditText']", 0, 3)
-                self.client.sendText("{BKSP}")
-                
-        if((self.client.waitForElement("WEB", "text=Email", 0, 3000)) or (self.client.waitForElement("NATIVE", "text=Email", 0, 3000))): 
-            if(self.client.isElementFound("WEB", "text=Email", 0)):
-                pass
-            else:
-                raiseExceptions(" Enter username field is missing")
-        
-        if((self.client.waitForElement("WEB", "name=pwd", 0, 3000)) or (self.client.waitForElement("NATIVE", "xpath=//*[@text='Password']", 0, 3000))):
-            if(self.client.isElementFound("WEB", "name=pwd", 0)):
-                pass
-            else:
-                raiseExceptions("Enter Password field is missing")
-        
-        if(self.client.isElementFound("WEB", "text= Remember Me", 0)):
+            raiseExceptions("Dynamic Glass logo is missing")
+
+        if WebDriverWait(self.driver, 30).until(
+                EC.presence_of_element_located((By.XPATH, "//android.widget.EditText[@index='0']"))):
+            email = self.driver.find_element_by_xpath("//android.widget.EditText[@index='0']")
+            text = email.text
+            if text != "Email":
+                email.clear()
+
+        if WebDriverWait(self.driver, 5).until(
+                EC.presence_of_element_located((By.XPATH, "//android.widget.EditText[@text='Email']"))):
             pass
-        elif(self.client.isElementFound("NATIVE", "xpath=//*[@class='android.widget.CheckBox']", 0)):
+        else:
+            raiseExceptions(" Enter username field is missing")
+
+        if WebDriverWait(self.driver, 5).until(
+                EC.presence_of_element_located((By.XPATH, "//android.widget.EditText[@text='Password']"))):
+            pass
+        else:
+            raiseExceptions("Enter Password field is missing")
+
+        if len(self.driver.find_elements(By.XPATH, "//android.view.View[@content-desc='Remember Me']")) > 0:
+            pass
+        elif len(self.driver.find_elements(By.CLASS_NAME, "android.widget.CheckBox")) > 0:
             pass
         else:
             raiseExceptions(" Remember me is missing on login screen")
-            
-        if(self.client.isElementFound("WEB", "xpath=//*[@contentDescription='LOGIN']", 0)):   
-            pass
-        elif(self.client.isElementFound("NATIVE", "xpath=//*[@contentDescription='LOGIN']")):
+
+        if len(self.driver.find_elements(By.XPATH, "//android.widget.Button[@content-desc='LOGIN']")) > 0:
             pass
         else:
             raiseExceptions("unable to find login button")
 
-    #@attr('acceptance', sid='TC-login-1.5-03', bv=10)
-    #@unittest.skip('Test case temporarily disabled') 
+    # @attr('acceptance', sid='TC-login-1.5-03', bv=10)
+    # @unittest.skip('Test case temporarily disabled')
     def testLoginUsingCRUDOUser(self):
         """
         Verify the app authentication by logging using valid CRUDO privilege user
         """
-        auth.checkIfUserIsLoggedIn(self.client)
-        logging.info(" login with CRUDO user") 
-        auth.login(self.client, cfg.users['CRUDO']['username'], cfg.users['CRUDO']['password'])
-        auth.signout(self.client)
-    
-    #@attr('acceptance', sid='TC-login-1.5-05', bv=10)
-    #@unittest.skip('Test case temporarily disabled')      
+        auth.checkIfUserIsLoggedIn(self.driver, 0)
+        logging.info(" login with CRUDO user")
+        auth.login(self.driver, config.users['CRUDO']['username'], config.users['CRUDO']['password'])
+        auth.signout(self.driver)
+
+    # @attr('acceptance', sid='TC-login-1.5-05', bv=10)
+    # @unittest.skip('Test case temporarily disabled')
     def testLoginUsingRUOUser(self):
         """
         Verify the app authentication by logging using valid RUO privilege user
         """
-        auth.checkIfUserIsLoggedIn(self.client)
-        auth.login(self.client, cfg.users['RUO']['username'], cfg.users['RUO']['password'])
-        auth.signout(self.client)
-    
-    #@attr('acceptance', sid='TC-login-1.5-06', bv=10)
-    #@unittest.skip('Test case temporarily disabled') 
+        auth.checkIfUserIsLoggedIn(self.driver, 0)
+        auth.login(self.driver, config.users['RUO']['username'], config.users['RUO']['password'])
+        auth.signout(self.driver)
+
+    # @attr('acceptance', sid='TC-login-1.5-06', bv=10)
+    # @unittest.skip('Test case temporarily disabled')
     def testLoginUsingROUser(self):
         """
         Verify the app authentication by logging using valid RO privilege user
         """
-        auth.checkIfUserIsLoggedIn(self.client)
-        auth.login(self.client, cfg.users['RO']['username'], cfg.users['RO']['password'])
-        auth.signout(self.client)
-        
-        
-    #@attr('acceptance', sid='TC-login-1.5-06', bv=10)
-    #@unittest.skip('Test case temporarily disabled') 
+        auth.checkIfUserIsLoggedIn(self.driver, 0)
+        auth.login(self.driver, config.users['RO']['username'], config.users['RO']['password'])
+        auth.signout(self.driver)
+
+    # @attr('acceptance', sid='TC-login-1.5-06', bv=10)
+    # @unittest.skip('Test case temporarily disabled')
     def testLoginTo1dot2Site(self):
         """
         Verify the app authentication by logging using valid RO privilege user
         """
-        auth.checkIfUserIsLoggedIn(self.client)
-        auth.login(self.client, cfg.users['1dot2System']['username'], cfg.users['1dot2System']['password'])
-        commonFunctions.selectSiteTemp(self.client, 'B195 Ballroom')
-        auth.logout(self.client)
-            
-    
-    #@attr('acceptance', sid='TC-login-1.5-07', bv=10)
-    #@unittest.skip('Test case temporarily disabled')  
+        auth.checkIfUserIsLoggedIn(self.driver, 0)
+        auth.login(self.driver, config.users['1dot2System']['username'], config.users['1dot2System']['password'])
+        site.selectSite(self.driver, 'B195 Ballroom')
+        auth.logout(self.driver)
+
+    # @attr('acceptance', sid='TC-login-1.5-07', bv=10)
+    # @unittest.skip('Test case temporarily disabled')  
     def testLoginUsingInvalidUsername(self):
         """
         Verify the exceptional handling by logging using invalid user
         """
-        auth.checkIfUserIsLoggedIn(self.client)
-        auth.negativeTestCaseLoginValidation(self.client, cfg.users['InvalidEmail']['username'], cfg.users['InvalidEmail']['password'])
-        auth.loginScreenValidations(self.client)
+        auth.checkIfUserIsLoggedIn(self.driver, 0)
+        auth.negativeTestCaseLoginValidation(self.driver, config.users['InvalidEmail']['username'], config.users['InvalidEmail']['password'])
+        auth.loginScreenValidations(self.driver)
         
-    #@attr('acceptance', sid='TC-login-1.5-08', bv=10)
-    #@unittest.skip('Test case temporarily disabled')      
+    # @attr('acceptance', sid='TC-login-1.5-08', bv=10)
+    # @unittest.skip('Test case temporarily disabled')      
     def testLoginUsingInvalidPwd(self):
         """
         Verify the exceptional handling by logging using invalid user
         """
-        auth.checkIfUserIsLoggedIn(self.client)
-        auth.negativeTestCaseLoginValidation(self.client, cfg.users['InvalidPwd']['username'], cfg.users['InvalidPwd']['password'])
-        auth.loginScreenValidations(self.client)
+        auth.checkIfUserIsLoggedIn(self.driver, 0)
+        auth.negativeTestCaseLoginValidation(self.driver, config.users['InvalidPwd']['username'], config.users['InvalidPwd']['password'])
+        auth.loginScreenValidations(self.driver)
     
-    #@attr('acceptance', sid='TC-login-1.5-17', bv=10)
+    # @attr('acceptance', sid='TC-login-1.5-17', bv=10)
     # @unittest.skip('Test case temporarily disabled')
     def testLoginUsingSpecialPwd(self):
-        auth.checkIfUserIsLoggedIn(self.client)
-        auth.login(self.client, cfg.users['PwdStartingSpecialChar']['username'], cfg.users['PwdStartingSpecialChar']['password'])
-        auth.signout(self.client)        
+        auth.checkIfUserIsLoggedIn(self.driver, 0)
+        auth.login(self.driver, config.users['PwdStartingSpecialChar']['username'], config.users['PwdStartingSpecialChar']['password'])
+        auth.signout(self.driver)        
             
     def testLoginUsingMissingUsername(self):
         """
         Verify the exceptional handling by logging using invalid user
         """
-        auth.checkIfUserIsLoggedIn(self.client)
-        auth.negativeTestCaseLoginValidation(self.client, cfg.users['MissingEmail']['username'], cfg.users['MissingEmail']['password'])
-        auth.loginScreenValidations(self.client)           
+        auth.checkIfUserIsLoggedIn(self.driver, 0)
+        auth.negativeTestCaseLoginValidation(self.driver, config.users['MissingEmail']['username'], config.users['MissingEmail']['password'])
+        auth.loginScreenValidations(self.driver)           
         
     def testLoginUsingMissingPwd(self):
         """
         Verify the exceptional handling by logging using invalid user
         """
-        auth.checkIfUserIsLoggedIn(self.client)
-        auth.negativeTestCaseLoginValidation(self.client, cfg.users['MissingPwd']['username'], cfg.users['MissingPwd']['password'])
-        auth.loginScreenValidations(self.client)
-        
-        
-    #@attr('acceptance', sid='TC-login-1.5-21', bv=10)
-    #@unittest.skip('Test case temporarily disabled')     
+        auth.checkIfUserIsLoggedIn(self.driver, 0)
+        auth.negativeTestCaseLoginValidation(self.driver, config.users['MissingPwd']['username'], config.users['MissingPwd']['password'])
+        auth.loginScreenValidations(self.driver)
+
+    # @attr('acceptance', sid='TC-login-1.5-21', bv=10)
+    # @unittest.skip('Test case temporarily disabled')     
 # #     def testNetworkConnectivityLost(self):
 # #         """
 # #         Verify the App Exceptional handling when user lost network connectivity from mobile device.
 # #         This will disable the Data usage and wifi during test runtime and verify error message
 # #         """
-# #         self.client.click("NATIVE", "xpath=//*[@text='Settings']", 0, 1)
-# #         self.client.click("NATIVE", "xpath=//*[@text='Data usage']", 0, 1)
-# #         self.client.click("NATIVE", "xpath=//*[@id='switch_widget']", 0, 1)
-# #         self.client.click("NATIVE", "xpath=//*[@id='navigationBarBackground']", 0, 1)
-# #         self.client.click("NATIVE", "xpath=//*[@text='ViewGlass']", 0, 1)
-# #         self.client.click("NATIVE", "xpath=//*[@text='Retry']", 0, 1)
-# #         if(self.client.isElementFound("NATIVE", "xpath=//*[@text='Unable to connect. Please enable WiFi or Mobile Data in your Settings.']", 0, 1)):
+# #         self.driver.click("NATIVE", "xpath=//*[@text='Settings']", 0, 1)
+# #         self.driver.click("NATIVE", "xpath=//*[@text='Data usage']", 0, 1)
+# #         self.driver.click("NATIVE", "xpath=//*[@id='switch_widget']", 0, 1)
+# #         self.driver.click("NATIVE", "xpath=//*[@id='navigationBarBackground']", 0, 1)
+# #         self.driver.click("NATIVE", "xpath=//*[@text='ViewGlass']", 0, 1)
+# #         self.driver.click("NATIVE", "xpath=//*[@text='Retry']", 0, 1)
+# #         if(self.driver.isElementFound("NATIVE", "xpath=//*[@text='Unable to connect. Please enable WiFi or Mobile Data in your Settings.']", 0, 1)):
 # #             logging.info("Verified Network connectivity issue ")
 # #         else:
 # #             raiseExceptions(" Missing exceptional handling for N/w connectivity issues")
-# #         self.client.click("NATIVE", "xpath=//*[@text='Settings']", 0, 1)
-# #         self.client.click("NATIVE", "xpath=//*[@text='Data usage']", 0, 1)
-# #         self.client.click("NATIVE", "xpath=//*[@id='switch_widget']", 0, 1)
-# #         self.client.click("NATIVE", "xpath=//*[@id='navigationBarBackground']", 0, 1)
-# #         self.client.click("NATIVE", "xpath=//*[@text='ViewGlass']", 0, 1)
+# #         self.driver.click("NATIVE", "xpath=//*[@text='Settings']", 0, 1)
+# #         self.driver.click("NATIVE", "xpath=//*[@text='Data usage']", 0, 1)
+# #         self.driver.click("NATIVE", "xpath=//*[@id='switch_widget']", 0, 1)
+# #         self.driver.click("NATIVE", "xpath=//*[@id='navigationBarBackground']", 0, 1)
+# #         self.driver.click("NATIVE", "xpath=//*[@text='ViewGlass']", 0, 1)
     
-    #@attr('acceptance', sid='TC-login-1.5-04', bv=10)
-    #@unittest.skip('Test case temporarily disabled') 
+    # @attr('acceptance', sid='TC-login-1.5-04', bv=10)
+    # @unittest.skip('Test case temporarily disabled') 
     def testUnconfiguredUserInVRM(self):
         """
         Verify the exceptional handling by logging using invalid user
         """
-        auth.login(self.client, cfg.users['UserNotConfiguredInVRM']['username'], cfg.users['UserNotConfiguredInVRM']['password'])
-        auth.loginScreenValidations(self.client)       
+        auth.login(self.driver, config.users['UserNotConfiguredInVRM']['username'], config.users['UserNotConfiguredInVRM']['password'])
+        auth.loginScreenValidations(self.driver)       
       
-    #@attr('acceptance', sid='TC-login-1.5-09', bv=10)
-    #@unittest.skip('Test case temporarily disabled')  
+    # @attr('acceptance', sid='TC-login-1.5-09', bv=10)
+    # @unittest.skip('Test case temporarily disabled')  
     def testNoSiteAssignedForUserInVRM(self):
         """
         Verify the exceptional handling by logging using invalid user
         """
-        auth.login(self.client, cfg.users['RO']['username'], cfg.users['RO']['password'])
-        auth.signout(self.client)
-             
-             
+        auth.login(self.driver, config.users['RO']['username'], config.users['RO']['password'])
+        auth.signout(self.driver)
+
     def testSingleSiteUserLogin(self):
         """
         Verify the exceptional handling by logging using invalid user
         """
-        auth.login(self.client, cfg.users['RUO']['username'], cfg.users['RUO']['password'])
-        self.client.sleep(1000)
-        auth.logout(self.client)
+        auth.login(self.driver, config.users['RUO']['username'], config.users['RUO']['password'])
+        sleep(30)
+        auth.logout(self.driver)
          
-    #@attr('acceptance', sid='TC-login-1.5-18', bv=10)
-    #@unittest.skip('Test case temporarily disabled')     
+    # @attr('acceptance', sid='TC-login-1.5-18', bv=10)
+    # @unittest.skip('Test case temporarily disabled')     
     def testLogoutFunctionality(self):
         """
         Verify the logout functionality
         """
-        auth.login(self.client, cfg.users['RUO']['username'], cfg.users['RUO']['password'])
-        self.client.sleep(1000)
-        auth.logout(self.client)    
-          
-              
-    def tearDown(self):
-        # Generates a report of the test case.
-        # For more information - https://docs.experitest.com/display/public/SA/Report+Of+Executed+Test
-#         self.client.generateReport2(True);
-        # Releases the client so that other clients can approach the agent in the near future. 
-        self.client.releaseClient();
+        auth.login(self.driver, config.users['RUO']['username'], config.users['RUO']['password'])
+        sleep(30)
+        auth.logout(self.driver)    
+
 
 if __name__ == '__main__':
-    unittest.main()
-
-
+    suite = unittest.TestLoader().loadTestsFromTestCase(Authentication)
+    unittest.TextTestRunner(verbosity=2).run(suite)

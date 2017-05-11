@@ -32,20 +32,36 @@
 import sys
 import subprocess
 
+from flask import Flask, render_template, request
+from flask import make_response
+app = Flask(__name__)
 
-num_of_connected_devices = 2
+import test
 
 
-def runTests():
-    processes = []
+@app.route("/")
+def home():
+    return render_template('ViewTestReport.html')
 
-    for i in range(0, num_of_connected_devices):
-        p = subprocess.Popen([sys.executable, "HTMLTestRunner.py"])
-        processes.append(p)
 
-    for process in processes:
-        process.wait()
+@app.route('/run_tests', methods=['GET', 'POST'])
+def run_tests():
+    if request.method == 'POST':
+        num_of_connected_devices = request.form['param']
+        print("Number of devices for testing: ", num_of_connected_devices)
+        processes = []
+        for i in range(0, int(num_of_connected_devices)):
+            p = subprocess.Popen([sys.executable, "HTMLTestRunner.py"])
+            processes.append(p)
+
+        for process in processes:
+            process.wait()
+
+        result = "return this"
+        resp = make_response('{"response": ' + result + '}')
+        resp.headers['Content-Type'] = "application/json"
+        return resp
 
 
 if __name__ == '__main__':
-    runTests()
+    app.run(debug=True)
