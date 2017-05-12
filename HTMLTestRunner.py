@@ -43,6 +43,8 @@ from android import Control
 from android import LiveView
 from android import Authentication
 from android import SelectSite
+from android import Schedule
+from android import Zones
 
 
 class RunTests(unittest.TestCase):
@@ -56,10 +58,10 @@ class RunTests(unittest.TestCase):
             unittest.defaultTestLoader.loadTestsFromTestCase(Test),
             unittest.defaultTestLoader.loadTestsFromTestCase(LiveView.LiveView),
             unittest.defaultTestLoader.loadTestsFromTestCase(Control.Control),
-            #         unittest.defaultTestLoader.loadTestsFromTestCase(Schedule.Schedule),
+            unittest.defaultTestLoader.loadTestsFromTestCase(Schedule.Schedule),
             unittest.defaultTestLoader.loadTestsFromTestCase(Authentication.Authentication),
-            unittest.defaultTestLoader.loadTestsFromTestCase(SelectSite.SelectSite)
-            #             unittest.defaultTestLoader.loadTestsFromTestCase(Zones.Zones)
+            unittest.defaultTestLoader.loadTestsFromTestCase(SelectSite.SelectSite),
+                unittest.defaultTestLoader.loadTestsFromTestCase(Zones.Zones)
         ])
 
         # Invoke TestRunner

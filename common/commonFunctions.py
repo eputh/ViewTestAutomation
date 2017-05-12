@@ -91,6 +91,10 @@ def goback(driver):
         driver.find_element_by_id("com.view.viewglass:id/home_btn_myProfileLL").click()
     elif len(driver.find_elements(By.ID, "com.view.viewglass:id/back_copy_tint_eventIV")) > 0:
         driver.find_element_by_id("com.view.viewglass:id/back_copy_tint_eventIV").click()
+    elif len(driver.find_elements(By.ID, "com.view.viewglass:id/back_btn_create_newZoneGrpIV")) > 0:
+        driver.find_element_by_id("com.view.viewglass:id/back_btn_create_newZoneGrpIV").click()
+    elif len(driver.find_elements(By.ID, "com.view.viewglass:id/backBtn_zngrpdetailLL")) > 0:
+        driver.find_element_by_id("com.view.viewglass:id/backBtn_zngrpdetailLL").click()
     else:
         raiseExceptions("Back button is missing")
 
@@ -98,11 +102,16 @@ def goback(driver):
 def savebutton(driver):
     if len(driver.find_elements(By.XPATH, "//android.widget.TextView[@text='Save']")) > 0:
         driver.find_element_by_xpath("//android.widget.TextView[@text='Save']").click()
-
+    elif len(driver.find_elements(By.ID, "com.view.viewglass:id/save_zoneGrpTV")) > 0:
+        driver.find_element_by_id("com.view.viewglass:id/save_zoneGrpTV").click()
+    else:
+        raiseExceptions("Save button is missing")
 
 def addbutton(driver):
     if len(driver.find_elements(By.ID, "com.view.viewglass:id/add_schdIV")) > 0:
         driver.find_element_by_id("com.view.viewglass:id/add_schdIV").click()
+    elif len(driver.find_elements(By.ID, "com.view.viewglass:id/actZone_addIV")) > 0:
+        driver.find_element_by_id("com.view.viewglass:id/actZone_addIV").click()
     else:
         raiseExceptions("Add button is missing")
 
@@ -112,7 +121,8 @@ def editbutton(driver):
         driver.find_element_by_id("com.view.viewglass:id/saveBtn_schdTintTV").click()
     elif len(driver.find_elements(By.XPATH, "//android.widget.TextView[@text='Edit']")) > 0:
         driver.find_element_by_xpath("//android.widget.TextView[@text='Edit']").click()
-
+    elif len(driver.find_elements(By.ID, "com.view.viewglass:id/editZoneGrpTextTV")) > 0:
+        driver.find_element_by_id("com.view.viewglass:id/editZoneGrpTextTV").click()
 
 def cancelbutton(driver):
     if len(driver.find_elements(By.ID, "com.view.viewglass:id/cross_btn_controlLL")) > 0:
@@ -128,6 +138,10 @@ def overridebutton(driver):
         driver.find_element_by_id("com.view.viewglass:id/tick_button_controlLL").click()
     elif len(driver.find_elements(By.XPATH, "//android.widget.TextView[@text='OVERRIDE']")) > 0:
         driver.find_element_by_xpath("//android.widget.TextView[@text='OVERRIDE']").click()
+    elif len(driver.find_elements(By.ID, "com.view.viewglass:id/setTintBtn_zngrpdetailTV")) > 0:
+        driver.find_element_by_id("com.view.viewglass:id/setTintBtn_zngrpdetailTV").click()
+    elif len(driver.find_elements(By.ID, "com.view.viewglass:id/setTint_zoneDetailTV")) > 0:
+        driver.find_element_by_id("com.view.viewglass:id/setTint_zoneDetailTV").click()
     else:
         raiseExceptions("override button is missing")
 
