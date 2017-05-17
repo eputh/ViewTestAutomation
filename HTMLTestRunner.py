@@ -32,19 +32,14 @@ from __future__ import print_function
 
 import os
 import unittest
-from appium import webdriver
+from datetime import datetime
 from random import randint
 
 import SystemReady
 from third_party import HTMLTestRunner as TestRunner
 
 from test import Test
-from android import Control
-from android import LiveView
-from android import Authentication
-from android import SelectSite
-from android import Schedule
-from android import Zones
+from android import Authentication, Control, LiveView, Profile, Scenes, Schedule, SelectSite, Settings, Zones
 
 
 class RunTests(unittest.TestCase):
@@ -56,17 +51,21 @@ class RunTests(unittest.TestCase):
         self.suite = unittest.TestSuite()
         self.suite.addTests([
             unittest.defaultTestLoader.loadTestsFromTestCase(Test),
-            unittest.defaultTestLoader.loadTestsFromTestCase(LiveView.LiveView),
-            unittest.defaultTestLoader.loadTestsFromTestCase(Control.Control),
-            unittest.defaultTestLoader.loadTestsFromTestCase(Schedule.Schedule),
-            unittest.defaultTestLoader.loadTestsFromTestCase(Authentication.Authentication),
-            unittest.defaultTestLoader.loadTestsFromTestCase(SelectSite.SelectSite),
-                unittest.defaultTestLoader.loadTestsFromTestCase(Zones.Zones)
+            unittest.defaultTestLoader.loadTestsFromTestCase(Profile.Profile),
+            unittest.defaultTestLoader.loadTestsFromTestCase(Settings.Settings),
+            # unittest.defaultTestLoader.loadTestsFromTestCase(LiveView.LiveView),
+            # unittest.defaultTestLoader.loadTestsFromTestCase(Control.Control),
+            # unittest.defaultTestLoader.loadTestsFromTestCase(Zones.Zones),
+            # unittest.defaultTestLoader.loadTestsFromTestCase(Scenes.Scenes),
+            # unittest.defaultTestLoader.loadTestsFromTestCase(Schedule.Schedule),
+            # unittest.defaultTestLoader.loadTestsFromTestCase(Authentication.Authentication),
+            # unittest.defaultTestLoader.loadTestsFromTestCase(SelectSite.SelectSite)
         ])
 
         # Invoke TestRunner
         random = randint(1, 200)
-        reportfile = os.path.abspath(os.path.join(os.path.dirname(__file__), 'report/ViewTestReport' + str(random) + '.html'))
+        id = datetime.strftime(datetime.now(), '%m%d%y-%H%M%S-')
+        reportfile = os.path.abspath(os.path.join(os.path.dirname(__file__), 'report/ViewTestReport' + id + str(random) + '.html'))
         print("Creating file: ", reportfile)
         outfile = open(reportfile, "w+")
         # runner = unittest.TextTestRunner(buf)       #DEBUG: this is the unittest baseline

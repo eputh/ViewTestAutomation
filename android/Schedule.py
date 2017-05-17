@@ -2,14 +2,14 @@
 ########################################################################
 #
 # SYNOPSIS
-#   Schedule :  Include Test cases related to create, delete , edit, copy schedule for CRUDO, RUO, RO privilege users
+#   Schedule :  Include Test cases related to creating, deleting, editing, and copying schedules for CRUDO, RUO, RO privilege users
 #
 # AUTHOR
 #  Emily Puth (emily.puth@viewglass.com)
 #
 #
 # DESCRIPTION
-#   Include Test cases related to create, delete , edit, copy schedule for CRUDO, RUO, RO privilege users.
+#   Include Test cases related to creating, deleting, editing, and copying schedules for CRUDO, RUO, RO privilege users.
 #
 # USAGE
 #   
@@ -42,6 +42,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 from common import auth
 from common import commonFunctions
+from common import config
+from common import site
 from common import control
 
 
@@ -255,7 +257,7 @@ class Schedule(unittest.TestCase):
 
     # @attr('acceptance', sid='TC-schedule-1.7', bv=10)
     # @unittest.skip('Test case temporarily disabled')
-    def test08DeleteEverydayScheduleForCRUDO(self):
+    def test06DeleteEverydayScheduleForCRUDO(self):
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/scheduleTV")) <= 0:
             commonFunctions.navIcon(self.driver)
@@ -292,7 +294,7 @@ class Schedule(unittest.TestCase):
 
     # @attr('acceptance', sid='TC-schedule-1.4, TC-schedule-1.6, TC-tievent-3.3, TC-tievent-3.7, TC-tievent-3.9, TC-tievent-3.10, TC-tievent-3.11, TC-tievent-3.12, TC-tievent-3.13, TC-tievent-3.14', bv=10)
     # @unittest.skip('Test case temporarily disabled')
-    def test09CreateWeeklyScheduleForCRUDO(self):
+    def test07CreateWeeklyScheduleForCRUDO(self):
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/scheduleTV")) <= 0:
             commonFunctions.navIcon(self.driver)
@@ -328,7 +330,7 @@ class Schedule(unittest.TestCase):
 
     # @attr('acceptance', sid='TC-schedule-1.7', bv=10)
     # @unittest.skip('Test case temporarily disabled')
-    def test12DeleteWeeklyScheduleForCRUDO(self):
+    def test08DeleteWeeklyScheduleForCRUDO(self):
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/scheduleTV")) <= 0:
             commonFunctions.navIcon(self.driver)
@@ -365,7 +367,7 @@ class Schedule(unittest.TestCase):
 
     # @attr('acceptance', sid='TC-schedule-1.4, TC-schedule-1.6, TC-tievent-3.3, TC-tievent-3.7, TC-tievent-3.9, TC-tievent-3.10, TC-tievent-3.11, TC-tievent-3.12, TC-tievent-3.13, TC-tievent-3.14', bv=10)
     # @unittest.skip('Test case temporarily disabled')
-    def test13CreateMondayToFridayScheduleForCRUDO(self):
+    def test09CreateMondayToFridayScheduleForCRUDO(self):
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/scheduleTV")) <= 0:
             commonFunctions.navIcon(self.driver)
@@ -401,7 +403,7 @@ class Schedule(unittest.TestCase):
 
     # @attr('acceptance', sid='TC-schedule-1.7', bv=10)
     # @unittest.skip('Test case temporarily disabled')
-    def test16DeleteMondayToFridayScheduleForCRUDO(self):
+    def test10DeleteMondayToFridayScheduleForCRUDO(self):
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/scheduleTV")) <= 0:
             commonFunctions.navIcon(self.driver)
@@ -438,7 +440,7 @@ class Schedule(unittest.TestCase):
 
     # @attr('acceptance', sid='TC-schedule-1.3, TC-sedate-2.2, TC-sedate-2.3, TC-sedate-2.4', bv=10)
     # @unittest.skip('Test case temporarily disabled')
-    def test17CalendarIconForRandomDayForCRUDO(self):
+    def test11CalendarIconForRandomDayForCRUDO(self):
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/scheduleTV")) <= 0:
             commonFunctions.navIcon(self.driver)
@@ -462,7 +464,7 @@ class Schedule(unittest.TestCase):
 
     # @attr('acceptance', sid='TC-schedule-1.3, TC-sedate-2.2, TC-sedate-2.3, TC-sedate-2.4', bv=10)
     # @unittest.skip('Test case temporarily disabled')
-    def test18CalendarIconForTodayForCRUDO(self):
+    def test12CalendarIconForTodayForCRUDO(self):
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/scheduleTV")) <= 0:
             commonFunctions.navIcon(self.driver)
@@ -487,7 +489,7 @@ class Schedule(unittest.TestCase):
 
     # @attr('acceptance', sid='TC-schedule-1.9, TC-schedule-1.10', bv=10)
     # @unittest.skip('Test case temporarily disabled')
-    def test19ShowDefaultSchedulingForCRUDO(self):
+    def test13ShowDefaultSchedulingForCRUDO(self):
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/scheduleTV")) <= 0:
             commonFunctions.navIcon(self.driver)
@@ -519,7 +521,7 @@ class Schedule(unittest.TestCase):
 
     # @attr('acceptance', sid='TC-schedule-1.9, TC-schedule-1.10', bv=10)
     # @unittest.skip('Test case temporarily disabled')
-    def test20HideDefaultSchedulingForCRUDO(self):
+    def test14HideDefaultSchedulingForCRUDO(self):
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/scheduleTV")) <= 0:
             commonFunctions.navIcon(self.driver)
@@ -560,7 +562,7 @@ class Schedule(unittest.TestCase):
 
     # @attr('acceptance', sid='TC-schedule-1.4, TC-schedule-1.6, TC-tievent-3.3, TC-tievent-3.7, TC-tievent-3.9, TC-tievent-3.10, TC-tievent-3.11, TC-tievent-3.12, TC-tievent-3.13, TC-tievent-3.14', bv=10)
     # @unittest.skip('Test case temporarily disabled')
-    def test22CreateScheduleWithInvalidInputForCRUDO(self):
+    def test15CreateScheduleWithInvalidInputForCRUDO(self):
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/scheduleTV")) <= 0:
             commonFunctions.navIcon(self.driver)
@@ -584,8 +586,16 @@ class Schedule(unittest.TestCase):
 
     # @attr('acceptance', sid='TC-schedule-1.4, TC-schedule-1.6, TC-tievent-3.3, TC-tievent-3.7, TC-tievent-3.9, TC-tievent-3.10, TC-tievent-3.11, TC-tievent-3.12, TC-tievent-3.13, TC-tievent-3.14', bv=10)
     # @unittest.skip('Test case temporarily disabled')
-    def test23CreateNoRepeatScheduleForRUO(self):
-        auth.checkIfUserIsLoggedIn(self.driver, 1, 'RUO')
+    def test16CreateNoRepeatScheduleForRUO(self):
+        auth.checkIfUserIsLoggedIn(self.driver, 0, 'RUO')
+        auth.login(self.driver, config.users['RUO']['username'], config.users['RUO']['password'])
+        site.selectSite(self.driver, config.site[0])
+        sleep(20)
+        if commonFunctions.foundAlert(self.driver):
+            commonFunctions.respondToAlert(self.driver, 0)
+        if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/view_btnTV")) > 0:
+            commonFunctions.navIcon(self.driver)
+
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/scheduleTV")) <= 0:
             commonFunctions.navIcon(self.driver)
             if WebDriverWait(self.driver, 20).until(
@@ -619,7 +629,7 @@ class Schedule(unittest.TestCase):
 
     # @attr('acceptance', sid='TC-schedule-1.4, TC-schedule-1.6, TC-tievent-3.3, TC-tievent-3.7, TC-tievent-3.9, TC-tievent-3.10, TC-tievent-3.11, TC-tievent-3.12, TC-tievent-3.13, TC-tievent-3.14', bv=10)
     # @unittest.skip('Test case temporarily disabled')
-    def test24EditNoRepeatScheduleForRUO(self):
+    def test17EditNoRepeatScheduleForRUO(self):
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'RUO')
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/scheduleTV")) <= 0:
             commonFunctions.navIcon(self.driver)
@@ -655,7 +665,7 @@ class Schedule(unittest.TestCase):
 
     # @attr('acceptance', sid='TC-CTS-7.1, TC-CTS-7.2, TC-CTS-7.1', bv=10)
     # @unittest.skip('Test case temporarily disabled')
-    def test25CopyNoRepeatScheduleForRUO(self):
+    def test18CopyNoRepeatScheduleForRUO(self):
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'RUO')
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/scheduleTV")) <= 0:
             commonFunctions.navIcon(self.driver)
@@ -701,7 +711,7 @@ class Schedule(unittest.TestCase):
 
     # @attr('acceptance', sid='TC-schedule-1.7', bv=10)
     # @unittest.skip('Test case temporarily disabled')
-    def test26DeleteNoRepeatScheduleForRUO(self):
+    def test19DeleteNoRepeatScheduleForRUO(self):
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'RUO')
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/scheduleTV")) <= 0:
             commonFunctions.navIcon(self.driver)
@@ -738,7 +748,7 @@ class Schedule(unittest.TestCase):
 
     # @attr('acceptance', sid='TC-schedule-1.4, TC-schedule-1.6, TC-tievent-3.3, TC-tievent-3.7, TC-tievent-3.9, TC-tievent-3.10, TC-tievent-3.11, TC-tievent-3.12, TC-tievent-3.13, TC-tievent-3.14', bv=10)
     # @unittest.skip('Test case temporarily disabled')
-    def test27CreateEverydayScheduleForRUO(self):
+    def test20CreateEverydayScheduleForRUO(self):
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'RUO')
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/scheduleTV")) <= 0:
             commonFunctions.navIcon(self.driver)
@@ -774,7 +784,7 @@ class Schedule(unittest.TestCase):
 
     # @attr('acceptance', sid='TC-schedule-1.7', bv=10)
     # @unittest.skip('Test case temporarily disabled')
-    def test30DeleteEverydayScheduleForRUO(self):
+    def test21DeleteEverydayScheduleForRUO(self):
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'RUO')
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/scheduleTV")) <= 0:
             commonFunctions.navIcon(self.driver)
@@ -811,7 +821,7 @@ class Schedule(unittest.TestCase):
 
     # @attr('acceptance', sid='TC-schedule-1.4, TC-schedule-1.6, TC-tievent-3.3, TC-tievent-3.7, TC-tievent-3.9, TC-tievent-3.10, TC-tievent-3.11, TC-tievent-3.12, TC-tievent-3.13, TC-tievent-3.14', bv=10)
     # @unittest.skip('Test case temporarily disabled')
-    def test31CreateWeeklyScheduleForRUO(self):
+    def test22CreateWeeklyScheduleForRUO(self):
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'RUO')
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/scheduleTV")) <= 0:
             commonFunctions.navIcon(self.driver)
@@ -847,7 +857,7 @@ class Schedule(unittest.TestCase):
 
     # @attr('acceptance', sid='TC-schedule-1.7', bv=10)
     # @unittest.skip('Test case temporarily disabled')
-    def test34DeleteWeeklyScheduleForRUO(self):
+    def test23DeleteWeeklyScheduleForRUO(self):
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'RUO')
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/scheduleTV")) <= 0:
             commonFunctions.navIcon(self.driver)
@@ -884,7 +894,7 @@ class Schedule(unittest.TestCase):
 
     # @attr('acceptance', sid='TC-schedule-1.4, TC-schedule-1.6, TC-tievent-3.3, TC-tievent-3.7, TC-tievent-3.9, TC-tievent-3.10, TC-tievent-3.11, TC-tievent-3.12, TC-tievent-3.13, TC-tievent-3.14', bv=10)
     # @unittest.skip('Test case temporarily disabled')
-    def test35CreateMondayToFridayScheduleForRUO(self):
+    def test24CreateMondayToFridayScheduleForRUO(self):
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'RUO')
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/scheduleTV")) <= 0:
             commonFunctions.navIcon(self.driver)
@@ -919,7 +929,7 @@ class Schedule(unittest.TestCase):
 
     # @attr('acceptance', sid='TC-schedule-1.7', bv=10)
     # @unittest.skip('Test case temporarily disabled')
-    def test38DeleteMondayToFridayScheduleForRUO(self):
+    def test25DeleteMondayToFridayScheduleForRUO(self):
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'RUO')
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/scheduleTV")) <= 0:
             commonFunctions.navIcon(self.driver)
@@ -956,7 +966,7 @@ class Schedule(unittest.TestCase):
 
     # @attr('acceptance', sid='TC-schedule-1.3, TC-sedate-2.2, TC-sedate-2.3, TC-sedate-2.4', bv=10)
     # @unittest.skip('Test case temporarily disabled')
-    def test39CalendarIconForRandomDayForRUO(self):
+    def test26CalendarIconForRandomDayForRUO(self):
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'RUO')
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/scheduleTV")) <= 0:
             commonFunctions.navIcon(self.driver)
@@ -982,7 +992,7 @@ class Schedule(unittest.TestCase):
 
     # @attr('acceptance', sid='TC-schedule-1.3, TC-sedate-2.2, TC-sedate-2.3, TC-sedate-2.4', bv=10)
     # @unittest.skip('Test case temporarily disabled')
-    def test40CalendarIconForTodayForRUO(self):
+    def test27CalendarIconForTodayForRUO(self):
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'RUO')
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/scheduleTV")) <= 0:
             commonFunctions.navIcon(self.driver)
@@ -1007,7 +1017,7 @@ class Schedule(unittest.TestCase):
 
     # @attr('acceptance', sid='TC-schedule-1.9, TC-schedule-1.10', bv=10)
     # @unittest.skip('Test case temporarily disabled')
-    def test41ShowDefaultSchedulingForRUO(self):
+    def test28ShowDefaultSchedulingForRUO(self):
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'RUO')
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/scheduleTV")) <= 0:
             commonFunctions.navIcon(self.driver)
@@ -1042,7 +1052,7 @@ class Schedule(unittest.TestCase):
 
     # @attr('acceptance', sid='TC-schedule-1.9, TC-schedule-1.10', bv=10)
     # @unittest.skip('Test case temporarily disabled')
-    def test42HideDefaultSchedulingForRUO(self):
+    def test29HideDefaultSchedulingForRUO(self):
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'RUO')
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/scheduleTV")) <= 0:
             commonFunctions.navIcon(self.driver)
@@ -1085,7 +1095,7 @@ class Schedule(unittest.TestCase):
 
     # @attr('acceptance', sid='TC-tievent-3.2, TC-zn/zng-4.5, TC-zn/zng-4.6, TC-zn/zng-4.7', bv=10)
     # @unittest.skip('Test case temporarily disabled')
-    def test43AppliedToForRUO(self):
+    def test30AppliedToForRUO(self):
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'RUO')
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/scheduleTV")) <= 0:
             commonFunctions.navIcon(self.driver)
@@ -1128,7 +1138,7 @@ class Schedule(unittest.TestCase):
 
     # @attr('acceptance', sid='TC-schedule-1.4, TC-schedule-1.6, TC-tievent-3.3, TC-tievent-3.7, TC-tievent-3.9, TC-tievent-3.10, TC-tievent-3.11, TC-tievent-3.12, TC-tievent-3.13, TC-tievent-3.14', bv=10)
     # @unittest.skip('Test case temporarily disabled')
-    def test44CreateScheduleWithInvalidInputForRUO(self):
+    def test31CreateScheduleWithInvalidInputForRUO(self):
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'RUO')
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/scheduleTV")) <= 0:
             commonFunctions.navIcon(self.driver)
@@ -1152,8 +1162,15 @@ class Schedule(unittest.TestCase):
 
     # @attr('acceptance', sid='TC-schedule-1.4, TC-schedule-1.6, TC-tievent-3.3, TC-tievent-3.7, TC-tievent-3.9, TC-tievent-3.10, TC-tievent-3.11, TC-tievent-3.12, TC-tievent-3.13, TC-tievent-3.14', bv=10)
     # @unittest.skip('Test case temporarily disabled')
-    def test45CreateNoRepeatScheduleForRO(self):
-        auth.checkIfUserIsLoggedIn(self.driver, 1, 'RO')
+    def test32CreateNoRepeatScheduleForRO(self):
+        auth.checkIfUserIsLoggedIn(self.driver, 0, 'RO')
+        auth.login(self.driver, config.users['RO']['username'], config.users['RO']['password'])
+        sleep(20)
+        if commonFunctions.foundAlert(self.driver):
+            commonFunctions.respondToAlert(self.driver, 0)
+        if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/view_btnTV")) > 0:
+            commonFunctions.navIcon(self.driver)
+
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/scheduleTV")) <= 0:
             commonFunctions.navIcon(self.driver)
             if WebDriverWait(self.driver, 20).until(

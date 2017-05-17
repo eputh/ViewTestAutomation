@@ -212,7 +212,7 @@ class SelectSite(unittest.TestCase):
             search.click()
             search_text = self.driver.find_element_by_id("com.view.viewglass:id/search_site_edit_text")
             # search for the site and press ENTER
-            search_text.send_keys(config.site)
+            search_text.send_keys(config.site[0])
             self.driver.press_keycode(66)
             size = self.driver.find_element_by_id("com.view.viewglass:id/siteList_searchResultCountTV").size
             location = self.driver.find_element_by_id("com.view.viewglass:id/siteList_searchResultCountTV").location
@@ -234,7 +234,7 @@ class SelectSite(unittest.TestCase):
         auth.checkIfUserIsLoggedIn(self.driver, 0, 'CRUDO')
         auth.login(self.driver, config.users['CRUDO']['username'], config.users['CRUDO']['password'])
 
-        site.selectSite(self.driver, config.site)
+        site.selectSite(self.driver, config.site[0])
         if WebDriverWait(self.driver, 50).until(EC.presence_of_element_located((By.XPATH, "//android.widget.TextView[@text='Cancel']"))):
             self.driver.find_element_by_xpath("//android.widget.TextView[@text='Cancel']").click()
         else:

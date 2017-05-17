@@ -217,5 +217,4 @@ def selectRandomTint(driver):
     elif r == 4:
         tint = getTint4(driver)
     driver.tap([(tint[0], tint[1])])
-    commonFunctions.overridebutton(driver)
     return r

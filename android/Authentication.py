@@ -130,6 +130,7 @@ class Authentication(unittest.TestCase):
         auth.checkIfUserIsLoggedIn(self.driver, 0, 'CRUDO')
         logging.info(" login with CRUDO user")
         auth.login(self.driver, config.users['CRUDO']['username'], config.users['CRUDO']['password'])
+        site.selectSite(self.driver, config.site[0])
         auth.signout(self.driver)
 
     # @attr('acceptance', sid='TC-login-1.5-05', bv=10)
@@ -140,6 +141,7 @@ class Authentication(unittest.TestCase):
         """
         auth.checkIfUserIsLoggedIn(self.driver, 0, 'RUO')
         auth.login(self.driver, config.users['RUO']['username'], config.users['RUO']['password'])
+        site.selectSite(self.driver, config.site[0])
         auth.signout(self.driver)
 
     # @attr('acceptance', sid='TC-login-1.5-06', bv=10)

@@ -31,7 +31,7 @@ class SystemReady(unittest.TestCase):
         while attempts < 3:
             try:
                 auth.login(self.driver, config.users['CRUDO']['username'], config.users['CRUDO']['password'])
-                site.selectSite(self.driver, config.site)
+                site.selectSite(self.driver, config.site[0])
                 break
             except TimeoutException:
                 print("Unable to login and connect to a site. Try again.")

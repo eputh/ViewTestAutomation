@@ -243,6 +243,7 @@ class LiveView(unittest.TestCase):
             raiseExceptions("Control option in navigation menu is missing")
 
         control.selectRandomTint(self.driver)
+        commonFunctions.overridebutton(self.driver)
         format = '%I:%M %p'
         now = datetime.now()
         timeOfEventJustAdded = datetime.strftime(now, format)

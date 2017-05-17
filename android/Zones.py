@@ -41,8 +41,10 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 from common import auth
 from common import commonFunctions
+from common import config
+from common import site
 from common import control
-from common import zones
+from common import zones_and_scenes
 
 
 class Zones(unittest.TestCase):
@@ -91,7 +93,6 @@ class Zones(unittest.TestCase):
             if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/search_zonesIV")) <= 0:
                 raiseExceptions("Search icon is missing")
 
-
     # @attr('acceptance', sid='TC-zones-1.3,TC-zones-1.8-1.12', bv=10)
     # @unittest.skip('Test case temporarily disabled')
     def testFunctionalityOfUIComponentsForZonesScreen(self):
@@ -136,7 +137,7 @@ class Zones(unittest.TestCase):
         else:
             raiseExceptions("Zones heading is missing")
 
-        zones.selectTopZonegroup(self.driver)
+        zones_and_scenes.selectTopZonegroup(self.driver)
         if WebDriverWait(self.driver, 10).until(
                 EC.presence_of_element_located((By.ID, "com.view.viewglass:id/heading_zngrpdetailTV"))):
             pass
@@ -265,7 +266,7 @@ class Zones(unittest.TestCase):
         else:
             raiseExceptions("Zones heading is missing")
 
-        zones.selectTopZonegroup(self.driver)
+        zones_and_scenes.selectTopZonegroup(self.driver)
         tint = 0
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/setTintBtn_zngrpdetailTV")) <= 0:
             raiseExceptions("Override button is missing")
@@ -274,10 +275,11 @@ class Zones(unittest.TestCase):
             WebDriverWait(self.driver, 10).until(
                 EC.presence_of_element_located((By.ID, "com.view.viewglass:id/Control_headingTV")))
             tint = control.selectRandomTint(self.driver)
+            commonFunctions.overridebutton(self.driver)
         if tint != 0:
             commonFunctions.navIcon(self.driver)
             self.driver.find_element_by_id("com.view.viewglass:id/navigation_zonesTV").click()
-            zones.selectTopZonegroup(self.driver)
+            zones_and_scenes.selectTopZonegroup(self.driver)
         else:
             raiseExceptions("unable to override tint")
         currentTint = self.driver.find_element_by_id("com.view.viewglass:id/tint_level_zngrpdetailTV").text
@@ -301,7 +303,7 @@ class Zones(unittest.TestCase):
         else:
             raiseExceptions("Zones heading is missing")
 
-        zones.selectTopZonegroup(self.driver)
+        zones_and_scenes.selectTopZonegroup(self.driver)
         zonegroups = self.driver.find_elements(By.ID, "com.view.viewglass:id/parent_zone_item_listLL")
         if len(zonegroups) >= 2:
             zonegroups[0].click()
@@ -310,7 +312,7 @@ class Zones(unittest.TestCase):
 
             commonFunctions.navIcon(self.driver)
             self.driver.find_element_by_id("com.view.viewglass:id/navigation_zonesTV").click()
-            zones.selectTopZonegroup(self.driver)
+            zones_and_scenes.selectTopZonegroup(self.driver)
 
             zonegroups[1].click()
             commonFunctions.overridebutton(self.driver)
@@ -321,7 +323,7 @@ class Zones(unittest.TestCase):
 
         commonFunctions.navIcon(self.driver)
         self.driver.find_element_by_id("com.view.viewglass:id/navigation_zonesTV").click()
-        zones.selectTopZonegroup(self.driver)
+        zones_and_scenes.selectTopZonegroup(self.driver)
         currentTint = self.driver.find_element_by_id("com.view.viewglass:id/tint_level_zngrpdetailTV").text
         if currentTint != "Mixed Tint":
             raiseExceptions("Control screen is not in sync with Zones screen")
@@ -375,7 +377,15 @@ class Zones(unittest.TestCase):
     # @attr('acceptance', sid='TC-crtzngp-9.2 to TC-crtzngp-9.8', bv=10)
     # @unittest.skip('Test case temporarily disabled')
     def testCreateZoneGroupForRUO(self):
-        auth.checkIfUserIsLoggedIn(self.driver, 1, 'RUO')
+        auth.checkIfUserIsLoggedIn(self.driver, 0, 'RUO')
+        auth.login(self.driver, config.users['RUO']['username'], config.users['RUO']['password'])
+        site.selectSite(self.driver, config.site[0])
+        sleep(20)
+        if commonFunctions.foundAlert(self.driver):
+            commonFunctions.respondToAlert(self.driver, 0)
+        if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/view_btnTV")) > 0:
+            commonFunctions.navIcon(self.driver)
+
         commonFunctions.navIcon(self.driver)
         if WebDriverWait(self.driver, 10).until(
                 EC.presence_of_element_located((By.ID, "com.view.viewglass:id/navigation_zonesTV"))):
@@ -416,7 +426,14 @@ class Zones(unittest.TestCase):
         # @attr('acceptance', sid='TC-crtzngp-9.2 to TC-crtzngp-9.8', bv=10)
     # @unittest.skip('Test case temporarily disabled')
     def testCreateZoneGroupForRO(self):
-        auth.checkIfUserIsLoggedIn(self.driver, 1, 'RO')
+        auth.checkIfUserIsLoggedIn(self.driver, 0, 'RO')
+        auth.login(self.driver, config.users['RO']['username'], config.users['RO']['password'])
+        sleep(20)
+        if commonFunctions.foundAlert(self.driver):
+            commonFunctions.respondToAlert(self.driver, 0)
+        if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/view_btnTV")) > 0:
+            commonFunctions.navIcon(self.driver)
+
         commonFunctions.navIcon(self.driver)
         if WebDriverWait(self.driver, 10).until(
                 EC.presence_of_element_located((By.ID, "com.view.viewglass:id/navigation_zonesTV"))):
@@ -493,7 +510,15 @@ class Zones(unittest.TestCase):
     # @attr('acceptance', sid='TC-zngrpdet-2.7, TC-zndet-3.5, TC-crtzngp-9.11, TC-crtzngp-9.12', bv=10)
     # @unittest.skip('Test case temporarily disabled')
     def testEditZoneGroupForRUO(self):
-        auth.checkIfUserIsLoggedIn(self.driver, 1, 'RUO')
+        auth.checkIfUserIsLoggedIn(self.driver, 0, 'RUO')
+        auth.login(self.driver, config.users['RUO']['username'], config.users['RUO']['password'])
+        site.selectSite(self.driver, config.site[0])
+        sleep(20)
+        if commonFunctions.foundAlert(self.driver):
+            commonFunctions.respondToAlert(self.driver, 0)
+        if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/view_btnTV")) > 0:
+            commonFunctions.navIcon(self.driver)
+
         commonFunctions.navIcon(self.driver)
         if WebDriverWait(self.driver, 10).until(
                 EC.presence_of_element_located((By.ID, "com.view.viewglass:id/navigation_zonesTV"))):
@@ -528,7 +553,14 @@ class Zones(unittest.TestCase):
     # @attr('acceptance', sid='TC-zngrpdet-2.7, TC-zndet-3.5, TC-crtzngp-9.11, TC-crtzngp-9.12', bv=10)
     # @unittest.skip('Test case temporarily disabled')
     def testEditZoneGroupForRO(self):
-        auth.checkIfUserIsLoggedIn(self.driver, 1, 'RO')
+        auth.checkIfUserIsLoggedIn(self.driver, 0, 'RO')
+        auth.login(self.driver, config.users['RO']['username'], config.users['RO']['password'])
+        sleep(20)
+        if commonFunctions.foundAlert(self.driver):
+            commonFunctions.respondToAlert(self.driver, 0)
+        if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/view_btnTV")) > 0:
+            commonFunctions.navIcon(self.driver)
+
         commonFunctions.navIcon(self.driver)
         if WebDriverWait(self.driver, 10).until(
                 EC.presence_of_element_located((By.ID, "com.view.viewglass:id/navigation_zonesTV"))):
@@ -606,7 +638,15 @@ class Zones(unittest.TestCase):
     # @attr('acceptance', sid='TC-crtzngp-9.9, TC-crtzngp-9.10', bv=10)
     # @unittest.skip('Test case temporarily disabled')
     def testRemoveDeleteZoneGroupForRUO(self):
-        auth.checkIfUserIsLoggedIn(self.driver, 1, 'RUO')
+        auth.checkIfUserIsLoggedIn(self.driver, 0, 'RUO')
+        auth.login(self.driver, config.users['RUO']['username'], config.users['RUO']['password'])
+        site.selectSite(self.driver, config.site[0])
+        sleep(20)
+        if commonFunctions.foundAlert(self.driver):
+            commonFunctions.respondToAlert(self.driver, 0)
+        if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/view_btnTV")) > 0:
+            commonFunctions.navIcon(self.driver)
+
         commonFunctions.navIcon(self.driver)
         if WebDriverWait(self.driver, 10).until(
                 EC.presence_of_element_located((By.ID, "com.view.viewglass:id/navigation_zonesTV"))):
@@ -649,7 +689,14 @@ class Zones(unittest.TestCase):
     # @attr('acceptance', sid='TC-crtzngp-9.9, TC-crtzngp-9.10', bv=10)
     # @unittest.skip('Test case temporarily disabled')
     def testRemoveDeleteZoneGroupForRO(self):
-        auth.checkIfUserIsLoggedIn(self.driver, 1, 'RO')
+        auth.checkIfUserIsLoggedIn(self.driver, 0, 'RO')
+        auth.login(self.driver, config.users['RO']['username'], config.users['RO']['password'])
+        sleep(20)
+        if commonFunctions.foundAlert(self.driver):
+            commonFunctions.respondToAlert(self.driver, 0)
+        if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/view_btnTV")) > 0:
+            commonFunctions.navIcon(self.driver)
+
         commonFunctions.navIcon(self.driver)
         if WebDriverWait(self.driver, 10).until(
                 EC.presence_of_element_located((By.ID, "com.view.viewglass:id/navigation_zonesTV"))):

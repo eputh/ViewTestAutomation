@@ -30,7 +30,7 @@
 ########################################################################
 """
 device = 'RKumar iPhone'
-site = "tintserver7700"
+site = ["tintserver7700", "APPCLOUDTest1"]
 
 devices = {
     'Google1': {

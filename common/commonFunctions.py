@@ -52,7 +52,7 @@ def changeSite(driver, site):
         driver.find_element_by_id("com.view.viewglass:id/search_layout").click()
         search = driver.find_element_by_xpath("//android.widget.EditText[@text='Search']")
         search.send_keys(site)
-        driver.find_element_by_xpath("//android.widget.TextView[@text='" + site + "']").click()
+        driver.find_element_by_id("com.view.viewglass:id/zone_item_select_zoneTV").click()
     else:
         raiseExceptions("Missing Search option in Change Site")
 
@@ -60,7 +60,7 @@ def changeSite(driver, site):
             EC.presence_of_element_located((By.XPATH, "//android.widget.Button[@text='Yes']"))):
         driver.find_element_by_xpath("//android.widget.Button[@text='Yes']").click()
     else:
-        raiseExceptions("confirmation message for changing tint is missing")
+        raiseExceptions("confirmation message for changing site is missing")
     WebDriverWait(driver, 20).until(
         EC.presence_of_element_located((By.ID, "com.view.viewglass:id/home_btn_myProfileLL")))
     goback(driver)
@@ -95,6 +95,14 @@ def goback(driver):
         driver.find_element_by_id("com.view.viewglass:id/back_btn_create_newZoneGrpIV").click()
     elif len(driver.find_elements(By.ID, "com.view.viewglass:id/backBtn_zngrpdetailLL")) > 0:
         driver.find_element_by_id("com.view.viewglass:id/backBtn_zngrpdetailLL").click()
+    elif len(driver.find_elements(By.ID, "com.view.viewglass:id/back_scene_detailLL")) > 0:
+        driver.find_element_by_id("com.view.viewglass:id/back_scene_detailLL").click()
+    elif len(driver.find_elements(By.ID, "com.view.viewglass:id/back_scene_eventLL")) > 0:
+        driver.find_element_by_id("com.view.viewglass:id/back_scene_eventLL").click()
+    elif len(driver.find_elements(By.ID, "com.view.viewglass:id/back_btn_settingIV")) > 0:
+        driver.find_element_by_id("com.view.viewglass:id/back_btn_settingIV").click()
+    elif len(driver.find_elements(By.ID, "com.view.viewglass:id/back_btn_settingscreenIV")) > 0:
+        driver.find_element_by_id("com.view.viewglass:id/back_btn_settingscreenIV").click()
     else:
         raiseExceptions("Back button is missing")
 
@@ -104,6 +112,12 @@ def savebutton(driver):
         driver.find_element_by_xpath("//android.widget.TextView[@text='Save']").click()
     elif len(driver.find_elements(By.ID, "com.view.viewglass:id/save_zoneGrpTV")) > 0:
         driver.find_element_by_id("com.view.viewglass:id/save_zoneGrpTV").click()
+    elif len(driver.find_elements(By.ID, "com.view.viewglass:id/editbtn_sceneTV")) > 0:
+        driver.find_element_by_id("com.view.viewglass:id/editbtn_sceneTV").click()
+    elif len(driver.find_elements(By.ID, "com.view.viewglass:id/save_scene_add_TintEventTV")) > 0:
+        driver.find_element_by_id("com.view.viewglass:id/save_scene_add_TintEventTV").click()
+    elif len(driver.find_elements(By.ID, "com.view.viewglass:id/savebtn_sceneEventTV")) > 0:
+        driver.find_element_by_id("com.view.viewglass:id/savebtn_sceneEventTV").click()
     else:
         raiseExceptions("Save button is missing")
 
@@ -112,6 +126,8 @@ def addbutton(driver):
         driver.find_element_by_id("com.view.viewglass:id/add_schdIV").click()
     elif len(driver.find_elements(By.ID, "com.view.viewglass:id/actZone_addIV")) > 0:
         driver.find_element_by_id("com.view.viewglass:id/actZone_addIV").click()
+    elif len(driver.find_elements(By.ID, "com.view.viewglass:id/scene_addIconIV")) > 0:
+        driver.find_element_by_id("com.view.viewglass:id/scene_addIconIV").click()
     else:
         raiseExceptions("Add button is missing")
 
@@ -123,6 +139,10 @@ def editbutton(driver):
         driver.find_element_by_xpath("//android.widget.TextView[@text='Edit']").click()
     elif len(driver.find_elements(By.ID, "com.view.viewglass:id/editZoneGrpTextTV")) > 0:
         driver.find_element_by_id("com.view.viewglass:id/editZoneGrpTextTV").click()
+    elif len(driver.find_elements(By.ID, "com.view.viewglass:id/editbtn_sceneTV")) > 0:
+        driver.find_element_by_id("com.view.viewglass:id/editbtn_sceneTV").click()
+    else:
+        raiseExceptions("Edit button is missing")
 
 def cancelbutton(driver):
     if len(driver.find_elements(By.ID, "com.view.viewglass:id/cross_btn_controlLL")) > 0:
