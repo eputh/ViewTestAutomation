@@ -404,6 +404,23 @@
 	</div>
 	<script type="text/javascript">
 		$(document).ready(function(){
+
+			function setDevices() {
+				$.ajax({
+					type: "POST",
+					url: "/set_devices",
+					data: { },
+					dataType: "text",
+					success: function(result) {
+						console.log('setting up Appium nodes');
+					},
+					error: function(result) {
+						alert('error');
+					}
+				});
+			}
+			setDevices()
+
 			checkboxes = document.getElementsByClassName('checkbox');
 			for(var i=0, n=checkboxes.length;i<n;i++)
 				checkboxes[i].checked = true;

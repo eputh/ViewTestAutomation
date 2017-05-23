@@ -33,19 +33,31 @@ device = 'RKumar iPhone'
 site = ["tintserver7700", "APPCLOUDTest1"]
 
 devices = {
-    'Google1': {
-        'deviceName': 'View Pixel'
+    '0abad235030d17a3': {
+        'name': 'Galaxy Tab S2',
+        'hasData': False
     },
 
-    'Nexus1': {
-        'deviceName': 'Nexus5'
+    'FA68W0308348': {
+        'name': 'Google Pixel',
+        'hasData': True
     },
 
-    'Nexus2': {
-        'deviceName': 'Nexus7'
+    'HT6AE0100527': {
+        'name': 'HTC 10',
+        'hasData': True
     },
-    'Samsung1': {
-        'deviceName': 'Samsung Galaxy1'
+    '09c119410bfc3c60': {
+        'name': 'Nexus 5',
+        'hasData': False
+    },
+    '092326c6': {
+        'name': 'Nexus 7',
+        'hasData': False
+    },
+    '45ddeb64': {
+        'name': 'Samsung Galaxy S7',
+        'hasData': True
     }
 }
 

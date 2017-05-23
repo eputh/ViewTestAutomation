@@ -1165,7 +1165,6 @@ class Schedule(unittest.TestCase):
     def test32CreateNoRepeatScheduleForRO(self):
         auth.checkIfUserIsLoggedIn(self.driver, 0, 'RO')
         auth.login(self.driver, config.users['RO']['username'], config.users['RO']['password'])
-        sleep(20)
         if commonFunctions.foundAlert(self.driver):
             commonFunctions.respondToAlert(self.driver, 0)
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/view_btnTV")) > 0:

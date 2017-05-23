@@ -62,6 +62,7 @@ def selectSite(driver, site):
         if len(driver.find_elements(By.ID, "com.view.viewglass:id/viewLogoLL")) > 0:
             y = location['y'] + size['height'] * 2.5
             driver.tap([(x, y)])
+            sleep(20)
     except TimeoutException:
         raiseExceptions("Failed to reach Select Site screen")
 

@@ -13,7 +13,7 @@
         "cleanUpCycle": 2000,
         "timeout": 30000,
         "proxy": "org.openqa.grid.selenium.proxy.DefaultRemoteProxy",
-        "port": 4750,
+        "port": 4780,
         "maxSession": 1,
         "register": true,
         "registerCycle": 5000,

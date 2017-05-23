@@ -32,35 +32,34 @@
 from logging import raiseExceptions
 from time import sleep
 
-from common import commonFunctions as common
-from common import site as site
 from selenium.common.exceptions import *
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
+from common import commonFunctions as common
+from common import site as site
 from common import config as config
 
 
 def isUserLoggedIn(driver):
     sleep(30)
-    try:
-        if len(driver.find_elements(By.ID, "com.view.viewglass:id/retry_btn")) > 0:
-            driver.find_element_by_id("com.view.viewglass:id/retry_btn").click()
-        if WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, "//android.widget.Button[@content-desc='LOGIN']"))):
-            return False
-    except TimeoutException:
+    if len(driver.find_elements(By.ID, "com.view.viewglass:id/retry_btn")) > 0:
+        driver.find_element_by_id("com.view.viewglass:id/retry_btn").click()
+    if len(driver.find_elements(By.ID, "com.view.viewglass:id/home_controlIV")) > 0 or len(driver.find_elements(By.XPATH, "//android.widget.TextView[@text='Recently Crashed!!!']")) > 0:
         return True
+    else:
+        return False
 
 
 def checkIfUserIsLoggedIn(driver, loginbool, user):
     """ Check if user needs to be logged in or logged out"""
     # user needs to be logged in
+    isLoggedIn = isUserLoggedIn(driver)
     if loginbool:
-        if not isUserLoggedIn(driver):
+        if not isLoggedIn:
             login(driver, config.users[user]['username'], config.users[user]['password'])
             site.selectSite(driver, config.site[0])
-            sleep(20)
 
         if common.foundAlert(driver):
             common.respondToAlert(driver, 0)
@@ -70,11 +69,13 @@ def checkIfUserIsLoggedIn(driver, loginbool, user):
             common.navIcon(driver)
     # User needs to be logged out
     else:
-        if isUserLoggedIn(driver):
+        if isLoggedIn:
             if common.foundAlert(driver):
                 common.respondToAlert(driver, 0)
             if common.foundTour(driver):
                 common.exitTour(driver)
+            if len(driver.find_elements(By.ID, "com.view.viewglass:id/view_btnTV")) > 0:
+                common.navIcon(driver)
             logout(driver)
             sleep(20)
         else:
@@ -83,79 +84,91 @@ def checkIfUserIsLoggedIn(driver, loginbool, user):
 
 def login(driver, username, password):
     attempts = 0
-    while attempts <= 3:
+    while attempts < 3:
         if len(driver.find_elements(By.ID, "com.view.viewglass:id/retry_btn")) > 0:
             driver.find_element_by_id("com.view.viewglass:id/retry_btn").click()
-            attempts += 1
 
-        if WebDriverWait(driver, 30).until(
-                EC.presence_of_element_located((By.XPATH, "//android.widget.EditText[@index='0']"))):
-            # some devices have trouble navigating to the username text field
-            location = driver.find_element_by_id("com.view.viewglass:id/web_view_LL").location
-            size = driver.find_element_by_id("com.view.viewglass:id/web_view_LL").size
-            x = location['x'] + size['width'] / 2
-            y = location['y'] + 240
-            driver.tap([(x, y)])
+        if len(driver.find_elements(By.XPATH, "//android.widget.Button[@content-desc='LOGIN']")) > 0:
+            loginOperation(driver, username, password)
 
-            email = driver.find_element_by_xpath("//android.widget.EditText[@index='0']")
-            text = email.text
-            if text == "Email":
-                email.send_keys(username)
-            elif text == username:
-                pass
-            else:
-                email.clear()
-                email.send_keys(username)
-        else:
-            raiseExceptions("Missing Email text field")
-
-        if WebDriverWait(driver, 5).until(
-                EC.presence_of_element_located((By.XPATH, "//android.widget.EditText[@index='2']"))):
-            # some devices have trouble navigating to the password text field
-            location = driver.find_element_by_id("com.view.viewglass:id/web_view_LL").location
-            size = driver.find_element_by_id("com.view.viewglass:id/web_view_LL").size
-            x = location['x'] + size['width'] / 2
-            y = location['y'] + 260 + driver.find_element_by_xpath("//android.widget.EditText[@index='2']").size['height']
-            driver.tap([(x, y)])
-
-            pw = driver.find_element_by_xpath("//android.widget.EditText[@index='2']")
-            pw.send_keys(password)
-        else:
-            raiseExceptions("Missing Password text field")
-
-        if WebDriverWait(driver, 5).until(
-                EC.presence_of_element_located((By.CLASS_NAME, "android.widget.CheckBox"))):
-            rememberMe = driver.find_element_by_class_name("android.widget.CheckBox")
-            if rememberMe.get_attribute("checked") == "false":
-                rememberMe.click()
-            else:
-                # close the keyboard to make the login button visible
-                driver.find_element_by_xpath("//android.view.View[@index='3']").click()
-        else:
-            raiseExceptions("Missing Remember Me check box")
-
-        if WebDriverWait(driver, 5).until(
-                EC.presence_of_element_located((By.XPATH, "//android.widget.Button[@content-desc='LOGIN']"))):
-            # some devices have trouble navigating to the login button
-
-            location = driver.find_elements(By.CLASS_NAME, "android.webkit.WebView")[0].location
-            size = driver.find_elements(By.CLASS_NAME, "android.webkit.WebView")[0].size
-            x = location['x'] + size['width'] / 2
-            y = location['y'] + size['height'] - driver.find_element_by_xpath("//android.widget.Button[@content-desc='LOGIN']").size['height']
-            driver.tap([(x, y-100)])
-            driver.tap([(x, y)])
-
-            if len(driver.find_elements(By.XPATH, "//android.widget.Button[@content-desc='LOGIN']")) > 0:
-                driver.find_element_by_xpath("//android.widget.Button[@content-desc='LOGIN']").click()
-            sleep(20)
-        else:
-            raiseExceptions("Missing Login button")
-
-        if len(driver.find_elements(By.ID, "com.view.viewglass:id/retry_btn")) > 0:
-            driver.find_element_by_id("com.view.viewglass:id/retry_btn").click()
-            attempts += 1
-        else:
+        if len(driver.find_elements(By.ID, "com.view.viewglass:id/search_image_view")) > 0 or len(driver.find_elements(By.ID, "com.view.viewglass:id/home_controlIV")) > 0 or len(driver.find_elements(By.XPATH, "//android.widget.TextView[@text='Recently Crashed!!!']")) > 0:
             break
+        elif len(driver.find_elements(By.XPATH, "//android.widget.TextView[@text='Site is not reachable. Please try again later or contact Facilities Manager or View Support at support@viewglass.com or (855)-478-8468']")) > 0:
+            raiseExceptions("Site is not reachable for the RO user at the moment")
+        else:
+            attempts += 1
+            driver.close_app()
+            driver.launch_app()
+            sleep(30)
+
+    if attempts == 3:
+        raiseExceptions("Unable to login after 3 tries")
+
+
+def loginOperation(driver, username, password):
+    if WebDriverWait(driver, 30).until(
+            EC.presence_of_element_located((By.XPATH, "//android.widget.EditText[@index='0']"))):
+        # some devices have trouble navigating to the username text field
+        location = driver.find_element_by_id("com.view.viewglass:id/web_view_LL").location
+        size = driver.find_element_by_id("com.view.viewglass:id/web_view_LL").size
+        x = location['x'] + size['width'] / 2
+        y = location['y'] + 240
+        driver.tap([(x, y)])
+
+        email = driver.find_element_by_xpath("//android.widget.EditText[@index='0']")
+        text = email.text
+        if text == "Email":
+            email.send_keys(username)
+        elif text == username:
+            pass
+        else:
+            email.clear()
+            email.send_keys(username)
+    else:
+        raiseExceptions("Missing Email text field")
+
+    if WebDriverWait(driver, 5).until(
+            EC.presence_of_element_located((By.XPATH, "//android.widget.EditText[@index='2']"))):
+        # some devices have trouble navigating to the password text field
+        location = driver.find_element_by_id("com.view.viewglass:id/web_view_LL").location
+        size = driver.find_element_by_id("com.view.viewglass:id/web_view_LL").size
+        x = location['x'] + size['width'] / 2
+        y = location['y'] + 260 + driver.find_element_by_xpath("//android.widget.EditText[@index='2']").size['height']
+        driver.tap([(x, y)])
+
+        pw = driver.find_element_by_xpath("//android.widget.EditText[@index='2']")
+        pw.send_keys(password)
+    else:
+        raiseExceptions("Missing Password text field")
+
+    if WebDriverWait(driver, 5).until(
+            EC.presence_of_element_located((By.CLASS_NAME, "android.widget.CheckBox"))):
+        rememberMe = driver.find_element_by_class_name("android.widget.CheckBox")
+        if rememberMe.get_attribute("checked") == "false":
+            rememberMe.click()
+        else:
+            # close the keyboard to make the login button visible
+            driver.find_element_by_xpath("//android.view.View[@index='3']").click()
+    else:
+        raiseExceptions("Missing Remember Me check box")
+
+    if WebDriverWait(driver, 5).until(
+            EC.presence_of_element_located((By.XPATH, "//android.widget.Button[@content-desc='LOGIN']"))):
+        # some devices have trouble navigating to the login button
+        location = driver.find_elements(By.CLASS_NAME, "android.webkit.WebView")[0].location
+        size = driver.find_elements(By.CLASS_NAME, "android.webkit.WebView")[0].size
+        x = location['x'] + size['width'] / 2
+        y = location['y'] + size['height'] - driver.find_element_by_xpath("//android.widget.Button[@content-desc='LOGIN']").size['height']
+        driver.tap([(x, y - 100)])
+        driver.tap([(x, y)])
+        sleep(10)
+
+        if len(driver.find_elements(By.XPATH, "//android.widget.Button[@content-desc='LOGIN']")) > 0:
+            driver.find_element_by_xpath("//android.widget.Button[@content-desc='LOGIN']").click()
+
+        sleep(30)
+    else:
+        raiseExceptions("Missing Login button")
 
 
 def loginScreenValidations(driver):

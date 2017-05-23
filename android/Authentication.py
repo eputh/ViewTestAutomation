@@ -130,7 +130,8 @@ class Authentication(unittest.TestCase):
         auth.checkIfUserIsLoggedIn(self.driver, 0, 'CRUDO')
         logging.info(" login with CRUDO user")
         auth.login(self.driver, config.users['CRUDO']['username'], config.users['CRUDO']['password'])
-        site.selectSite(self.driver, config.site[0])
+        print(config.users['CRUDO']['password'])
+        # site.selectSite(self.driver, config.site[0])
         auth.signout(self.driver)
 
     # @attr('acceptance', sid='TC-login-1.5-05', bv=10)
@@ -141,7 +142,7 @@ class Authentication(unittest.TestCase):
         """
         auth.checkIfUserIsLoggedIn(self.driver, 0, 'RUO')
         auth.login(self.driver, config.users['RUO']['username'], config.users['RUO']['password'])
-        site.selectSite(self.driver, config.site[0])
+        # site.selectSite(self.driver, config.site[0])
         auth.signout(self.driver)
 
     # @attr('acceptance', sid='TC-login-1.5-06', bv=10)
@@ -212,26 +213,19 @@ class Authentication(unittest.TestCase):
 
     # @attr('acceptance', sid='TC-login-1.5-21', bv=10)
     # @unittest.skip('Test case temporarily disabled')     
-# #     def testNetworkConnectivityLost(self):
-# #         """
-# #         Verify the App Exceptional handling when user lost network connectivity from mobile device.
-# #         This will disable the Data usage and wifi during test runtime and verify error message
-# #         """
-# #         self.driver.click("NATIVE", "xpath=//*[@text='Settings']", 0, 1)
-# #         self.driver.click("NATIVE", "xpath=//*[@text='Data usage']", 0, 1)
-# #         self.driver.click("NATIVE", "xpath=//*[@id='switch_widget']", 0, 1)
-# #         self.driver.click("NATIVE", "xpath=//*[@id='navigationBarBackground']", 0, 1)
-# #         self.driver.click("NATIVE", "xpath=//*[@text='ViewGlass']", 0, 1)
-# #         self.driver.click("NATIVE", "xpath=//*[@text='Retry']", 0, 1)
-# #         if(self.driver.isElementFound("NATIVE", "xpath=//*[@text='Unable to connect. Please enable WiFi or Mobile Data in your Settings.']", 0, 1)):
-# #             logging.info("Verified Network connectivity issue ")
-# #         else:
-# #             raiseExceptions(" Missing exceptional handling for N/w connectivity issues")
-# #         self.driver.click("NATIVE", "xpath=//*[@text='Settings']", 0, 1)
-# #         self.driver.click("NATIVE", "xpath=//*[@text='Data usage']", 0, 1)
-# #         self.driver.click("NATIVE", "xpath=//*[@id='switch_widget']", 0, 1)
-# #         self.driver.click("NATIVE", "xpath=//*[@id='navigationBarBackground']", 0, 1)
-# #         self.driver.click("NATIVE", "xpath=//*[@text='ViewGlass']", 0, 1)
+    def testNetworkConnectivityLost(self):
+        """
+        Verify the App Exceptional handling when user lost network connectivity from mobile device.
+        This will disable the Data usage and wifi during test runtime and verify error message
+        """
+        auth.checkIfUserIsLoggedIn(self.driver, 0, 'CRUDO')
+        self.driver.set_network_connection(1)
+        if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='Retry']")) > 0:
+            self.driver.set_network_connection(6)
+            sleep(5)
+            self.driver.find_element_by_xpath("//android.widget.TextView[@text='Retry']").click()
+        else:
+            raiseExceptions("Exception handling for lost network connection is missing")
     
     # @attr('acceptance', sid='TC-login-1.5-04', bv=10)
     # @unittest.skip('Test case temporarily disabled') 

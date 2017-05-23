@@ -3,12 +3,11 @@ import unittest
 from time import sleep
 
 from appium import webdriver
-from common import auth as auth
-from common import site as site
-from selenium import webdriver
-from selenium.common.exceptions import *
+from selenium.webdriver.common.by import By
+from logging import raiseExceptions
 
-from common import config as config
+from common import auth
+from common import config
 
 
 class SystemReady(unittest.TestCase):
@@ -25,38 +24,37 @@ class SystemReady(unittest.TestCase):
         desired_caps['clearSystemFiles'] = True
         self.driver = webdriver.Remote('http://localhost:4444/wd/hub', desired_caps)
 
+    def testCheckDeviceName(self):
+        """
+        Get the device name
+        """
+        device = config.devices[self.driver.desired_capabilities.get("deviceName")]["name"]
+        print("Device : ", device)
+
     def testCheckIfSystemIsReadyForTesting(self):
-        sleep(30)
         attempts = 0
         while attempts < 3:
-            try:
-                auth.login(self.driver, config.users['CRUDO']['username'], config.users['CRUDO']['password'])
-                site.selectSite(self.driver, config.site[0])
-                break
-            except TimeoutException:
-                print("Unable to login and connect to a site. Try again.")
-                attempts += 1
-                self.driver.quit()
-                self.driver.launch_app()
+            if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/retry_btn")) > 0:
+                self.driver.find_element_by_id("com.view.viewglass:id/retry_btn").click()
 
-#             if len(self.driver.find_elements(By.XPATH,
-#                                        "//android.widget.TextView[@text='Site is not reachable. Please try again later or contact Facilities Manager or View Support at support@viewglass.com or (855)-478-8468']")) > 0:
-#                 attempts += 1
-#                 self.driver.find_element_by_xpath("//android.widget.TextView[@text='Ok']").click()
-#             elif len(self.driver.find_elements(By.XPATH,
-#                                        "//android.widget.TextView[@text='Retry']")) > 0:
-#                 attempts += 1
-#                 self.driver.find_element_by_xpath("//android.widget.TextView[@text='Retry']").click()
-#             elif len(self.driver.find_elements(By.XPATH, "//android.widget.Button[@content-desc='LOGIN']")) > 0:
-#                 attempts += 1
-#             else:
-#                 sleep(20)
-#                 if common.foundAlert(self.driver):
-#                     common.respondToAlert(self.driver, 0)
-#                 if common.foundTour(self.driver):
-#                     common.exitTour(self.driver)
-# #                     auth.logout(self.client)
-#                 break
+            if len(self.driver.find_elements(By.XPATH, "//android.widget.Button[@content-desc='LOGIN']")) > 0:
+                auth.loginOperation(self.driver, config.users['CRUDO']['username'], config.users['CRUDO']['password'])
+
+            if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/search_image_view")) > 0 or len(
+                    self.driver.find_elements(By.ID, "com.view.viewglass:id/home_controlIV")) > 0 or len(
+                    self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='Recently Crashed!!!']")) > 0:
+                break
+            elif len(self.driver.find_elements(By.XPATH,
+                                          "//android.widget.TextView[@text='Site is not reachable. Please try again later or contact Facilities Manager or View Support at support@viewglass.com or (855)-478-8468']")) > 0:
+                raiseExceptions("Site is not reachable for the RO user at the moment")
+            else:
+                attempts += 1
+                self.driver.close_app()
+                self.driver.launch_app()
+                sleep(30)
+
+        if attempts == 3:
+            raiseExceptions("Unable to login after 3 tries")
 
     def tearDown(self):
         """Tear down the test"""

@@ -2,15 +2,15 @@
 ########################################################################
 #
 # SYNOPSIS
-#   Control :  Include Test cases related to overriding tints for CRUDO , RUO, RO privilege users
+#   Control :  Include Test cases related to overriding zones to and from tints 1, 2, 3, and 4,
+#   canceling override, changing tint duration, and control ring interactions , RUO, RO privilege users
 #
 # AUTHOR
 #  Emily Puth (emily.puth@viewglass.com)
 #
 #
 # DESCRIPTION
-#   Include Test cases related to overriding zones to and from tints 1, 2, 3, and 4,
-#   canceling override, changing tint duration, and control ring interactions , RUO, RO privilege users
+#   Include Test cases related to create, delete , edit, copy schedule, etc. for CRUDO, RUO, RO privilege users.
 #
 # USAGE
 #   
@@ -142,1025 +142,974 @@ class Control(unittest.TestCase):
         if common.foundAlert(self.driver):
             common.respondToAlert(self.driver, 1)
 
-    """------------------ Cancel Tint ------------------"""
+    """------------------ tint level 1 ------------------"""
 
     # @attr('acceptance', sid='TC-Ctrlcnfrm-2.2, TC-Ctrldial-3.2', TC-Ctrldial-3.3, TC-Ctrldial-3.4, TC-Ctrldial-3.5', bv=10)
     # @unittest.skip('Test case temporarily disabled')
-    def testCancelTint1ToRandomTint(self):
+    def testCancelTint1To2(self):
         """
         To verify the functionality of "Cancel" button.
         """
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
+
+        print("Cancel a change from tint 1 to tint 2  and verify that the tint is still 1")
         # Check to see if the current tint is at 1
         control.clickTintLevelNum(self.driver)
         if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='1']")) > 0:
             pass
         else:
             control.selectTint(self.driver, 1)
-        control.selectRandomTint(self.driver)
+        tint2 = control.getTint2(self.driver)
+        self.driver.tap([(tint2[0], tint2[1])])
         common.cancelbutton(self.driver)
         # verify tint is still 1
         control.verifyValidTintFound(self.driver, 1)
 
     # @attr('acceptance', sid='TC-Ctrlcnfrm-2.2, TC-Ctrldial-3.2', TC-Ctrldial-3.3, TC-Ctrldial-3.4, TC-Ctrldial-3.5', bv=10)
     # @unittest.skip('Test case temporarily disabled')
-    def testCancelTint1ToRandomTintWithInvalidTints(self):
+    def testCancelTint1To2WithInvalidTints(self):
         """
         To verify the functionality of "Cancel" button.
         """
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
+
+        print("Cancel a change from tint 1 to tint 2  and verify that the tint is not 2, 3, or 4")
         # Check to see if the current tint is at 1
         control.clickTintLevelNum(self.driver)
         if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='1']")) > 0:
             pass
         else:
             control.selectTint(self.driver, 1)
-        control.selectRandomTint(self.driver)
+        tint2 = control.getTint2(self.driver)
+        self.driver.tap([(tint2[0], tint2[1])])
         common.cancelbutton(self.driver)
         # verify tint is not 2, 3, or 4
         control.verifyInvalidTintsNotFound(self.driver, 1)
 
     # @attr('acceptance', sid='TC-Ctrlcnfrm-2.2, TC-Ctrldial-3.2', TC-Ctrldial-3.3, TC-Ctrldial-3.4, TC-Ctrldial-3.5', bv=10)
     # @unittest.skip('Test case temporarily disabled')
-    def testCancelTint2ToRandomTint(self):
+    def testCancelTint1To3(self):
         """
         To verify the functionality of "Cancel" button.
         """
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
-        # Check to see if the current tint is at 2
+
+        print("Cancel a change from tint 1 to tint 3  and verify that the tint is still 1")
+        # Check to see if the current tint is at 1
         control.clickTintLevelNum(self.driver)
-        if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='2']")) > 0:
+        if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='1']")) > 0:
             pass
         else:
-            control.selectTint(self.driver, 2)
-        control.selectRandomTint(self.driver)
+            control.selectTint(self.driver, 1)
+        tint3 = control.getTint3(self.driver)
+        self.driver.tap([(tint3[0], tint3[1])])
         common.cancelbutton(self.driver)
-        # verify tint is still 2
-        control.verifyValidTintFound(self.driver, 2)
+        # verify tint is still 1
+        control.verifyValidTintFound(self.driver, 1)
 
     # @attr('acceptance', sid='TC-Ctrlcnfrm-2.2, TC-Ctrldial-3.2', TC-Ctrldial-3.3, TC-Ctrldial-3.4, TC-Ctrldial-3.5', bv=10)
     # @unittest.skip('Test case temporarily disabled')
-    def testCancelTint2ToRandomTintWithInvalidTints(self):
+    def testCancelTint1To3WithInvalidTints(self):
         """
         To verify the functionality of "Cancel" button.
         """
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
+
+        print(" Cancel a change from tint 1 to tint 3  and verify that the tint is not 2, 3, or 4")
+        # Check to see if the current tint is at 1
+        control.clickTintLevelNum(self.driver)
+        if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='1']")) > 0:
+            pass
+        else:
+            control.selectTint(self.driver, 1)
+        tint3 = control.getTint3(self.driver)
+        self.driver.tap([(tint3[0], tint3[1])])
+        common.cancelbutton(self.driver)
+        # verify tint is not 2, 3, or 4
+        control.verifyInvalidTintsNotFound(self.driver, 1)
+
+    # @attr('acceptance', sid='TC-Ctrlcnfrm-2.2, TC-Ctrldial-3.2', TC-Ctrldial-3.3, TC-Ctrldial-3.4, TC-Ctrldial-3.5', bv=10)
+    # @unittest.skip('Test case temporarily disabled')
+    def testCancelTint1To4(self):
+        """
+        To verify the functionality of "Cancel" button.
+        """
+        auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
+
+        print("Cancel a change from tint 1 to tint 4  and verify that the tint is still 1")
+        # Check to see if the current tint is at 1
+        control.clickTintLevelNum(self.driver)
+        if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='1']")) > 0:
+            pass
+        else:
+            control.selectTint(self.driver, 1)
+        tint4 = control.getTint4(self.driver)
+        self.driver.tap([(tint4[0], tint4[1])])
+        common.cancelbutton(self.driver)
+        # verify tint is still 1
+        control.verifyValidTintFound(self.driver, 1)
+
+    # @attr('acceptance', sid='TC-Ctrlcnfrm-2.2, TC-Ctrldial-3.2', TC-Ctrldial-3.3, TC-Ctrldial-3.4, TC-Ctrldial-3.5', bv=10)
+    # @unittest.skip('Test case temporarily disabled')
+    def testCancelTint1To4WithInvalidTints(self):
+        """
+        To verify the functionality of "Cancel" button.
+        """
+        auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
+
+        print(" Cancel a change from tint 1 to tint 4  and verify that the tint is not 2, 3, or 4")
+        # Check to see if the current tint is at 1
+        control.clickTintLevelNum(self.driver)
+        if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='1']")) > 0:
+            pass
+        else:
+            control.selectTint(self.driver, 1)
+        tint4 = control.getTint4(self.driver)
+        self.driver.tap([(tint4[0], tint4[1])])
+        common.cancelbutton(self.driver)
+        # verify tint is not 2, 3, or 4
+        control.verifyInvalidTintsNotFound(self.driver, 1)
+
+    # @attr('acceptance', sid='TC-Ctrlcnfrm-2.3', bv=10)
+    # @unittest.skip('Test case temporarily disabled')
+    def testOverrideTint1To2(self):
+        """
+        To verify the functionality of "Override" button.
+        """
+        auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
+
+        print("Override a change from tint 1 to tint 2  and verify that the tint is now 2")
+        # Check to see if the current tint is at 1
+        control.clickTintLevelNum(self.driver)
+        if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='1']")) > 0:
+            pass
+        else:
+            control.selectTint(self.driver, 1)
+        control.selectTint(self.driver, 2)
+        # verify tint is now 2
+        control.verifyValidTintFound(self.driver, 2)
+
+    # @attr('acceptance', sid='TC-Ctrlcnfrm-2.3', bv=10)
+    # @unittest.skip('Test case temporarily disabled')
+    def testOverrideTint1To2WithInvalidTints(self):
+        """
+        To verify the functionality of "Override" button.
+        """
+        auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
+
+        print("Override a change from tint 1 to tint 2  and verify that the tint is not 1, 3, or 4")
+        # Check to see if the current tint is at 1
+        control.clickTintLevelNum(self.driver)
+        if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='1']")) > 0:
+            pass
+        else:
+            control.selectTint(self.driver, 1)
+        control.selectTint(self.driver, 2)
+        # verify tint is not 1, 3, or 4
+        control.verifyInvalidTintsNotFound(self.driver, 2)
+
+    # @attr('acceptance', sid='TC-Ctrlcnfrm-2.3', bv=10)
+    # @unittest.skip('Test case temporarily disabled')
+    def testOverrideTint1To3(self):
+        """
+        To verify the functionality of "Override" button.
+        """
+        auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
+
+        print("Override a change from tint 1 to tint 3  and verify that the tint is now 3")
+        # Check to see if the current tint is at 1
+        control.clickTintLevelNum(self.driver)
+        if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='1']")) > 0:
+            pass
+        else:
+            control.selectTint(self.driver, 1)
+        control.selectTint(self.driver, 3)
+        # verify tint is now 3
+        control.verifyValidTintFound(self.driver, 3)
+
+    # @attr('acceptance', sid='TC-Ctrlcnfrm-2.3', bv=10)
+    # @unittest.skip('Test case temporarily disabled')
+    def testOverrideTint1To3WithInvalidTints(self):
+        """
+        To verify the functionality of "Override" button.
+        """
+        auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
+
+        print("Override a change from tint 1 to tint 3  and verify that the tint is not 1, 2, or 4")
+        # Check to see if the current tint is at 1
+        control.clickTintLevelNum(self.driver)
+        if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='1']")) > 0:
+            pass
+        else:
+            control.selectTint(self.driver, 1)
+        control.selectTint(self.driver, 3)
+        # verify tint is not 1, 2, or 4
+        control.verifyInvalidTintsNotFound(self.driver, 3)
+
+    # @attr('acceptance', sid='TC-Ctrlcnfrm-2.3', bv=10)
+    # @unittest.skip('Test case temporarily disabled')
+    def testOverrideTint1To4(self):
+        """
+        To verify the functionality of "Override" button.
+        """
+        auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
+
+        print("Override a change from tint 1 to tint 4  and verify that the tint is now 4")
+        # Check to see if the current tint is at 1
+        control.clickTintLevelNum(self.driver)
+        if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='1']")) > 0:
+            pass
+        else:
+            control.selectTint(self.driver, 1)
+        control.selectTint(self.driver, 4)
+        # verify tint is now 4
+        control.verifyValidTintFound(self.driver, 4)
+
+    # @attr('acceptance', sid='TC-Ctrlcnfrm-2.3', bv=10)
+    # @unittest.skip('Test case temporarily disabled')
+    def testOverrideTint1To4WithInvalidTints(self):
+        """
+        To verify the functionality of "Override" button.
+        """
+        auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
+
+        print("Override a change from tint 1 to tint 4  and verify that the tint is not 1, 2, or 3")
+        # Check to see if the current tint is at 1
+        control.clickTintLevelNum(self.driver)
+        if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='1']")) > 0:
+            pass
+        else:
+            control.selectTint(self.driver, 1)
+        control.selectTint(self.driver, 4)
+        # verify tint is not 1, 2, or 3
+        control.verifyInvalidTintsNotFound(self.driver, 4)
+
+    """------------------ tint level 2 ------------------"""
+
+    # @attr('acceptance', sid='TC-Ctrlcnfrm-2.2, TC-Ctrldial-3.2', TC-Ctrldial-3.3, TC-Ctrldial-3.4, TC-Ctrldial-3.5', bv=10)
+    # @unittest.skip('Test case temporarily disabled')
+    def testCancelTint2To1(self):
+        """
+        To verify the functionality of "Cancel" button.
+        """
+        auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
+        
+        print("Cancel a change from tint 2 to tint 1  and verify that the tint is still 2")
         # Check to see if the current tint is at 2
         control.clickTintLevelNum(self.driver)
         if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='2']")) > 0:
             pass
         else:
             control.selectTint(self.driver, 2)
-        control.selectRandomTint(self.driver)
+        tint1 = control.getTint1(self.driver)
+        self.driver.tap([(tint1[0], tint1[1])])
+        common.cancelbutton(self.driver)
+        # verify tint is still 2
+        control.verifyInvalidTintsNotFound(self.driver, 2)
+
+    # @attr('acceptance', sid='TC-Ctrlcnfrm-2.2, TC-Ctrldial-3.2', TC-Ctrldial-3.3, TC-Ctrldial-3.4, TC-Ctrldial-3.5', bv=10)
+    # @unittest.skip('Test case temporarily disabled')
+    def testCancelTint2To1WithInvalidTints(self):
+        """
+        To verify the functionality of "Cancel" button.
+        """
+        auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
+        
+        print("Cancel a change from tint 2 to tint 1  and verify that the tint is not 1, 3, or 4")
+        # Check to see if the current tint is at 2
+        control.clickTintLevelNum(self.driver)
+        if len(self.driver.find_elements(By.XPATH, "//*[@id='tintLevelNum_controlTV' and text='2']")) > 0:
+            pass
+        else:
+            control.selectTint(self.driver, 2)
+        tint1 = control.getTint1(self.driver)
+        self.driver.tap([(tint1[0], tint1[1])])
         common.cancelbutton(self.driver)
         # verify tint is not 1, 3, or 4
         control.verifyInvalidTintsNotFound(self.driver, 2)
 
     # @attr('acceptance', sid='TC-Ctrlcnfrm-2.2, TC-Ctrldial-3.2', TC-Ctrldial-3.3, TC-Ctrldial-3.4, TC-Ctrldial-3.5', bv=10)
     # @unittest.skip('Test case temporarily disabled')
-    def testCancelTint3ToRandomTint(self):
+    def testCancelTint2To3(self):
         """
         To verify the functionality of "Cancel" button.
         """
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
-        # Check to see if the current tint is at 3
+        
+        print("Cancel a change from tint 2 to tint 3  and verify that the tint is still 2")
+        # Check to see if the current tint is at 2
         control.clickTintLevelNum(self.driver)
-        if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='3']")) > 0:
+        if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='2']")) > 0:
             pass
         else:
-            control.selectTint(self.driver, 3)
-        control.selectRandomTint(self.driver)
+            control.selectTint(self.driver, 2)
+        tint3 = control.getTint3(self.driver)
+        self.driver.tap([(tint3[0], tint3[1])])
         common.cancelbutton(self.driver)
-        # verify tint is still 3
-        control.verifyValidTintFound(self.driver, 3)
+        # verify tint is still 2
+        control.verifyInvalidTintsNotFound(self.driver, 2)
 
     # @attr('acceptance', sid='TC-Ctrlcnfrm-2.2, TC-Ctrldial-3.2', TC-Ctrldial-3.3, TC-Ctrldial-3.4, TC-Ctrldial-3.5', bv=10)
     # @unittest.skip('Test case temporarily disabled')
-    def testCancelTint3ToRandomTintWithInvalidTints(self):
+    def testCancelTint2To3WithInvalidTints(self):
         """
         To verify the functionality of "Cancel" button.
         """
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
+        
+        print(" Cancel a change from tint 2 to tint 3  and verify that the tint is not 1, 3, or 4")
+        # Check to see if the current tint is at 2
+        control.clickTintLevelNum(self.driver)
+        if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='2']")) > 0:
+            pass
+        else:
+            control.selectTint(self.driver, 2)
+        tint3 = control.getTint3(self.driver)
+        self.driver.tap([(tint3[0], tint3[1])])
+        common.cancelbutton(self.driver)
+        # verify tint is not 1, 3, or 4
+        control.verifyInvalidTintsNotFound(self.driver, 2)
+
+    # @attr('acceptance', sid='TC-Ctrlcnfrm-2.2, TC-Ctrldial-3.2', TC-Ctrldial-3.3, TC-Ctrldial-3.4, TC-Ctrldial-3.5', bv=10)
+    # @unittest.skip('Test case temporarily disabled')
+    def testCancelTint2To4(self):
+        """
+        To verify the functionality of "Cancel" button.
+        """
+        auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
+        
+        print("Cancel a change from tint 2 to tint 4  and verify that the tint is still 2")
+        # Check to see if the current tint is at 2
+        control.clickTintLevelNum(self.driver)
+        if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='2']")) > 0:
+            pass
+        else:
+            control.selectTint(self.driver, 2)
+        tint4 = control.getTint4(self.driver)
+        self.driver.tap([(tint4[0], tint4[1])])
+        common.cancelbutton(self.driver)
+        # verify tint is still 2
+        control.verifyInvalidTintsNotFound(self.driver, 2)
+
+    # @attr('acceptance', sid='TC-Ctrlcnfrm-2.2, TC-Ctrldial-3.2', TC-Ctrldial-3.3, TC-Ctrldial-3.4, TC-Ctrldial-3.5', bv=10)
+    # @unittest.skip('Test case temporarily disabled')
+    def testCancelTint2To4WithInvalidTints(self):
+        """
+        To verify the functionality of "Cancel" button.
+        """
+        auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
+        
+        print(" Cancel a change from tint 2 to tint 4  and verify that the tint is not 1, 3, or 4")
+        # Check to see if the current tint is at 2
+        control.clickTintLevelNum(self.driver)
+        if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='2']")) > 0:
+            pass
+        else:
+            control.selectTint(self.driver, 2)
+        tint4 = control.getTint4(self.driver)
+        self.driver.tap([(tint4[0], tint4[1])])
+        common.cancelbutton(self.driver)
+        # verify tint is not 1, 3, or 4
+        control.verifyInvalidTintsNotFound(self.driver, 2)
+
+    # @attr('acceptance', sid='TC-Ctrlcnfrm-2.3', bv=10)
+    # @unittest.skip('Test case temporarily disabled')
+    def testOverrideTint2To1(self):
+        """
+        To verify the functionality of "Override" button.
+        """
+        auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
+        
+        print("Override a change from tint 2 to tint 1  and verify that the tint is now 1")
+        # Check to see if the current tint is at 2
+        control.clickTintLevelNum(self.driver)
+        if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='2']")) > 0:
+            pass
+        else:
+            control.selectTint(self.driver, 2)
+        control.selectTint(self.driver, 1)
+        # verify tint is now 1
+        control.verifyInvalidTintsNotFound(self.driver, 1)
+
+    # @attr('acceptance', sid='TC-Ctrlcnfrm-2.3', bv=10)
+    # @unittest.skip('Test case temporarily disabled')
+    def testOverrideTint2To1WithInvalidTints(self):
+        """
+        To verify the functionality of "Override" button.
+        """
+        auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
+        
+        print("Override a change from tint 2 to tint 1  and verify that the tint is not 2, 3, or 4")
+        # Check to see if the current tint is at 2
+        control.clickTintLevelNum(self.driver)
+        if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='2']")) > 0:
+            pass
+        else:
+            control.selectTint(self.driver, 2)
+        control.selectTint(self.driver, 1)
+        # verify tint is not 2, 3, or 4
+        control.verifyInvalidTintsNotFound(self.driver, 1)
+
+    # @attr('acceptance', sid='TC-Ctrlcnfrm-2.3', bv=10)
+    # @unittest.skip('Test case temporarily disabled')
+    def testOverrideTint2To3(self):
+        """
+        To verify the functionality of "Override" button.
+        """
+        auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
+        
+        print("Override a change from tint 2 to tint 3  and verify that the tint is now 3")
+        # Check to see if the current tint is at 2
+        control.clickTintLevelNum(self.driver)
+        if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='2']")) > 0:
+            pass
+        else:
+            control.selectTint(self.driver, 2)
+        control.selectTint(self.driver, 3)
+        # verify tint is now 3
+        control.verifyInvalidTintsNotFound(self.driver, 3)
+
+    # @attr('acceptance', sid='TC-Ctrlcnfrm-2.3', bv=10)
+    # @unittest.skip('Test case temporarily disabled')
+    def testOverridetint2To3WithInvalidTints(self):
+        """
+        To verify the functionality of "Override" button.
+        """
+        auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
+        
+        print("Override a change from tint 2 to tint 3  and verify that the tint is not 1, 2, or 4")
+        # Check to see if the current tint is at 2
+        control.clickTintLevelNum(self.driver)
+        if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='2']")) > 0:
+            pass
+        else:
+            control.selectTint(self.driver, 2)
+        control.selectTint(self.driver, 3)
+
+        # verify tint is not 1, 2, or 4
+        control.verifyInvalidTintsNotFound(self.driver, 3)
+
+    # @attr('acceptance', sid='TC-Ctrlcnfrm-2.3', bv=10)
+    # @unittest.skip('Test case temporarily disabled')
+    def testOverridetint2To4(self):
+        """
+        To verify the functionality of "Override" button.
+        """
+        auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
+        
+        print("Override a change from tint 2 to tint 4  and verify that the tint is now 4")
+        # Check to see if the current tint is at 2
+        control.clickTintLevelNum(self.driver)
+        if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='2']")) > 0:
+            pass
+        else:
+            control.selectTint(self.driver, 2)
+        control.selectTint(self.driver, 4)
+        # verify tint is now 4
+        control.verifyInvalidTintsNotFound(self.driver, 4)
+
+    # @attr('acceptance', sid='TC-Ctrlcnfrm-2.3', bv=10)
+    # @unittest.skip('Test case temporarily disabled')
+    def testOverridetint2To4WithInvalidTints(self):
+        """
+        To verify the functionality of "Override" button.
+        """
+        auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
+        
+        print("Override a change from tint 2 to tint 4  and verify that the tint is not 1, 2, or 3")
+        # Check to see if the current tint is at 2
+        control.clickTintLevelNum(self.driver)
+        if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='2']")) > 0:
+            pass
+        else:
+            control.selectTint(self.driver, 2)
+        control.selectTint(self.driver, 4)
+        # verify tint is not 1, 2, or 3
+        control.verifyInvalidTintsNotFound(self.driver, 4)
+
+    """------------------ tint level 3 ------------------"""
+
+    # @attr('acceptance', sid='TC-Ctrlcnfrm-2.2, TC-Ctrldial-3.2', TC-Ctrldial-3.3, TC-Ctrldial-3.4, TC-Ctrldial-3.5', bv=10)
+    # @unittest.skip('Test case temporarily disabled')
+    def testCancelTint3To2(self):
+        """
+        To verify the functionality of "Cancel" button.
+        """
+        auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
+        
+        print("Cancel a change from tint 3 to tint 2  and verify that the tint is still 3")
         # Check to see if the current tint is at 3
         control.clickTintLevelNum(self.driver)
         if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='3']")) > 0:
             pass
         else:
             control.selectTint(self.driver, 3)
-        control.selectRandomTint(self.driver)
+        tint2 = control.getTint2(self.driver)
+        self.driver.tap([(tint2[0], tint2[1])])
+        common.cancelbutton(self.driver)
+        # verify tint is still 3
+        control.verifyInvalidTintsNotFound(self.driver, 3)
+
+    # @attr('acceptance', sid='TC-Ctrlcnfrm-2.2, TC-Ctrldial-3.2', TC-Ctrldial-3.3, TC-Ctrldial-3.4, TC-Ctrldial-3.5', bv=10)
+    # @unittest.skip('Test case temporarily disabled')
+    def testCancelTint3To2WithInvalidTints(self):
+        """
+        To verify the functionality of "Cancel" button.
+        """
+        auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
+        
+        print("Cancel a change from tint 3 to tint 2  and verify that the tint is not 1, 2, or 4")
+        # Check to see if the current tint is at 3
+        control.clickTintLevelNum(self.driver)
+        if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='3']")) > 0:
+            pass
+        else:
+            control.selectTint(self.driver, 3)
+        tint2 = control.getTint2(self.driver)
+        self.driver.tap([(tint2[0], tint2[1])])
         common.cancelbutton(self.driver)
         # verify tint is not 1, 2, or 4
         control.verifyInvalidTintsNotFound(self.driver, 3)
 
     # @attr('acceptance', sid='TC-Ctrlcnfrm-2.2, TC-Ctrldial-3.2', TC-Ctrldial-3.3, TC-Ctrldial-3.4, TC-Ctrldial-3.5', bv=10)
     # @unittest.skip('Test case temporarily disabled')
-    def testCancelTint4ToRandomTint(self):
+    def testCancelTint3To1(self):
         """
         To verify the functionality of "Cancel" button.
         """
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
-        # Check to see if the current tint is at 4
+        
+        print("Cancel a change from tint 3 to tint 1  and verify that the tint is still 3")
+        # Check to see if the current tint is at 3
         control.clickTintLevelNum(self.driver)
-        if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='4']")) > 0:
+        if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='3']")) > 0:
             pass
         else:
-            control.selectTint(self.driver, 4)
-        control.selectRandomTint(self.driver)
+            control.selectTint(self.driver, 3)
+        tint1 = control.getTint1(self.driver)
+        self.driver.tap([(tint1[0], tint1[1])])
         common.cancelbutton(self.driver)
-        # verify tint is still 4
-        control.verifyValidTintFound(self.driver, 4)
+        # verify tint is still 3
+        control.verifyInvalidTintsNotFound(self.driver, 3)
 
     # @attr('acceptance', sid='TC-Ctrlcnfrm-2.2, TC-Ctrldial-3.2', TC-Ctrldial-3.3, TC-Ctrldial-3.4, TC-Ctrldial-3.5', bv=10)
     # @unittest.skip('Test case temporarily disabled')
-    def testCancelTint4ToRandomTintWithInvalidTints(self):
+    def testCancelTint3To1WithInvalidTints(self):
         """
         To verify the functionality of "Cancel" button.
         """
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
+        
+        print(" Cancel a change from tint 3 to tint 1  and verify that the tint is not 1, 2, or 4")
+        # Check to see if the current tint is at 3
+        control.clickTintLevelNum(self.driver)
+        if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='3']")) > 0:
+            pass
+        else:
+            control.selectTint(self.driver, 3)
+        tint1 = control.getTint1(self.driver)
+        self.driver.tap([(tint1[0], tint1[1])])
+        common.cancelbutton(self.driver)
+        # verify tint is not 1, 2, or 4
+        control.verifyInvalidTintsNotFound(self.driver, 3)
+
+    # @attr('acceptance', sid='TC-Ctrlcnfrm-2.2, TC-Ctrldial-3.2', TC-Ctrldial-3.3, TC-Ctrldial-3.4, TC-Ctrldial-3.5', bv=10)
+    # @unittest.skip('Test case temporarily disabled')
+    def testCancelTint3To4(self):
+        """
+        To verify the functionality of "Cancel" button.
+        """
+        auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
+        
+        print()
+        # Check to see if the current tint is at 3
+        control.clickTintLevelNum(self.driver)
+        if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='3']")) > 0:
+            pass
+        else:
+            control.selectTint(self.driver, 3)
+        tint4 = control.getTint4(self.driver)
+        self.driver.tap([(tint4[0], tint4[1])])
+        common.cancelbutton(self.driver)
+        # verify tint is still 3
+        control.verifyInvalidTintsNotFound(self.driver, 3)
+
+    # @attr('acceptance', sid='TC-Ctrlcnfrm-2.2, TC-Ctrldial-3.2', TC-Ctrldial-3.3, TC-Ctrldial-3.4, TC-Ctrldial-3.5', bv=10)
+    # @unittest.skip('Test case temporarily disabled')
+    def testCancelTint3To4WithInvalidTints(self):
+        """
+        To verify the functionality of "Cancel" button.
+        """
+        auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
+        
+        print(" Cancel a change from tint 3 to tint 4  and verify that the tint is not 1, 2, or 4")
+        # Check to see if the current tint is at 3
+        control.clickTintLevelNum(self.driver)
+        if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='3']")) > 0:
+            pass
+        else:
+            control.selectTint(self.driver, 3)
+        tint4 = control.getTint4(self.driver)
+        self.driver.tap([(tint4[0], tint4[1])])
+        common.cancelbutton(self.driver)
+        # verify tint is not 1, 2, or 4
+        control.verifyInvalidTintsNotFound(self.driver, 3)
+
+    # @attr('acceptance', sid='TC-Ctrlcnfrm-2.3', bv=10)
+    # @unittest.skip('Test case temporarily disabled')
+    def testOverrideTint3To1(self):
+        """
+        To verify the functionality of "Override" button.
+        """
+        auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
+        
+        print("Override a change from tint 3 to tint 1  and verify that the tint is now 1")
+        # Check to see if the current tint is at 3
+        control.clickTintLevelNum(self.driver)
+        if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='3']")) > 0:
+            pass
+        else:
+            control.selectTint(self.driver, 3)
+        control.selectTint(self.driver, 1)
+        # verify tint is now 1
+        control.verifyInvalidTintsNotFound(self.driver, 1)
+
+    # @attr('acceptance', sid='TC-Ctrlcnfrm-2.3', bv=10)
+    # @unittest.skip('Test case temporarily disabled')
+    def testOverrideTint3To1WithInvalidTints(self):
+        """
+        To verify the functionality of "Override" button.
+        """
+        auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
+        
+        print("Override a change from tint 3 to tint 1  and verify that the tint is not 2, 3, or 4")
+        # Check to see if the current tint is at 3
+        control.clickTintLevelNum(self.driver)
+        if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='3']")) > 0:
+            pass
+        else:
+            control.selectTint(self.driver, 3)
+        control.selectTint(self.driver, 1)
+        # verify tint is not 2, 3, or 4
+        control.verifyInvalidTintsNotFound(self.driver, 1)
+
+    # @attr('acceptance', sid='TC-Ctrlcnfrm-2.3', bv=10)
+    # @unittest.skip('Test case temporarily disabled')
+    def testOverrideTint3To2(self):
+        """
+        To verify the functionality of "Override" button.
+        """
+        auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
+        
+        print("Override a change from tint 3 to tint 2  and verify that the tint is now 2")
+        # Check to see if the current tint is at 3
+        control.clickTintLevelNum(self.driver)
+        if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='3']")) > 0:
+            pass
+        else:
+            control.selectTint(self.driver, 3)
+        control.selectTint(self.driver, 2)
+        # verify tint is now 2
+        control.verifyInvalidTintsNotFound(self.driver, 2)
+
+    # @attr('acceptance', sid='TC-Ctrlcnfrm-2.3', bv=10)
+    # @unittest.skip('Test case temporarily disabled')
+    def testOverrideTint3To2WithInvalidTints(self):
+        """
+        To verify the functionality of "Override" button.
+        """
+        auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
+        
+        print("Override a change from tint 3 to tint 2  and verify that the tint is not 1, 3, or 4")
+        # Check to see if the current tint is at 3
+        control.clickTintLevelNum(self.driver)
+        if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='3']")) > 0:
+            pass
+        else:
+            control.selectTint(self.driver, 3)
+        control.selectTint(self.driver, 2)
+        # verify tint is not 1, 3, or 4
+        control.verifyInvalidTintsNotFound(self.driver, 2)
+
+    # @attr('acceptance', sid='TC-Ctrlcnfrm-2.3', bv=10)
+    # @unittest.skip('Test case temporarily disabled')
+    def testOverrideTint3To4(self):
+        """
+        To verify the functionality of "Override" button.
+        """
+        auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
+        
+        print("Override a change from tint 3 to tint 4  and verify that the tint is now 4")
+        # Check to see if the current tint is at 3
+        control.clickTintLevelNum(self.driver)
+        if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='3']")) > 0:
+            pass
+        else:
+            control.selectTint(self.driver, 3)
+        control.selectTint(self.driver, 4)
+        # verify tint is now 4
+        control.verifyInvalidTintsNotFound(self.driver, 4)
+
+    # @attr('acceptance', sid='TC-Ctrlcnfrm-2.3', bv=10)
+    # @unittest.skip('Test case temporarily disabled')
+    def testOverrideTint3To4WithInvalidTints(self):
+        """
+        To verify the functionality of "Override" button.
+        """
+        auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
+        
+        print("Override a change from tint 3 to tint 4  and verify that the tint is not 1, 2, or 3")
+        # Check to see if the current tint is at 3
+        control.clickTintLevelNum(self.driver)
+        if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='3']")) > 0:
+            pass
+        else:
+            control.selectTint(self.driver, 3)
+        control.selectTint(self.driver, 4)
+        # verify tint is not 1, 2, or 3
+        control.verifyInvalidTintsNotFound(self.driver, 4)
+
+    """------------------ tint level 4 ------------------"""
+
+    # @attr('acceptance', sid='TC-Ctrlcnfrm-2.2, TC-Ctrldial-3.2', TC-Ctrldial-3.3, TC-Ctrldial-3.4, TC-Ctrldial-3.5', bv=10)
+    # @unittest.skip('Test case temporarily disabled')
+    def testCancelTint4To2(self):
+        """
+        To verify the functionality of "Cancel" button.
+        """
+        auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
+        
+        print("Cancel a change from tint 4 to tint 2  and verify that the tint is still 4")
         # Check to see if the current tint is at 4
         control.clickTintLevelNum(self.driver)
         if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='4']")) > 0:
             pass
         else:
             control.selectTint(self.driver, 4)
-        control.selectRandomTint(self.driver)
+        tint2 = control.getTint2(self.driver)
+        self.driver.tap([(tint2[0], tint2[1])])
+        common.cancelbutton(self.driver)
+        # verify tint is still 4
+        control.verifyInvalidTintsNotFound(self.driver, 4)
+
+    # @attr('acceptance', sid='TC-Ctrlcnfrm-2.2, TC-Ctrldial-3.2', TC-Ctrldial-3.3, TC-Ctrldial-3.4, TC-Ctrldial-3.5', bv=10)
+    # @unittest.skip('Test case temporarily disabled')
+    def testCancelTint4To2WithInvalidTints(self):
+        """
+        To verify the functionality of "Cancel" button.
+        """
+        auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
+        
+        print("Cancel a change from tint 4 to tint 2  and verify that the tint is not 1, 2, or 3")
+        # Check to see if the current tint is at 4
+        control.clickTintLevelNum(self.driver)
+        if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='4']")) > 0:
+            pass
+        else:
+            control.selectTint(self.driver, 4)
+        tint2 = control.getTint2(self.driver)
+        self.driver.tap([(tint2[0], tint2[1])])
         common.cancelbutton(self.driver)
         # verify tint is not 1, 2, or 3
         control.verifyInvalidTintsNotFound(self.driver, 4)
 
-    """------------------ Override Tint ------------------"""
-
-    # @attr('acceptance', sid='TC-Ctrlcnfrm-2.3', bv=10)
+    # @attr('acceptance', sid='TC-Ctrlcnfrm-2.2, TC-Ctrldial-3.2', TC-Ctrldial-3.3, TC-Ctrldial-3.4, TC-Ctrldial-3.5', bv=10)
     # @unittest.skip('Test case temporarily disabled')
-    def testOverrideTint1ToRandomTint(self):
+    def testCancelTint4To3(self):
         """
-        To verify the functionality of "Override" button.
+        To verify the functionality of "Cancel" button.
         """
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
-        # Check to see if the current tint is at 1
-        control.clickTintLevelNum(self.driver)
-        if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='1']")) > 0:
-            pass
-        else:
-            control.selectTint(self.driver, 1)
-        tint = control.selectRandomTint(self.driver)
-        common.overridebutton(self.driver)
-        # verify tint is the one selected at random
-        control.verifyValidTintFound(self.driver, tint)
-
-    # @attr('acceptance', sid='TC-Ctrlcnfrm-2.3', bv=10)
-    # @unittest.skip('Test case temporarily disabled')
-    def testOverrideTint1ToRandomTintWithInvalidTints(self):
-        """
-        To verify the functionality of "Override" button.
-        """
-        auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
-        # Check to see if the current tint is at 1
-        control.clickTintLevelNum(self.driver)
-        if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='1']")) > 0:
-            pass
-        else:
-            control.selectTint(self.driver, 1)
-        tint = control.selectRandomTint(self.driver)
-        common.overridebutton(self.driver)
-        # verify tint is the one selected at random
-        control.verifyInvalidTintsNotFound(self.driver, tint)
-
-    # @attr('acceptance', sid='TC-Ctrlcnfrm-2.3', bv=10)
-    # @unittest.skip('Test case temporarily disabled')
-    def testOverrideTint2ToRandomTint(self):
-        """
-        To verify the functionality of "Override" button.
-        """
-        auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
-        # Check to see if the current tint is at 2
-        control.clickTintLevelNum(self.driver)
-        if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='2']")) > 0:
-            pass
-        else:
-            control.selectTint(self.driver, 2)
-        tint = control.selectRandomTint(self.driver)
-        common.overridebutton(self.driver)
-        # verify tint is the one selected at random
-        control.verifyValidTintFound(self.driver, tint)
-
-    # @attr('acceptance', sid='TC-Ctrlcnfrm-2.3', bv=10)
-    # @unittest.skip('Test case temporarily disabled')
-    def testOverrideTint2ToRandomTintWithInvalidTints(self):
-        """
-        To verify the functionality of "Override" button.
-        """
-        auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
-        # Check to see if the current tint is at 2
-        control.clickTintLevelNum(self.driver)
-        if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='2']")) > 0:
-            pass
-        else:
-            control.selectTint(self.driver, 2)
-        tint = control.selectRandomTint(self.driver)
-        common.overridebutton(self.driver)
-        # verify tint is the one selected at random
-        control.verifyInvalidTintsNotFound(self.driver, tint)
-
-    # @attr('acceptance', sid='TC-Ctrlcnfrm-2.3', bv=10)
-    # @unittest.skip('Test case temporarily disabled')
-    def testOverrideTint3ToRandomTint(self):
-        """
-        To verify the functionality of "Override" button.
-        """
-        auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
-        # Check to see if the current tint is at 3
-        control.clickTintLevelNum(self.driver)
-        if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='3']")) > 0:
-            pass
-        else:
-            control.selectTint(self.driver, 3)
-        tint = control.selectRandomTint(self.driver)
-        common.overridebutton(self.driver)
-        # verify tint is the one selected at random
-        control.verifyValidTintFound(self.driver, tint)
-
-    # @attr('acceptance', sid='TC-Ctrlcnfrm-2.3', bv=10)
-    # @unittest.skip('Test case temporarily disabled')
-    def testOverrideTint3ToRandomTintWithInvalidTints(self):
-        """
-        To verify the functionality of "Override" button.
-        """
-        auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
-        # Check to see if the current tint is at 3
-        control.clickTintLevelNum(self.driver)
-        if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='3']")) > 0:
-            pass
-        else:
-            control.selectTint(self.driver, 3)
-        tint = control.selectRandomTint(self.driver)
-        common.overridebutton(self.driver)
-        # verify tint is the one selected at random
-        control.verifyInvalidTintsNotFound(self.driver, tint)
-
-    # @attr('acceptance', sid='TC-Ctrlcnfrm-2.3', bv=10)
-    # @unittest.skip('Test case temporarily disabled')
-    def testOverrideTint4ToRandomTint(self):
-        """
-        To verify the functionality of "Override" button.
-        """
-        auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
+        
+        print("Cancel a change from tint 4 to tint 3  and verify that the tint is still 4")
         # Check to see if the current tint is at 4
         control.clickTintLevelNum(self.driver)
         if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='4']")) > 0:
             pass
         else:
             control.selectTint(self.driver, 4)
-        tint = control.selectRandomTint(self.driver)
-        common.overridebutton(self.driver)
-        # verify tint is the one selected at random
-        control.verifyValidTintFound(self.driver, tint)
+        tint3 = control.getTint3(self.driver)
+        self.driver.tap([(tint3[0], tint3[1])])
+        common.cancelbutton(self.driver)
+        # verify tint is still 4
+        control.verifyInvalidTintsNotFound(self.driver, 4)
 
-    # @attr('acceptance', sid='TC-Ctrlcnfrm-2.3', bv=10)
+    # @attr('acceptance', sid='TC-Ctrlcnfrm-2.2, TC-Ctrldial-3.2', TC-Ctrldial-3.3, TC-Ctrldial-3.4, TC-Ctrldial-3.5', bv=10)
     # @unittest.skip('Test case temporarily disabled')
-    def testOverrideTint4ToRandomTintWithInvalidTints(self):
+    def testCancelTint4To3WithInvalidTints(self):
         """
-        To verify the functionality of "Override" button.
+        To verify the functionality of "Cancel" button.
         """
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
+        
+        print(" Cancel a change from tint 4 to tint 3  and verify that the tint is not 1, 2, or 3")
         # Check to see if the current tint is at 4
         control.clickTintLevelNum(self.driver)
         if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='4']")) > 0:
             pass
         else:
             control.selectTint(self.driver, 4)
-        tint = control.selectRandomTint(self.driver)
-        common.overridebutton(self.driver)
-        # verify tint is the one selected at random
-        control.verifyInvalidTintsNotFound(self.driver, tint)
+        tint3 = control.getTint3(self.driver)
+        self.driver.tap([(tint3[0], tint3[1])])
+        common.cancelbutton(self.driver)
+        # verify tint is not 1, 2, or 3
+        control.verifyInvalidTintsNotFound(self.driver, 4)
 
-    #
-    # """------------------ tint level 2 ------------------"""
-    #
-    # # @attr('acceptance', sid='TC-Ctrlcnfrm-2.2, TC-Ctrldial-3.2', TC-Ctrldial-3.3, TC-Ctrldial-3.4, TC-Ctrldial-3.5', bv=10)
-    # # @unittest.skip('Test case temporarily disabled')
-    # def testCancelTint2To1(self):
-    #     """
-    #     To verify the functionality of "Cancel" button.
-    #     """
-    #     auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
-    #
-    #     print("Cancel a change from tint 2 to tint 1  and verify that the tint is still 2")
-    #     # Check to see if the current tint is at 2
-    #     control.clickTintLevelNum(self.driver)
-    #     if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='2']")) > 0:
-    #         pass
-    #     else:
-    #         control.selectTint(self.driver, 2)
-    #     tint1 = control.getTint1(self.driver)
-    #     self.driver.tap([(tint1[0], tint1[1])])
-    #     common.cancelbutton(self.driver)
-    #     # verify tint is still 2
-    #     control.verifyInvalidTintsNotFound(self.driver, 2)
-    #
-    # # @attr('acceptance', sid='TC-Ctrlcnfrm-2.2, TC-Ctrldial-3.2', TC-Ctrldial-3.3, TC-Ctrldial-3.4, TC-Ctrldial-3.5', bv=10)
-    # # @unittest.skip('Test case temporarily disabled')
-    # def testCancelTint2To1WithInvalidTints(self):
-    #     """
-    #     To verify the functionality of "Cancel" button.
-    #     """
-    #     auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
-    #
-    #     print("Cancel a change from tint 2 to tint 1  and verify that the tint is not 1, 3, or 4")
-    #     # Check to see if the current tint is at 2
-    #     control.clickTintLevelNum(self.driver)
-    #     if len(self.driver.find_elements(By.XPATH, "//*[@id='tintLevelNum_controlTV' and text='2']")) > 0:
-    #         pass
-    #     else:
-    #         control.selectTint(self.driver, 2)
-    #     tint1 = control.getTint1(self.driver)
-    #     self.driver.tap([(tint1[0], tint1[1])])
-    #     common.cancelbutton(self.driver)
-    #     # verify tint is not 1, 3, or 4
-    #     control.verifyInvalidTintsNotFound(self.driver, 2)
-    #
-    # # @attr('acceptance', sid='TC-Ctrlcnfrm-2.2, TC-Ctrldial-3.2', TC-Ctrldial-3.3, TC-Ctrldial-3.4, TC-Ctrldial-3.5', bv=10)
-    # # @unittest.skip('Test case temporarily disabled')
-    # def testCancelTint2To3(self):
-    #     """
-    #     To verify the functionality of "Cancel" button.
-    #     """
-    #     auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
-    #
-    #     print("Cancel a change from tint 2 to tint 3  and verify that the tint is still 2")
-    #     # Check to see if the current tint is at 2
-    #     control.clickTintLevelNum(self.driver)
-    #     if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='2']")) > 0:
-    #         pass
-    #     else:
-    #         control.selectTint(self.driver, 2)
-    #     tint3 = control.getTint3(self.driver)
-    #     self.driver.tap([(tint3[0], tint3[1])])
-    #     common.cancelbutton(self.driver)
-    #     # verify tint is still 2
-    #     control.verifyInvalidTintsNotFound(self.driver, 2)
-    #
-    # # @attr('acceptance', sid='TC-Ctrlcnfrm-2.2, TC-Ctrldial-3.2', TC-Ctrldial-3.3, TC-Ctrldial-3.4, TC-Ctrldial-3.5', bv=10)
-    # # @unittest.skip('Test case temporarily disabled')
-    # def testCancelTint2To3WithInvalidTints(self):
-    #     """
-    #     To verify the functionality of "Cancel" button.
-    #     """
-    #     auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
-    #
-    #     print(" Cancel a change from tint 2 to tint 3  and verify that the tint is not 1, 3, or 4")
-    #     # Check to see if the current tint is at 2
-    #     control.clickTintLevelNum(self.driver)
-    #     if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='2']")) > 0:
-    #         pass
-    #     else:
-    #         control.selectTint(self.driver, 2)
-    #     tint3 = control.getTint3(self.driver)
-    #     self.driver.tap([(tint3[0], tint3[1])])
-    #     common.cancelbutton(self.driver)
-    #     # verify tint is not 1, 3, or 4
-    #     control.verifyInvalidTintsNotFound(self.driver, 2)
-    #
-    # # @attr('acceptance', sid='TC-Ctrlcnfrm-2.2, TC-Ctrldial-3.2', TC-Ctrldial-3.3, TC-Ctrldial-3.4, TC-Ctrldial-3.5', bv=10)
-    # # @unittest.skip('Test case temporarily disabled')
-    # def testCancelTint2To4(self):
-    #     """
-    #     To verify the functionality of "Cancel" button.
-    #     """
-    #     auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
-    #
-    #     print("Cancel a change from tint 2 to tint 4  and verify that the tint is still 2")
-    #     # Check to see if the current tint is at 2
-    #     control.clickTintLevelNum(self.driver)
-    #     if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='2']")) > 0:
-    #         pass
-    #     else:
-    #         control.selectTint(self.driver, 2)
-    #     tint4 = control.getTint4(self.driver)
-    #     self.driver.tap([(tint4[0], tint4[1])])
-    #     common.cancelbutton(self.driver)
-    #     # verify tint is still 2
-    #     control.verifyInvalidTintsNotFound(self.driver, 2)
-    #
-    # # @attr('acceptance', sid='TC-Ctrlcnfrm-2.2, TC-Ctrldial-3.2', TC-Ctrldial-3.3, TC-Ctrldial-3.4, TC-Ctrldial-3.5', bv=10)
-    # # @unittest.skip('Test case temporarily disabled')
-    # def testCancelTint2To4WithInvalidTints(self):
-    #     """
-    #     To verify the functionality of "Cancel" button.
-    #     """
-    #     auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
-    #
-    #     print(" Cancel a change from tint 2 to tint 4  and verify that the tint is not 1, 3, or 4")
-    #     # Check to see if the current tint is at 2
-    #     control.clickTintLevelNum(self.driver)
-    #     if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='2']")) > 0:
-    #         pass
-    #     else:
-    #         control.selectTint(self.driver, 2)
-    #     tint4 = control.getTint4(self.driver)
-    #     self.driver.tap([(tint4[0], tint4[1])])
-    #     common.cancelbutton(self.driver)
-    #     # verify tint is not 1, 3, or 4
-    #     control.verifyInvalidTintsNotFound(self.driver, 2)
-    #
-    # # @attr('acceptance', sid='TC-Ctrlcnfrm-2.3', bv=10)
-    # # @unittest.skip('Test case temporarily disabled')
-    # def testOverrideTint2To1(self):
-    #     """
-    #     To verify the functionality of "Override" button.
-    #     """
-    #     auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
-    #
-    #     print("Override a change from tint 2 to tint 1  and verify that the tint is now 1")
-    #     # Check to see if the current tint is at 2
-    #     control.clickTintLevelNum(self.driver)
-    #     if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='2']")) > 0:
-    #         pass
-    #     else:
-    #         control.selectTint(self.driver, 2)
-    #     control.selectTint(self.driver, 1)
-    #     # verify tint is now 1
-    #     control.verifyInvalidTintsNotFound(self.driver, 1)
-    #
-    # # @attr('acceptance', sid='TC-Ctrlcnfrm-2.3', bv=10)
-    # # @unittest.skip('Test case temporarily disabled')
-    # def testOverrideTint2To1WithInvalidTints(self):
-    #     """
-    #     To verify the functionality of "Override" button.
-    #     """
-    #     auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
-    #
-    #     print("Override a change from tint 2 to tint 1  and verify that the tint is not 2, 3, or 4")
-    #     # Check to see if the current tint is at 2
-    #     control.clickTintLevelNum(self.driver)
-    #     if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='2']")) > 0:
-    #         pass
-    #     else:
-    #         control.selectTint(self.driver, 2)
-    #     control.selectTint(self.driver, 1)
-    #     # verify tint is not 2, 3, or 4
-    #     control.verifyInvalidTintsNotFound(self.driver, 1)
-    #
-    # # @attr('acceptance', sid='TC-Ctrlcnfrm-2.3', bv=10)
-    # # @unittest.skip('Test case temporarily disabled')
-    # def testOverrideTint2To3(self):
-    #     """
-    #     To verify the functionality of "Override" button.
-    #     """
-    #     auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
-    #
-    #     print("Override a change from tint 2 to tint 3  and verify that the tint is now 3")
-    #     # Check to see if the current tint is at 2
-    #     control.clickTintLevelNum(self.driver)
-    #     if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='2']")) > 0:
-    #         pass
-    #     else:
-    #         control.selectTint(self.driver, 2)
-    #     control.selectTint(self.driver, 3)
-    #     # verify tint is now 3
-    #     control.verifyInvalidTintsNotFound(self.driver, 3)
-    #
-    # # @attr('acceptance', sid='TC-Ctrlcnfrm-2.3', bv=10)
-    # # @unittest.skip('Test case temporarily disabled')
-    # def testOverridetint2To3WithInvalidTints(self):
-    #     """
-    #     To verify the functionality of "Override" button.
-    #     """
-    #     auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
-    #
-    #     print("Override a change from tint 2 to tint 3  and verify that the tint is not 1, 2, or 4")
-    #     # Check to see if the current tint is at 2
-    #     control.clickTintLevelNum(self.driver)
-    #     if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='2']")) > 0:
-    #         pass
-    #     else:
-    #         control.selectTint(self.driver, 2)
-    #     control.selectTint(self.driver, 3)
-    #
-    #     # verify tint is not 1, 2, or 4
-    #     control.verifyInvalidTintsNotFound(self.driver, 3)
-    #
-    # # @attr('acceptance', sid='TC-Ctrlcnfrm-2.3', bv=10)
-    # # @unittest.skip('Test case temporarily disabled')
-    # def testOverridetint2To4(self):
-    #     """
-    #     To verify the functionality of "Override" button.
-    #     """
-    #     auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
-    #
-    #     print("Override a change from tint 2 to tint 4  and verify that the tint is now 4")
-    #     # Check to see if the current tint is at 2
-    #     control.clickTintLevelNum(self.driver)
-    #     if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='2']")) > 0:
-    #         pass
-    #     else:
-    #         control.selectTint(self.driver, 2)
-    #     control.selectTint(self.driver, 4)
-    #     # verify tint is now 4
-    #     control.verifyInvalidTintsNotFound(self.driver, 4)
-    #
-    # # @attr('acceptance', sid='TC-Ctrlcnfrm-2.3', bv=10)
-    # # @unittest.skip('Test case temporarily disabled')
-    # def testOverridetint2To4WithInvalidTints(self):
-    #     """
-    #     To verify the functionality of "Override" button.
-    #     """
-    #     auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
-    #
-    #     print("Override a change from tint 2 to tint 4  and verify that the tint is not 1, 2, or 3")
-    #     # Check to see if the current tint is at 2
-    #     control.clickTintLevelNum(self.driver)
-    #     if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='2']")) > 0:
-    #         pass
-    #     else:
-    #         control.selectTint(self.driver, 2)
-    #     control.selectTint(self.driver, 4)
-    #     # verify tint is not 1, 2, or 3
-    #     control.verifyInvalidTintsNotFound(self.driver, 4)
-    #
-    # """------------------ tint level 3 ------------------"""
-    #
-    # # @attr('acceptance', sid='TC-Ctrlcnfrm-2.2, TC-Ctrldial-3.2', TC-Ctrldial-3.3, TC-Ctrldial-3.4, TC-Ctrldial-3.5', bv=10)
-    # # @unittest.skip('Test case temporarily disabled')
-    # def testCancelTint3To2(self):
-    #     """
-    #     To verify the functionality of "Cancel" button.
-    #     """
-    #     auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
-    #
-    #     print("Cancel a change from tint 3 to tint 2  and verify that the tint is still 3")
-    #     # Check to see if the current tint is at 3
-    #     control.clickTintLevelNum(self.driver)
-    #     if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='3']")) > 0:
-    #         pass
-    #     else:
-    #         control.selectTint(self.driver, 3)
-    #     tint2 = control.getTint2(self.driver)
-    #     self.driver.tap([(tint2[0], tint2[1])])
-    #     common.cancelbutton(self.driver)
-    #     # verify tint is still 3
-    #     control.verifyInvalidTintsNotFound(self.driver, 3)
-    #
-    # # @attr('acceptance', sid='TC-Ctrlcnfrm-2.2, TC-Ctrldial-3.2', TC-Ctrldial-3.3, TC-Ctrldial-3.4, TC-Ctrldial-3.5', bv=10)
-    # # @unittest.skip('Test case temporarily disabled')
-    # def testCancelTint3To2WithInvalidTints(self):
-    #     """
-    #     To verify the functionality of "Cancel" button.
-    #     """
-    #     auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
-    #
-    #     print("Cancel a change from tint 3 to tint 2  and verify that the tint is not 1, 2, or 4")
-    #     # Check to see if the current tint is at 3
-    #     control.clickTintLevelNum(self.driver)
-    #     if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='3']")) > 0:
-    #         pass
-    #     else:
-    #         control.selectTint(self.driver, 3)
-    #     tint2 = control.getTint2(self.driver)
-    #     self.driver.tap([(tint2[0], tint2[1])])
-    #     common.cancelbutton(self.driver)
-    #     # verify tint is not 1, 2, or 4
-    #     control.verifyInvalidTintsNotFound(self.driver, 3)
-    #
-    # # @attr('acceptance', sid='TC-Ctrlcnfrm-2.2, TC-Ctrldial-3.2', TC-Ctrldial-3.3, TC-Ctrldial-3.4, TC-Ctrldial-3.5', bv=10)
-    # # @unittest.skip('Test case temporarily disabled')
-    # def testCancelTint3To1(self):
-    #     """
-    #     To verify the functionality of "Cancel" button.
-    #     """
-    #     auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
-    #
-    #     print("Cancel a change from tint 3 to tint 1  and verify that the tint is still 3")
-    #     # Check to see if the current tint is at 3
-    #     control.clickTintLevelNum(self.driver)
-    #     if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='3']")) > 0:
-    #         pass
-    #     else:
-    #         control.selectTint(self.driver, 3)
-    #     tint1 = control.getTint1(self.driver)
-    #     self.driver.tap([(tint1[0], tint1[1])])
-    #     common.cancelbutton(self.driver)
-    #     # verify tint is still 3
-    #     control.verifyInvalidTintsNotFound(self.driver, 3)
-    #
-    # # @attr('acceptance', sid='TC-Ctrlcnfrm-2.2, TC-Ctrldial-3.2', TC-Ctrldial-3.3, TC-Ctrldial-3.4, TC-Ctrldial-3.5', bv=10)
-    # # @unittest.skip('Test case temporarily disabled')
-    # def testCancelTint3To1WithInvalidTints(self):
-    #     """
-    #     To verify the functionality of "Cancel" button.
-    #     """
-    #     auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
-    #
-    #     print(" Cancel a change from tint 3 to tint 1  and verify that the tint is not 1, 2, or 4")
-    #     # Check to see if the current tint is at 3
-    #     control.clickTintLevelNum(self.driver)
-    #     if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='3']")) > 0:
-    #         pass
-    #     else:
-    #         control.selectTint(self.driver, 3)
-    #     tint1 = control.getTint1(self.driver)
-    #     self.driver.tap([(tint1[0], tint1[1])])
-    #     common.cancelbutton(self.driver)
-    #     # verify tint is not 1, 2, or 4
-    #     control.verifyInvalidTintsNotFound(self.driver, 3)
-    #
-    # # @attr('acceptance', sid='TC-Ctrlcnfrm-2.2, TC-Ctrldial-3.2', TC-Ctrldial-3.3, TC-Ctrldial-3.4, TC-Ctrldial-3.5', bv=10)
-    # # @unittest.skip('Test case temporarily disabled')
-    # def testCancelTint3To4(self):
-    #     """
-    #     To verify the functionality of "Cancel" button.
-    #     """
-    #     auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
-    #
-    #     print()
-    #     # Check to see if the current tint is at 3
-    #     control.clickTintLevelNum(self.driver)
-    #     if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='3']")) > 0:
-    #         pass
-    #     else:
-    #         control.selectTint(self.driver, 3)
-    #     tint4 = control.getTint4(self.driver)
-    #     self.driver.tap([(tint4[0], tint4[1])])
-    #     common.cancelbutton(self.driver)
-    #     # verify tint is still 3
-    #     control.verifyInvalidTintsNotFound(self.driver, 3)
-    #
-    # # @attr('acceptance', sid='TC-Ctrlcnfrm-2.2, TC-Ctrldial-3.2', TC-Ctrldial-3.3, TC-Ctrldial-3.4, TC-Ctrldial-3.5', bv=10)
-    # # @unittest.skip('Test case temporarily disabled')
-    # def testCancelTint3To4WithInvalidTints(self):
-    #     """
-    #     To verify the functionality of "Cancel" button.
-    #     """
-    #     auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
-    #
-    #     print(" Cancel a change from tint 3 to tint 4  and verify that the tint is not 1, 2, or 4")
-    #     # Check to see if the current tint is at 3
-    #     control.clickTintLevelNum(self.driver)
-    #     if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='3']")) > 0:
-    #         pass
-    #     else:
-    #         control.selectTint(self.driver, 3)
-    #     tint4 = control.getTint4(self.driver)
-    #     self.driver.tap([(tint4[0], tint4[1])])
-    #     common.cancelbutton(self.driver)
-    #     # verify tint is not 1, 2, or 4
-    #     control.verifyInvalidTintsNotFound(self.driver, 3)
-    #
-    # # @attr('acceptance', sid='TC-Ctrlcnfrm-2.3', bv=10)
-    # # @unittest.skip('Test case temporarily disabled')
-    # def testOverrideTint3To1(self):
-    #     """
-    #     To verify the functionality of "Override" button.
-    #     """
-    #     auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
-    #
-    #     print("Override a change from tint 3 to tint 1  and verify that the tint is now 1")
-    #     # Check to see if the current tint is at 3
-    #     control.clickTintLevelNum(self.driver)
-    #     if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='3']")) > 0:
-    #         pass
-    #     else:
-    #         control.selectTint(self.driver, 3)
-    #     control.selectTint(self.driver, 1)
-    #     # verify tint is now 1
-    #     control.verifyInvalidTintsNotFound(self.driver, 1)
-    #
-    # # @attr('acceptance', sid='TC-Ctrlcnfrm-2.3', bv=10)
-    # # @unittest.skip('Test case temporarily disabled')
-    # def testOverrideTint3To1WithInvalidTints(self):
-    #     """
-    #     To verify the functionality of "Override" button.
-    #     """
-    #     auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
-    #
-    #     print("Override a change from tint 3 to tint 1  and verify that the tint is not 2, 3, or 4")
-    #     # Check to see if the current tint is at 3
-    #     control.clickTintLevelNum(self.driver)
-    #     if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='3']")) > 0:
-    #         pass
-    #     else:
-    #         control.selectTint(self.driver, 3)
-    #     control.selectTint(self.driver, 1)
-    #     # verify tint is not 2, 3, or 4
-    #     control.verifyInvalidTintsNotFound(self.driver, 1)
-    #
-    # # @attr('acceptance', sid='TC-Ctrlcnfrm-2.3', bv=10)
-    # # @unittest.skip('Test case temporarily disabled')
-    # def testOverrideTint3To2(self):
-    #     """
-    #     To verify the functionality of "Override" button.
-    #     """
-    #     auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
-    #
-    #     print("Override a change from tint 3 to tint 2  and verify that the tint is now 2")
-    #     # Check to see if the current tint is at 3
-    #     control.clickTintLevelNum(self.driver)
-    #     if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='3']")) > 0:
-    #         pass
-    #     else:
-    #         control.selectTint(self.driver, 3)
-    #     control.selectTint(self.driver, 2)
-    #     # verify tint is now 2
-    #     control.verifyInvalidTintsNotFound(self.driver, 2)
-    #
-    # # @attr('acceptance', sid='TC-Ctrlcnfrm-2.3', bv=10)
-    # # @unittest.skip('Test case temporarily disabled')
-    # def testOverrideTint3To2WithInvalidTints(self):
-    #     """
-    #     To verify the functionality of "Override" button.
-    #     """
-    #     auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
-    #
-    #     print("Override a change from tint 3 to tint 2  and verify that the tint is not 1, 3, or 4")
-    #     # Check to see if the current tint is at 3
-    #     control.clickTintLevelNum(self.driver)
-    #     if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='3']")) > 0:
-    #         pass
-    #     else:
-    #         control.selectTint(self.driver, 3)
-    #     control.selectTint(self.driver, 2)
-    #     # verify tint is not 1, 3, or 4
-    #     control.verifyInvalidTintsNotFound(self.driver, 2)
-    #
-    # # @attr('acceptance', sid='TC-Ctrlcnfrm-2.3', bv=10)
-    # # @unittest.skip('Test case temporarily disabled')
-    # def testOverrideTint3To4(self):
-    #     """
-    #     To verify the functionality of "Override" button.
-    #     """
-    #     auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
-    #
-    #     print("Override a change from tint 3 to tint 4  and verify that the tint is now 4")
-    #     # Check to see if the current tint is at 3
-    #     control.clickTintLevelNum(self.driver)
-    #     if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='3']")) > 0:
-    #         pass
-    #     else:
-    #         control.selectTint(self.driver, 3)
-    #     control.selectTint(self.driver, 4)
-    #     # verify tint is now 4
-    #     control.verifyInvalidTintsNotFound(self.driver, 4)
-    #
-    # # @attr('acceptance', sid='TC-Ctrlcnfrm-2.3', bv=10)
-    # # @unittest.skip('Test case temporarily disabled')
-    # def testOverrideTint3To4WithInvalidTints(self):
-    #     """
-    #     To verify the functionality of "Override" button.
-    #     """
-    #     auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
-    #
-    #     print("Override a change from tint 3 to tint 4  and verify that the tint is not 1, 2, or 3")
-    #     # Check to see if the current tint is at 3
-    #     control.clickTintLevelNum(self.driver)
-    #     if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='3']")) > 0:
-    #         pass
-    #     else:
-    #         control.selectTint(self.driver, 3)
-    #     control.selectTint(self.driver, 4)
-    #     # verify tint is not 1, 2, or 3
-    #     control.verifyInvalidTintsNotFound(self.driver, 4)
-    #
-    # """------------------ tint level 4 ------------------"""
-    #
-    # # @attr('acceptance', sid='TC-Ctrlcnfrm-2.2, TC-Ctrldial-3.2', TC-Ctrldial-3.3, TC-Ctrldial-3.4, TC-Ctrldial-3.5', bv=10)
-    # # @unittest.skip('Test case temporarily disabled')
-    # def testCancelTint4To2(self):
-    #     """
-    #     To verify the functionality of "Cancel" button.
-    #     """
-    #     auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
-    #
-    #     print("Cancel a change from tint 4 to tint 2  and verify that the tint is still 4")
-    #     # Check to see if the current tint is at 4
-    #     control.clickTintLevelNum(self.driver)
-    #     if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='4']")) > 0:
-    #         pass
-    #     else:
-    #         control.selectTint(self.driver, 4)
-    #     tint2 = control.getTint2(self.driver)
-    #     self.driver.tap([(tint2[0], tint2[1])])
-    #     common.cancelbutton(self.driver)
-    #     # verify tint is still 4
-    #     control.verifyInvalidTintsNotFound(self.driver, 4)
-    #
-    # # @attr('acceptance', sid='TC-Ctrlcnfrm-2.2, TC-Ctrldial-3.2', TC-Ctrldial-3.3, TC-Ctrldial-3.4, TC-Ctrldial-3.5', bv=10)
-    # # @unittest.skip('Test case temporarily disabled')
-    # def testCancelTint4To2WithInvalidTints(self):
-    #     """
-    #     To verify the functionality of "Cancel" button.
-    #     """
-    #     auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
-    #
-    #     print("Cancel a change from tint 4 to tint 2  and verify that the tint is not 1, 2, or 3")
-    #     # Check to see if the current tint is at 4
-    #     control.clickTintLevelNum(self.driver)
-    #     if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='4']")) > 0:
-    #         pass
-    #     else:
-    #         control.selectTint(self.driver, 4)
-    #     tint2 = control.getTint2(self.driver)
-    #     self.driver.tap([(tint2[0], tint2[1])])
-    #     common.cancelbutton(self.driver)
-    #     # verify tint is not 1, 2, or 3
-    #     control.verifyInvalidTintsNotFound(self.driver, 4)
-    #
-    # # @attr('acceptance', sid='TC-Ctrlcnfrm-2.2, TC-Ctrldial-3.2', TC-Ctrldial-3.3, TC-Ctrldial-3.4, TC-Ctrldial-3.5', bv=10)
-    # # @unittest.skip('Test case temporarily disabled')
-    # def testCancelTint4To3(self):
-    #     """
-    #     To verify the functionality of "Cancel" button.
-    #     """
-    #     auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
-    #
-    #     print("Cancel a change from tint 4 to tint 3  and verify that the tint is still 4")
-    #     # Check to see if the current tint is at 4
-    #     control.clickTintLevelNum(self.driver)
-    #     if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='4']")) > 0:
-    #         pass
-    #     else:
-    #         control.selectTint(self.driver, 4)
-    #     tint3 = control.getTint3(self.driver)
-    #     self.driver.tap([(tint3[0], tint3[1])])
-    #     common.cancelbutton(self.driver)
-    #     # verify tint is still 4
-    #     control.verifyInvalidTintsNotFound(self.driver, 4)
-    #
-    # # @attr('acceptance', sid='TC-Ctrlcnfrm-2.2, TC-Ctrldial-3.2', TC-Ctrldial-3.3, TC-Ctrldial-3.4, TC-Ctrldial-3.5', bv=10)
-    # # @unittest.skip('Test case temporarily disabled')
-    # def testCancelTint4To3WithInvalidTints(self):
-    #     """
-    #     To verify the functionality of "Cancel" button.
-    #     """
-    #     auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
-    #
-    #     print(" Cancel a change from tint 4 to tint 3  and verify that the tint is not 1, 2, or 3")
-    #     # Check to see if the current tint is at 4
-    #     control.clickTintLevelNum(self.driver)
-    #     if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='4']")) > 0:
-    #         pass
-    #     else:
-    #         control.selectTint(self.driver, 4)
-    #     tint3 = control.getTint3(self.driver)
-    #     self.driver.tap([(tint3[0], tint3[1])])
-    #     common.cancelbutton(self.driver)
-    #     # verify tint is not 1, 2, or 3
-    #     control.verifyInvalidTintsNotFound(self.driver, 4)
-    #
-    # # @attr('acceptance', sid='TC-Ctrlcnfrm-2.2, TC-Ctrldial-3.2', TC-Ctrldial-3.3, TC-Ctrldial-3.4, TC-Ctrldial-3.5', bv=10)
-    # # @unittest.skip('Test case temporarily disabled')
-    # def testCancelTint41To1(self):
-    #     """
-    #     To verify the functionality of "Cancel" button.
-    #     """
-    #     auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
-    #
-    #     print("Cancel a change from tint 4 to tint 1  and verify that the tint is still 4")
-    #     # Check to see if the current tint is at 4
-    #     control.clickTintLevelNum(self.driver)
-    #     if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='4']")) > 0:
-    #         pass
-    #     else:
-    #         control.selectTint(self.driver, 4)
-    #     tint1 = control.getTint1(self.driver)
-    #     self.driver.tap([(tint1[0], tint1[1])])
-    #     common.cancelbutton(self.driver)
-    #     # verify tint is still 4
-    #     control.verifyInvalidTintsNotFound(self.driver, 4)
-    #
-    # # @attr('acceptance', sid='TC-Ctrlcnfrm-2.2, TC-Ctrldial-3.2', TC-Ctrldial-3.3, TC-Ctrldial-3.4, TC-Ctrldial-3.5', bv=10)
-    # # @unittest.skip('Test case temporarily disabled')
-    # def testCancelTint4To1WithInvalidTints(self):
-    #     """
-    #     To verify the functionality of "Cancel" button.
-    #     """
-    #     auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
-    #
-    #     print(" Cancel a change from tint 4 to tint 1  and verify that the tint is not 1, 2, or 3")
-    #     # Check to see if the current tint is at 4
-    #     control.clickTintLevelNum(self.driver)
-    #     if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='4']")) > 0:
-    #         pass
-    #     else:
-    #         control.selectTint(self.driver, 4)
-    #     tint1 = control.getTint1(self.driver)
-    #     self.driver.tap([(tint1[0], tint1[1])])
-    #     common.cancelbutton(self.driver)
-    #     # verify tint is not 1, 2, or 3
-    #     control.verifyInvalidTintsNotFound(self.driver, 4)
-    #
-    # # @attr('acceptance', sid='TC-Ctrlcnfrm-2.3', bv=10)
-    # # @unittest.skip('Test case temporarily disabled')
-    # def testOverrideTint4To1(self):
-    #     """
-    #     To verify the functionality of "Override" button.
-    #     """
-    #     auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
-    #
-    #     print("Override a change from tint 4 to tint 1  and verify that the tint is now 1")
-    #     # Check to see if the current tint is at 4
-    #     control.clickTintLevelNum(self.driver)
-    #     if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='4']")) > 0:
-    #         pass
-    #     else:
-    #         control.selectTint(self.driver, 4)
-    #     control.selectTint(self.driver, 1)
-    #     # verify tint is now 1
-    #     control.verifyInvalidTintsNotFound(self.driver, 1)
-    #
-    # # @attr('acceptance', sid='TC-Ctrlcnfrm-2.3', bv=10)
-    # # @unittest.skip('Test case temporarily disabled')
-    # def testOverrideTint4To1WithInvalidTints(self):
-    #     """
-    #     To verify the functionality of "Override" button.
-    #     """
-    #     auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
-    #
-    #     print("Override a change from tint 4 to tint 1  and verify that the tint is not 2, 3, or 4")
-    #     # Check to see if the current tint is at 4
-    #     control.clickTintLevelNum(self.driver)
-    #     if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='4']")) > 0:
-    #         pass
-    #     else:
-    #         control.selectTint(self.driver, 4)
-    #     control.selectTint(self.driver, 1)
-    #     # verify tint is not 2, 3, or 4
-    #     control.verifyInvalidTintsNotFound(self.driver, 1)
-    #
-    # # @attr('acceptance', sid='TC-Ctrlcnfrm-2.3', bv=10)
-    # # @unittest.skip('Test case temporarily disabled')
-    # def testOverrideTint4To2(self):
-    #     """
-    #     To verify the functionality of "Override" button.
-    #     """
-    #     auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
-    #
-    #     print("Override a change from tint 4 to tint 2  and verify that the tint is now 4")
-    #     # Check to see if the current tint is at 4
-    #     control.clickTintLevelNum(self.driver)
-    #     if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='4']")) > 0:
-    #         pass
-    #     else:
-    #         control.selectTint(self.driver, 4)
-    #     control.selectTint(self.driver, 2)
-    #     # verify tint is now 2
-    #     control.verifyInvalidTintsNotFound(self.driver, 2)
-    #
-    # # @attr('acceptance', sid='TC-Ctrlcnfrm-2.3', bv=10)
-    # # @unittest.skip('Test case temporarily disabled')
-    # def testOverrideTint4To2WithInvalidTints(self):
-    #     """
-    #     To verify the functionality of "Override" button.
-    #     """
-    #     auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
-    #
-    #     print("Override a change from tint 4 to tint 2  and verify that the tint is not 1, 3, or 4")
-    #     # Check to see if the current tint is at 4
-    #     control.clickTintLevelNum(self.driver)
-    #     if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='4']")) > 0:
-    #         pass
-    #     else:
-    #         control.selectTint(self.driver, 4)
-    #     control.selectTint(self.driver, 2)
-    #     # verify tint is not 1, 3, or 4
-    #     control.verifyInvalidTintsNotFound(self.driver, 2)
-    #
-    # # @attr('acceptance', sid='TC-Ctrlcnfrm-2.3', bv=10)
-    # # @unittest.skip('Test case temporarily disabled')
-    # def testOverrideTint4To3(self):
-    #     """
-    #     To verify the functionality of "Override" button.
-    #     """
-    #     auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
-    #
-    #     print("Override a change from tint 4 to tint 3  and verify that the tint is now 3")
-    #     # Check to see if the current tint is at 4
-    #     control.clickTintLevelNum(self.driver)
-    #     if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='4']")) > 0:
-    #         pass
-    #     else:
-    #         control.selectTint(self.driver, 4)
-    #     control.selectTint(self.driver, 3)
-    #     # verify tint is now 3
-    #     control.verifyInvalidTintsNotFound(self.driver, 3)
-    #
-    # # @attr('acceptance', sid='TC-Ctrlcnfrm-2.3', bv=10)
-    # # @unittest.skip('Test case temporarily disabled')
-    # def testOverrideTint4To3WithInvalidTints(self):
-    #     """
-    #     To verify the functionality of "Override" button.
-    #     """
-    #     auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
-    #
-    #     print("Override a change from tint 4 to tint 3  and verify that the tint is not 1, 2, or 4")
-    #     # Check to see if the current tint is at 4
-    #     control.clickTintLevelNum(self.driver)
-    #     if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='4']")) > 0:
-    #         pass
-    #     else:
-    #         control.selectTint(self.driver, 4)
-    #     control.selectTint(self.driver, 3)
-    #     # verify tint is not 1, 2, or 4
-    #     control.verifyInvalidTintsNotFound(self.driver, 3)
+    # @attr('acceptance', sid='TC-Ctrlcnfrm-2.2, TC-Ctrldial-3.2', TC-Ctrldial-3.3, TC-Ctrldial-3.4, TC-Ctrldial-3.5', bv=10)
+    # @unittest.skip('Test case temporarily disabled')
+    def testCancelTint41To1(self):
+        """
+        To verify the functionality of "Cancel" button.
+        """
+        auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
+        
+        print("Cancel a change from tint 4 to tint 1  and verify that the tint is still 4")
+        # Check to see if the current tint is at 4
+        control.clickTintLevelNum(self.driver)
+        if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='4']")) > 0:
+            pass
+        else:
+            control.selectTint(self.driver, 4)
+        tint1 = control.getTint1(self.driver)
+        self.driver.tap([(tint1[0], tint1[1])])
+        common.cancelbutton(self.driver)
+        # verify tint is still 4
+        control.verifyInvalidTintsNotFound(self.driver, 4)
+
+    # @attr('acceptance', sid='TC-Ctrlcnfrm-2.2, TC-Ctrldial-3.2', TC-Ctrldial-3.3, TC-Ctrldial-3.4, TC-Ctrldial-3.5', bv=10)
+    # @unittest.skip('Test case temporarily disabled')
+    def testCancelTint4To1WithInvalidTints(self):
+        """
+        To verify the functionality of "Cancel" button.
+        """
+        auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
+        
+        print(" Cancel a change from tint 4 to tint 1  and verify that the tint is not 1, 2, or 3")
+        # Check to see if the current tint is at 4
+        control.clickTintLevelNum(self.driver)
+        if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='4']")) > 0:
+            pass
+        else:
+            control.selectTint(self.driver, 4)
+        tint1 = control.getTint1(self.driver)
+        self.driver.tap([(tint1[0], tint1[1])])
+        common.cancelbutton(self.driver)
+        # verify tint is not 1, 2, or 3
+        control.verifyInvalidTintsNotFound(self.driver, 4)
+
+    # @attr('acceptance', sid='TC-Ctrlcnfrm-2.3', bv=10)
+    # @unittest.skip('Test case temporarily disabled')
+    def testOverrideTint4To1(self):
+        """
+        To verify the functionality of "Override" button.
+        """
+        auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
+        
+        print("Override a change from tint 4 to tint 1  and verify that the tint is now 1")
+        # Check to see if the current tint is at 4
+        control.clickTintLevelNum(self.driver)
+        if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='4']")) > 0:
+            pass
+        else:
+            control.selectTint(self.driver, 4)
+        control.selectTint(self.driver, 1)
+        # verify tint is now 1
+        control.verifyInvalidTintsNotFound(self.driver, 1)
+
+    # @attr('acceptance', sid='TC-Ctrlcnfrm-2.3', bv=10)
+    # @unittest.skip('Test case temporarily disabled')
+    def testOverrideTint4To1WithInvalidTints(self):
+        """
+        To verify the functionality of "Override" button.
+        """
+        auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
+        
+        print("Override a change from tint 4 to tint 1  and verify that the tint is not 2, 3, or 4")
+        # Check to see if the current tint is at 4
+        control.clickTintLevelNum(self.driver)
+        if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='4']")) > 0:
+            pass
+        else:
+            control.selectTint(self.driver, 4)
+        control.selectTint(self.driver, 1)
+        # verify tint is not 2, 3, or 4
+        control.verifyInvalidTintsNotFound(self.driver, 1)
+
+    # @attr('acceptance', sid='TC-Ctrlcnfrm-2.3', bv=10)
+    # @unittest.skip('Test case temporarily disabled')
+    def testOverrideTint4To2(self):
+        """
+        To verify the functionality of "Override" button.
+        """
+        auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
+        
+        print("Override a change from tint 4 to tint 2  and verify that the tint is now 4")
+        # Check to see if the current tint is at 4
+        control.clickTintLevelNum(self.driver)
+        if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='4']")) > 0:
+            pass
+        else:
+            control.selectTint(self.driver, 4)
+        control.selectTint(self.driver, 2)
+        # verify tint is now 2
+        control.verifyInvalidTintsNotFound(self.driver, 2)
+
+    # @attr('acceptance', sid='TC-Ctrlcnfrm-2.3', bv=10)
+    # @unittest.skip('Test case temporarily disabled')
+    def testOverrideTint4To2WithInvalidTints(self):
+        """
+        To verify the functionality of "Override" button.
+        """
+        auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
+        
+        print("Override a change from tint 4 to tint 2  and verify that the tint is not 1, 3, or 4")
+        # Check to see if the current tint is at 4
+        control.clickTintLevelNum(self.driver)
+        if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='4']")) > 0:
+            pass
+        else:
+            control.selectTint(self.driver, 4)
+        control.selectTint(self.driver, 2)
+        # verify tint is not 1, 3, or 4
+        control.verifyInvalidTintsNotFound(self.driver, 2)
+
+    # @attr('acceptance', sid='TC-Ctrlcnfrm-2.3', bv=10)
+    # @unittest.skip('Test case temporarily disabled')
+    def testOverrideTint4To3(self):
+        """
+        To verify the functionality of "Override" button.
+        """
+        auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
+        
+        print("Override a change from tint 4 to tint 3  and verify that the tint is now 3")
+        # Check to see if the current tint is at 4
+        control.clickTintLevelNum(self.driver)
+        if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='4']")) > 0:
+            pass
+        else:
+            control.selectTint(self.driver, 4)
+        control.selectTint(self.driver, 3)
+        # verify tint is now 3
+        control.verifyInvalidTintsNotFound(self.driver, 3)
+
+    # @attr('acceptance', sid='TC-Ctrlcnfrm-2.3', bv=10)
+    # @unittest.skip('Test case temporarily disabled')
+    def testOverrideTint4To3WithInvalidTints(self):
+        """
+        To verify the functionality of "Override" button.
+        """
+        auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
+        
+        print("Override a change from tint 4 to tint 3  and verify that the tint is not 1, 2, or 4")
+        # Check to see if the current tint is at 4
+        control.clickTintLevelNum(self.driver)
+        if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='4']")) > 0:
+            pass
+        else:
+            control.selectTint(self.driver, 4)
+        control.selectTint(self.driver, 3)
+        # verify tint is not 1, 2, or 4
+        control.verifyInvalidTintsNotFound(self.driver, 3)
 
     """------------------ Control Tint Duration Screen ------------------"""
 
@@ -1251,7 +1200,6 @@ class Control(unittest.TestCase):
             control.selectTint(self.driver, currentTint)
         currentTint = control.getCurrentTint(self.driver)
         control.selectRandomTint(self.driver)
-        common.overridebutton(self.driver)
 
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/clear_quick_control_requestsLL")) > 0:
             self.driver.find_element_by_id("com.view.viewglass:id/clear_quick_control_requestsLL").click()

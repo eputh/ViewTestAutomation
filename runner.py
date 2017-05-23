@@ -29,6 +29,7 @@
 ########################################################################
 """
 
+import os
 import sys
 import subprocess
 
@@ -54,6 +55,21 @@ def run_tests():
 
         for process in processes:
             process.wait()
+
+        result = "return this"
+        resp = make_response('{"response": ' + result + '}')
+        resp.headers['Content-Type'] = "application/json"
+        return resp
+
+
+@app.route('/set_devices', methods=['GET', 'POST'])
+def set_devices():
+    if request.method == 'POST':
+        # num_of_connected_devices = request.form['param']
+        # print("Number of devices for testing: ", num_of_connected_devices)
+
+        appiumCommand = 'appium --nodeconfig C:\\Users\eputh\PycharmProjects\\viewTestAutomation\\capabilities\\GooglePixel.json -p 4740 -bp 4745 -U FA68W0308348'
+        # os.system("start " + appiumCommand)
 
         result = "return this"
         resp = make_response('{"response": ' + result + '}')

@@ -35,12 +35,11 @@ from logging import raiseExceptions
 from time import sleep
 
 from appium import webdriver
-from appium.webdriver.connectiontype import ConnectionType
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
-from common import auth as auth
+from common import auth
 from common import commonFunctions as common
 from common import site as site
 from common import config as config
@@ -106,20 +105,6 @@ class SelectSite(unittest.TestCase):
         else:
             pass
 
-    # def testSelectSiteForLostNetworkConnectivity(self):
-    #     """
-    #     Verify the exceptional handling by logging into a site while network
-    #     connectivity is lost
-    #     """
-    #     auth.checkIfUserIsLoggedIn(self.driver, 0, 'CRUDO')
-    #     self.driver.set_network_connection(0)
-    #     if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='Retry']")) > 0:
-    #         self.driver.set_network_connection(6)
-    #         sleep(20)
-    #         self.driver.find_element_by_xpath("//android.widget.TextView[@text='Retry']").click()
-    #     else:
-    #         raiseExceptions("Exception handling for lost network connection is missing")
-
     def testSelectNotReachableSite(self):
         """
         Verify the exceptional handling by logging into a site that is not reachable
@@ -179,14 +164,15 @@ class SelectSite(unittest.TestCase):
         else:
             pass
 
-    # def testSelectSiteNoSiteAssignToUserInVRM(self):
-    #     """
-    #     Verify the functionality of logging into a user not assigned
-    #     to any site
-    #     """
-    #     auth.checkIfUserIsLoggedIn(self.driver, 0, 'CRUDO')
-    #     auth.login(self.driver, config.users['MissingPwd']['username'], config.users['MissingPwd']['password'])
-    #     auth.loginScreenValidations(self.driver)
+    def testSelectSiteNoSiteAssignToUserInVRM(self):
+        """
+        Verify the functionality of logging into a user not assigned
+        to any site
+        """
+        auth.checkIfUserIsLoggedIn(self.driver, 0, 'CRUDO')
+        auth.checkIfUserIsLoggedIn(self.driver, 0, 'UserNotConfiguredInVRM')
+        auth.login(self.driver, config.users['UserNotConfiguredInVRM']['username'],
+                   config.users['UserNotConfiguredInVRM']['password'])
 
     def testSelectSiteSignoutFunctionality(self):
         """

@@ -34,12 +34,13 @@ import os
 import unittest
 from datetime import datetime
 from random import randint
+from appium import webdriver
 
 import SystemReady
 from third_party import HTMLTestRunner as TestRunner
 
-from test import Test
-from android import Authentication, Control, LiveView, Profile, Scenes, Schedule, SelectSite, Settings, Zones
+from android import Authentication, Control, LiveView, Profile, Scenes, Schedule, SelectSite, Settings, Zones, Network
+from common import networkConnection as NetworkConnection
 
 
 class RunTests(unittest.TestCase):
@@ -47,19 +48,34 @@ class RunTests(unittest.TestCase):
     def test_main(self):
         # Run HTMLTestRunner. Verify the HTML report.
         self.systemReadySuite = unittest.defaultTestLoader.loadTestsFromTestCase(SystemReady.SystemReady)
+        self.networkConnectionSuite = unittest.defaultTestLoader.loadTestsFromTestCase(NetworkConnection.NetworkConnection)
+
         # suite of TestCases
         self.suite = unittest.TestSuite()
         self.suite.addTests([
-            unittest.defaultTestLoader.loadTestsFromTestCase(Test),
+            unittest.defaultTestLoader.loadTestsFromTestCase(Network.Network),
             unittest.defaultTestLoader.loadTestsFromTestCase(Profile.Profile),
             unittest.defaultTestLoader.loadTestsFromTestCase(Settings.Settings),
-            # unittest.defaultTestLoader.loadTestsFromTestCase(LiveView.LiveView),
-            # unittest.defaultTestLoader.loadTestsFromTestCase(Control.Control),
-            # unittest.defaultTestLoader.loadTestsFromTestCase(Zones.Zones),
-            # unittest.defaultTestLoader.loadTestsFromTestCase(Scenes.Scenes),
-            # unittest.defaultTestLoader.loadTestsFromTestCase(Schedule.Schedule),
-            # unittest.defaultTestLoader.loadTestsFromTestCase(Authentication.Authentication),
-            # unittest.defaultTestLoader.loadTestsFromTestCase(SelectSite.SelectSite)
+            unittest.defaultTestLoader.loadTestsFromTestCase(LiveView.LiveView),
+            unittest.defaultTestLoader.loadTestsFromTestCase(Control.Control),
+            unittest.defaultTestLoader.loadTestsFromTestCase(Zones.Zones),
+            unittest.defaultTestLoader.loadTestsFromTestCase(Scenes.Scenes),
+            unittest.defaultTestLoader.loadTestsFromTestCase(Schedule.Schedule),
+            unittest.defaultTestLoader.loadTestsFromTestCase(Authentication.Authentication),
+            unittest.defaultTestLoader.loadTestsFromTestCase(SelectSite.SelectSite)
+        ])
+        self.suite2 = unittest.TestSuite()
+        self.suite2.addTests([
+            unittest.defaultTestLoader.loadTestsFromTestCase(Network.Network),
+            unittest.defaultTestLoader.loadTestsFromTestCase(Profile.Profile),
+            unittest.defaultTestLoader.loadTestsFromTestCase(Settings.Settings),
+            unittest.defaultTestLoader.loadTestsFromTestCase(LiveView.LiveView),
+            unittest.defaultTestLoader.loadTestsFromTestCase(Control.Control),
+            unittest.defaultTestLoader.loadTestsFromTestCase(Zones.Zones),
+            unittest.defaultTestLoader.loadTestsFromTestCase(Scenes.Scenes),
+            unittest.defaultTestLoader.loadTestsFromTestCase(Schedule.Schedule),
+            unittest.defaultTestLoader.loadTestsFromTestCase(Authentication.Authentication),
+            unittest.defaultTestLoader.loadTestsFromTestCase(SelectSite.SelectSite)
         ])
 
         # Invoke TestRunner
@@ -74,11 +90,17 @@ class RunTests(unittest.TestCase):
             title='View Inc Automation',
             description='View Inc Automation TestCases for iOS and Android.'
         )
-        # if runner.run(self.systemReadySuite).wasSuccessful():
+
         print("Beginning test suite")
-        runner.run(self.suite)
-        # else:
-        #     print("Unsuccessful launch of test suite. System was not ready.")
+
+        if runner.run(self.systemReadySuite).wasSuccessful():
+            # self.driver.quit()
+            # print("good")
+            runner.run(self.suite)
+            if runner.run(self.networkConnectionSuite).wasSuccessful():
+                runner.run(self.suite2)
+        else:
+            print("Unsuccessful launch of test suite. System was not ready.")
         outfile.close()
 
 
