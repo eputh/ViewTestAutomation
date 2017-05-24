@@ -51,7 +51,7 @@ class Network(unittest.TestCase):
         desired_caps = {}
         desired_caps['platformName'] = 'Android'
         desired_caps['deviceName'] = 'Android Emulator'
-        desired_caps['app'] = os.path.abspath(os.path.join(os.getcwd(), 'apps\\Android.apk'))
+        desired_caps['app'] = os.path.abspath(os.path.join(os.getcwd(), 'apps/Android.apk'))
         desired_caps['appPackage'] = 'com.view.viewglass'
         desired_caps['appActivity'] = 'com.view.viewglass.Splash'
         desired_caps['autoGrantPermissions'] = True

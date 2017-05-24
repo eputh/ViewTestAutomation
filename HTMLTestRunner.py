@@ -92,7 +92,6 @@ class RunTests(unittest.TestCase):
         )
 
         print("Beginning test suite")
-
         if runner.run(self.systemReadySuite).wasSuccessful():
             # self.driver.quit()
             # print("good")
