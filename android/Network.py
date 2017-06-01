@@ -74,6 +74,7 @@ class Network(unittest.TestCase):
             sleep(5)
             self.driver.find_element_by_xpath("//android.widget.TextView[@text='Retry']").click()
         else:
+            self.driver.set_network_connection(6)
             raiseExceptions("Exception handling for lost network connection is missing")
 
     def testLoginForRecoveryFromLostNetworkConnectivity(self):
@@ -87,6 +88,7 @@ class Network(unittest.TestCase):
             sleep(5)
             self.driver.find_element_by_xpath("//android.widget.TextView[@text='Retry']").click()
         else:
+            self.driver.set_network_connection(6)
             raiseExceptions("Exception handling for lost network connection is missing")
 
         if WebDriverWait(self.driver, 30).until(EC.presence_of_element_located((By.XPATH, "//android.widget.Button[@content-desc='LOGIN']"))):
@@ -104,6 +106,7 @@ class Network(unittest.TestCase):
         if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='Retry']")) > 0:
             self.driver.set_network_connection(6)
         else:
+            self.driver.set_network_connection(6)
             raiseExceptions("Exception handling for lost network connection is missing")
 
     def testSelectSiteForRecoveryFromLostNetworkConnectivity(self):
@@ -118,6 +121,7 @@ class Network(unittest.TestCase):
             sleep(5)
             self.driver.find_element_by_xpath("//android.widget.TextView[@text='Retry']").click()
         else:
+            self.driver.set_network_connection(6)
             raiseExceptions("Exception handling for lost network connection is missing")
 
         if WebDriverWait(self.driver, 30).until(EC.presence_of_element_located((By.XPATH, "//android.widget.Button[@content-desc='LOGIN']"))):
@@ -136,6 +140,7 @@ class Network(unittest.TestCase):
             sleep(5)
             self.driver.set_network_connection(6)
         else:
+            self.driver.set_network_connection(6)
             raiseExceptions("Exception handling for lost network connection is missing")
 
     def testRecoveryFromLostNetworkConnectivityInLoggedInSession(self):
@@ -149,6 +154,7 @@ class Network(unittest.TestCase):
             self.driver.set_network_connection(6)
             sleep(5)
         else:
+            self.driver.set_network_connection(6)
             raiseExceptions("Exception handling for lost network connection is missing")
 
         if self.driver.network_connection == 6 and len(self.driver.find_elements(By.ID, "com.view.viewglass:id/no_internet_msg")) > 0:
@@ -165,6 +171,7 @@ class Network(unittest.TestCase):
             print(self.driver.network_connection)
             self.driver.find_element_by_xpath("//android.widget.TextView[@text='Retry']").click()
             # auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
+        self.driver.set_network_connection(6)
 
     def testRunningAppInTheBackground(self):
         """

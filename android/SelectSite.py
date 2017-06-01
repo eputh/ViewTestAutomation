@@ -89,9 +89,12 @@ class SelectSite(unittest.TestCase):
         auth.login(self.driver, config.users['RUO']['username'], config.users['RUO']['password'])
 
         if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='Select Site']")) > 0:
-            raiseExceptions("RUO user has more than one site")
-        else:
-            pass
+            headingHeight = self.driver.find_element_by_id("com.view.viewglass:id/viewLogoLL").size['height']
+            middle = self.driver.find_element_by_id("com.view.viewglass:id/viewLogoLL").size['width'] / 2
+            list = self.driver.find_element_by_id("com.view.viewglass:id/FL_siteListView")
+            endx = headingHeight * 2
+            startx = list.size['height'] - headingHeight
+            self.driver.swipe(middle, startx, middle, endx, 3000)
 
     def testSelectSiteForROUser(self):
         """
@@ -101,9 +104,12 @@ class SelectSite(unittest.TestCase):
         auth.login(self.driver, config.users['RO']['username'], config.users['RO']['password'])
 
         if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='Select Site']")) > 0:
-            raiseExceptions("RUO user has more than one site")
-        else:
-            pass
+            headingHeight = self.driver.find_element_by_id("com.view.viewglass:id/viewLogoLL").size['height']
+            middle = self.driver.find_element_by_id("com.view.viewglass:id/viewLogoLL").size['width'] / 2
+            list = self.driver.find_element_by_id("com.view.viewglass:id/FL_siteListView")
+            endx = headingHeight * 2
+            startx = list.size['height'] - headingHeight
+            self.driver.swipe(middle, startx, middle, endx, 3000)
 
     def testSelectNotReachableSite(self):
         """

@@ -8,6 +8,7 @@ from logging import raiseExceptions
 
 from common import auth
 from common import config
+from common import site
 
 
 class SystemReady(unittest.TestCase):
@@ -32,6 +33,8 @@ class SystemReady(unittest.TestCase):
         print("Device : ", device)
 
     def testCheckIfSystemIsReadyForTesting(self):
+        auth.checkIfUserIsLoggedIn(self.driver, 0, 'CRUDO')
+
         attempts = 0
         while attempts < 3:
             if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/retry_btn")) > 0:
@@ -40,13 +43,14 @@ class SystemReady(unittest.TestCase):
             if len(self.driver.find_elements(By.XPATH, "//android.widget.Button[@content-desc='LOGIN']")) > 0:
                 auth.loginOperation(self.driver, config.users['CRUDO']['username'], config.users['CRUDO']['password'])
 
-            if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/search_image_view")) > 0 or len(
-                    self.driver.find_elements(By.ID, "com.view.viewglass:id/home_controlIV")) > 0 or len(
-                    self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='Recently Crashed!!!']")) > 0:
-                break
-            elif len(self.driver.find_elements(By.XPATH,
-                                          "//android.widget.TextView[@text='Site is not reachable. Please try again later or contact Facilities Manager or View Support at support@viewglass.com or (855)-478-8468']")) > 0:
-                raiseExceptions("Site is not reachable for the RO user at the moment")
+            if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/search_image_view")) > 0:
+                site.selectSite(self.driver, config.site[0])
+                sleep(10)
+                if len(self.driver.find_elements(By.XPATH,
+                                              "//android.widget.TextView[@text='Site is not reachable. Please try again later or contact Facilities Manager or View Support at support@viewglass.com or (855)-478-8468']")) > 0:
+                    raiseExceptions("Site is not reachable at the moment")
+                else:
+                    break
             else:
                 attempts += 1
                 self.driver.close_app()

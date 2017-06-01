@@ -31,6 +31,7 @@
 
 import random
 from logging import raiseExceptions
+from time import sleep
 
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
@@ -144,7 +145,11 @@ def clickTintLevelNum(driver):
     elif len(driver.find_elements(By.ID, "com.view.viewglass:id/tintLevelNum_controlTV")) > 0:
         pass
     else:
-        raiseExceptions("tint image at the center of the control ring is missing")
+        selectRandomTint(driver)
+        commonFunctions.overridebutton(driver)
+        driver.find_element_by_id("com.view.viewglass:id/tintImage_controlIV").click()
+        if commonFunctions.foundAlert(driver):
+            commonFunctions.respondToAlert(driver, 1)
 
 
 def getCurrentTint(driver):
@@ -152,26 +157,30 @@ def getCurrentTint(driver):
         driver.find_element_by_id("com.view.viewglass:id/tintImage_controlIV").click()
         if commonFunctions.foundAlert(driver):
             commonFunctions.respondToAlert(driver, 1)
+        currentTint = driver.find_element_by_id("com.view.viewglass:id/tintLevelNum_controlTV").text
     elif len(driver.find_elements(By.ID, "com.view.viewglass:id/tintLevelNum_controlTV")) > 0:
-        pass
+        currentTint = driver.find_element_by_id("com.view.viewglass:id/tintLevelNum_controlTV").text
     else:
-        raiseExceptions("tint image at the center of the control ring is missing")
-    currentTint = driver.find_element_by_id("com.view.viewglass:id/tintLevelNum_controlTV").text
+        currentTint = selectRandomTint(driver)
+        commonFunctions.overridebutton(driver)
     return currentTint
 
 
 def verifyValidTintFound(driver, tint):
     tintStr = "//android.widget.TextView[@text='" + str(tint) + "']"
-    print(tintStr)
     if len(driver.find_elements(By.ID, "com.view.viewglass:id/tintImage_controlIV")) > 0:
         driver.find_element_by_id("com.view.viewglass:id/tintImage_controlIV").click()
         if commonFunctions.foundAlert(driver):
             commonFunctions.respondToAlert(driver, 1)
-        driver.find_element_by_xpath(tintStr)
-    elif len(driver.find_elements(By.ID, "com.view.viewglass:id/tintLevelNum_controlTV")) > 0:
-        driver.find_element_by_xpath(tintStr)
-    else:
-        raiseExceptions("displayed tint is incorrect")
+
+    currentTint = ""
+    if len(driver.find_elements(By.ID, "com.view.viewglass:id/tintLevelNum_controlTV")) > 0:
+        currentTint = driver.find_element_by_id("com.view.viewglass:id/tintLevelNum_controlTV").text
+    if driver.find_element_by_id("com.view.viewglass:id/agent_controlTV").text == "IDLE":
+        print("Unable to override tint. Mode is IDLE.")
+    elif currentTint != str(tint):
+        print("Actual tint is:", currentTint)
+        raiseExceptions("Displayed tint is incorrect.")
 
 
 def verifyInvalidTintsNotFound(driver, tint):
@@ -182,12 +191,17 @@ def verifyInvalidTintsNotFound(driver, tint):
     elif len(driver.find_elements(By.ID, "com.view.viewglass:id/tintLevelNum_controlTV")) > 0:
         pass
     else:
-        raiseExceptions("tint image at the center of the control ring is missing")
-
+        selectRandomTint(driver)
+        commonFunctions.overridebutton(driver)
+        if len(driver.find_elements(By.ID, "com.view.viewglass:id/tintImage_controlIV")) > 0:
+            driver.find_element_by_id("com.view.viewglass:id/tintImage_controlIV").click()
+            if commonFunctions.foundAlert(driver):
+                commonFunctions.respondToAlert(driver, 1)
+    currentTint = getCurrentTint(driver)
     for i in range(1, 5):
         if i != tint:
             tintStr = "//android.widget.TextView[@text='" + str(i) + "']"
-            assert len(driver.find_elements(By.XPATH, tintStr)) == 0, "incorrect tint was found"
+            print(len(driver.find_elements(By.XPATH, tintStr)) == 0, "Incorrect tint was found. Tint found was " + str(currentTint))
 
 
 def selectTint(driver, t):
@@ -203,6 +217,7 @@ def selectTint(driver, t):
         tint = getTint4(driver)
     driver.tap([(tint[0], tint[1])])
     commonFunctions.overridebutton(driver)
+    sleep(30)
 
 
 def selectRandomTint(driver):

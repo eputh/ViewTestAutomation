@@ -32,10 +32,13 @@
 import os
 import sys
 import subprocess
+from time import sleep
 
 from flask import Flask, render_template, redirect, url_for, request
 from flask import make_response
 app = Flask(__name__)
+
+from common import config
 
 
 @app.route("/")
@@ -46,10 +49,15 @@ def home():
 @app.route('/run_tests', methods=['GET', 'POST'])
 def run_tests():
     if request.method == 'POST':
-        num_of_connected_devices = request.form['param']
-        print("Number of devices for testing: ", num_of_connected_devices)
+        connected_devices = request.form['param']
+        devices = connected_devices.split(";")
+        devices.pop(-1)
+        print("Devices for testing: ", devices)
+        set_appium_nodes(devices)
+        sleep(15)
+
         processes = []
-        for i in range(0, int(num_of_connected_devices)):
+        for i in range(0, len(devices)):
             p = subprocess.Popen([sys.executable, "HTMLTestRunner.py"])
             processes.append(p)
 
@@ -62,19 +70,9 @@ def run_tests():
         return resp
 
 
-@app.route('/set_devices', methods=['GET', 'POST'])
-def set_devices():
-    if request.method == 'POST':
-        # num_of_connected_devices = request.form['param']
-        # print("Number of devices for testing: ", num_of_connected_devices)
-
-        appiumCommand = 'appium --nodeconfig C:\\Users\eputh\PycharmProjects\\viewTestAutomation\\capabilities\\GooglePixel.json -p 4740 -bp 4745 -U FA68W0308348'
-        # os.system("start " + appiumCommand)
-
-        result = "return this"
-        resp = make_response('{"response": ' + result + '}')
-        resp.headers['Content-Type'] = "application/json"
-        return resp
+def set_appium_nodes(devices):
+    for d in devices:
+        os.system("start " + config.devices[d]['nodeCommand'])
 
 
 if __name__ == '__main__':

@@ -67,6 +67,7 @@ class Settings(unittest.TestCase):
     def testUIComponentsOfSettingsScreen(self):
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         commonFunctions.navIcon(self.driver)
+
         if WebDriverWait(self.driver, 20).until(
                 EC.presence_of_element_located((By.ID, "com.view.viewglass:id/settingIcon_navigationIV"))):
             self.driver.find_element_by_id("com.view.viewglass:id/settingIcon_navigationIV").click()
@@ -87,6 +88,7 @@ class Settings(unittest.TestCase):
     def testLegal(self):
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         commonFunctions.navIcon(self.driver)
+
         if WebDriverWait(self.driver, 20).until(
                 EC.presence_of_element_located((By.ID, "com.view.viewglass:id/settingIcon_navigationIV"))):
             self.driver.find_element_by_id("com.view.viewglass:id/settingIcon_navigationIV").click()
@@ -105,8 +107,10 @@ class Settings(unittest.TestCase):
             raiseExceptions("Legal content is missing")
 
     def testAboutForCRUDO(self):
-        auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
+        auth.checkIfUserIsLoggedIn(self.driver, 0, 'CRUDO')
+        auth.loginAndSelectSite(self.driver, config.users['CRUDO']['username'], config.users['CRUDO']['password'], config.site[0])
         commonFunctions.navIcon(self.driver)
+
         if WebDriverWait(self.driver, 20).until(
                 EC.presence_of_element_located((By.ID, "com.view.viewglass:id/settingIcon_navigationIV"))):
             self.driver.find_element_by_id("com.view.viewglass:id/settingIcon_navigationIV").click()
@@ -157,15 +161,9 @@ class Settings(unittest.TestCase):
 
     def testAboutForRUO(self):
         auth.checkIfUserIsLoggedIn(self.driver, 0, 'RUO')
-        auth.login(self.driver, config.users['RUO']['username'], config.users['RUO']['password'])
-        site.selectSite(self.driver, config.site[0])
-        sleep(20)
-        if commonFunctions.foundAlert(self.driver):
-            commonFunctions.respondToAlert(self.driver, 0)
-        if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/view_btnTV")) > 0:
-            commonFunctions.navIcon(self.driver)
-
+        auth.loginAndSelectSite(self.driver, config.users['RUO']['username'], config.users['RUO']['password'], config.site[0])
         commonFunctions.navIcon(self.driver)
+
         if WebDriverWait(self.driver, 20).until(
                 EC.presence_of_element_located((By.ID, "com.view.viewglass:id/settingIcon_navigationIV"))):
             self.driver.find_element_by_id("com.view.viewglass:id/settingIcon_navigationIV").click()
@@ -220,10 +218,9 @@ class Settings(unittest.TestCase):
         sleep(20)
         if commonFunctions.foundAlert(self.driver):
             commonFunctions.respondToAlert(self.driver, 0)
-        if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/view_btnTV")) > 0:
-            commonFunctions.navIcon(self.driver)
 
         commonFunctions.navIcon(self.driver)
+
         if WebDriverWait(self.driver, 20).until(
                 EC.presence_of_element_located((By.ID, "com.view.viewglass:id/settingIcon_navigationIV"))):
             self.driver.find_element_by_id("com.view.viewglass:id/settingIcon_navigationIV").click()

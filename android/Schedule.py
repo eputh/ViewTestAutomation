@@ -69,10 +69,13 @@ class Schedule(unittest.TestCase):
     # @attr('acceptance', sid='TC-schedule-1.4, TC-schedule-1.6, TC-tievent-3.3, TC-tievent-3.7, TC-tievent-3.9, TC-tievent-3.10, TC-tievent-3.11, TC-tievent-3.12, TC-tievent-3.13, TC-tievent-3.14', bv=10)
     # @unittest.skip('Test case temporarily disabled')
     def test01CreateNoRepeatScheduleForCRUDO(self):
-        auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
+        auth.checkIfUserIsLoggedIn(self.driver, 0, 'CRUDO')
+        auth.loginAndSelectSite(self.driver, config.users['CRUDO']['username'], config.users['CRUDO']['password'],
+                                config.site[0])
+
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/scheduleTV")) <= 0:
             commonFunctions.navIcon(self.driver)
-            if WebDriverWait(self.driver, 20).until(
+            if WebDriverWait(self.driver, 60).until(
                     EC.presence_of_element_located((By.ID, "com.view.viewglass:id/navigation_scheduleTV"))):
                 self.driver.find_element_by_id("com.view.viewglass:id/navigation_scheduleTV").click()
             else:
@@ -107,7 +110,7 @@ class Schedule(unittest.TestCase):
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/scheduleTV")) <= 0:
             commonFunctions.navIcon(self.driver)
-            if WebDriverWait(self.driver, 20).until(
+            if WebDriverWait(self.driver, 60).until(
                     EC.presence_of_element_located((By.ID, "com.view.viewglass:id/navigation_scheduleTV"))):
                 self.driver.find_element_by_id("com.view.viewglass:id/navigation_scheduleTV").click()
             else:
@@ -142,7 +145,7 @@ class Schedule(unittest.TestCase):
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/scheduleTV")) <= 0:
             commonFunctions.navIcon(self.driver)
-            if WebDriverWait(self.driver, 20).until(
+            if WebDriverWait(self.driver, 60).until(
                     EC.presence_of_element_located((By.ID, "com.view.viewglass:id/navigation_scheduleTV"))):
                 self.driver.find_element_by_id("com.view.viewglass:id/navigation_scheduleTV").click()
             else:
@@ -188,7 +191,7 @@ class Schedule(unittest.TestCase):
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/scheduleTV")) <= 0:
             commonFunctions.navIcon(self.driver)
-            if WebDriverWait(self.driver, 20).until(
+            if WebDriverWait(self.driver, 60).until(
                     EC.presence_of_element_located((By.ID, "com.view.viewglass:id/navigation_scheduleTV"))):
                 self.driver.find_element_by_id("com.view.viewglass:id/navigation_scheduleTV").click()
             else:
@@ -225,7 +228,7 @@ class Schedule(unittest.TestCase):
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/scheduleTV")) <= 0:
             commonFunctions.navIcon(self.driver)
-            if WebDriverWait(self.driver, 20).until(
+            if WebDriverWait(self.driver, 60).until(
                     EC.presence_of_element_located((By.ID, "com.view.viewglass:id/navigation_scheduleTV"))):
                 self.driver.find_element_by_id("com.view.viewglass:id/navigation_scheduleTV").click()
             else:
@@ -261,7 +264,7 @@ class Schedule(unittest.TestCase):
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/scheduleTV")) <= 0:
             commonFunctions.navIcon(self.driver)
-            if WebDriverWait(self.driver, 20).until(
+            if WebDriverWait(self.driver, 60).until(
                     EC.presence_of_element_located((By.ID, "com.view.viewglass:id/navigation_scheduleTV"))):
                 self.driver.find_element_by_id("com.view.viewglass:id/navigation_scheduleTV").click()
             else:
@@ -298,7 +301,7 @@ class Schedule(unittest.TestCase):
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/scheduleTV")) <= 0:
             commonFunctions.navIcon(self.driver)
-            if WebDriverWait(self.driver, 20).until(
+            if WebDriverWait(self.driver, 60).until(
                     EC.presence_of_element_located((By.ID, "com.view.viewglass:id/navigation_scheduleTV"))):
                 self.driver.find_element_by_id("com.view.viewglass:id/navigation_scheduleTV").click()
             else:
@@ -334,7 +337,7 @@ class Schedule(unittest.TestCase):
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/scheduleTV")) <= 0:
             commonFunctions.navIcon(self.driver)
-            if WebDriverWait(self.driver, 20).until(
+            if WebDriverWait(self.driver, 60).until(
                     EC.presence_of_element_located((By.ID, "com.view.viewglass:id/navigation_scheduleTV"))):
                 self.driver.find_element_by_id("com.view.viewglass:id/navigation_scheduleTV").click()
             else:
@@ -371,7 +374,7 @@ class Schedule(unittest.TestCase):
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/scheduleTV")) <= 0:
             commonFunctions.navIcon(self.driver)
-            if WebDriverWait(self.driver, 20).until(
+            if WebDriverWait(self.driver, 60).until(
                     EC.presence_of_element_located((By.ID, "com.view.viewglass:id/navigation_scheduleTV"))):
                 self.driver.find_element_by_id("com.view.viewglass:id/navigation_scheduleTV").click()
             else:
@@ -407,7 +410,7 @@ class Schedule(unittest.TestCase):
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/scheduleTV")) <= 0:
             commonFunctions.navIcon(self.driver)
-            if WebDriverWait(self.driver, 20).until(
+            if WebDriverWait(self.driver, 60).until(
                     EC.presence_of_element_located((By.ID, "com.view.viewglass:id/navigation_scheduleTV"))):
                 self.driver.find_element_by_id("com.view.viewglass:id/navigation_scheduleTV").click()
             else:
@@ -444,7 +447,7 @@ class Schedule(unittest.TestCase):
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/scheduleTV")) <= 0:
             commonFunctions.navIcon(self.driver)
-            if WebDriverWait(self.driver, 20).until(
+            if WebDriverWait(self.driver, 60).until(
                     EC.presence_of_element_located((By.ID, "com.view.viewglass:id/navigation_scheduleTV"))):
                 self.driver.find_element_by_id("com.view.viewglass:id/navigation_scheduleTV").click()
             else:
@@ -468,7 +471,7 @@ class Schedule(unittest.TestCase):
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/scheduleTV")) <= 0:
             commonFunctions.navIcon(self.driver)
-            if WebDriverWait(self.driver, 20).until(
+            if WebDriverWait(self.driver, 60).until(
                     EC.presence_of_element_located((By.ID, "com.view.viewglass:id/navigation_scheduleTV"))):
                 self.driver.find_element_by_id("com.view.viewglass:id/navigation_scheduleTV").click()
             else:
@@ -493,7 +496,7 @@ class Schedule(unittest.TestCase):
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/scheduleTV")) <= 0:
             commonFunctions.navIcon(self.driver)
-            if WebDriverWait(self.driver, 20).until(
+            if WebDriverWait(self.driver, 60).until(
                     EC.presence_of_element_located((By.ID, "com.view.viewglass:id/navigation_scheduleTV"))):
                 self.driver.find_element_by_id("com.view.viewglass:id/navigation_scheduleTV").click()
             else:
@@ -525,7 +528,7 @@ class Schedule(unittest.TestCase):
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/scheduleTV")) <= 0:
             commonFunctions.navIcon(self.driver)
-            if WebDriverWait(self.driver, 20).until(
+            if WebDriverWait(self.driver, 60).until(
                     EC.presence_of_element_located((By.ID, "com.view.viewglass:id/navigation_scheduleTV"))):
                 self.driver.find_element_by_id("com.view.viewglass:id/navigation_scheduleTV").click()
             else:
@@ -566,7 +569,7 @@ class Schedule(unittest.TestCase):
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/scheduleTV")) <= 0:
             commonFunctions.navIcon(self.driver)
-            if WebDriverWait(self.driver, 20).until(
+            if WebDriverWait(self.driver, 60).until(
                     EC.presence_of_element_located((By.ID, "com.view.viewglass:id/navigation_scheduleTV"))):
                 self.driver.find_element_by_id("com.view.viewglass:id/navigation_scheduleTV").click()
             else:
@@ -598,7 +601,7 @@ class Schedule(unittest.TestCase):
 
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/scheduleTV")) <= 0:
             commonFunctions.navIcon(self.driver)
-            if WebDriverWait(self.driver, 20).until(
+            if WebDriverWait(self.driver, 60).until(
                     EC.presence_of_element_located((By.ID, "com.view.viewglass:id/navigation_scheduleTV"))):
                 self.driver.find_element_by_id("com.view.viewglass:id/navigation_scheduleTV").click()
             else:
@@ -633,7 +636,7 @@ class Schedule(unittest.TestCase):
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'RUO')
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/scheduleTV")) <= 0:
             commonFunctions.navIcon(self.driver)
-            if WebDriverWait(self.driver, 20).until(
+            if WebDriverWait(self.driver, 60).until(
                     EC.presence_of_element_located((By.ID, "com.view.viewglass:id/navigation_scheduleTV"))):
                 self.driver.find_element_by_id("com.view.viewglass:id/navigation_scheduleTV").click()
             else:
@@ -669,7 +672,7 @@ class Schedule(unittest.TestCase):
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'RUO')
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/scheduleTV")) <= 0:
             commonFunctions.navIcon(self.driver)
-            if WebDriverWait(self.driver, 20).until(
+            if WebDriverWait(self.driver, 60).until(
                     EC.presence_of_element_located((By.ID, "com.view.viewglass:id/navigation_scheduleTV"))):
                 self.driver.find_element_by_id("com.view.viewglass:id/navigation_scheduleTV").click()
             else:
@@ -715,7 +718,7 @@ class Schedule(unittest.TestCase):
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'RUO')
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/scheduleTV")) <= 0:
             commonFunctions.navIcon(self.driver)
-            if WebDriverWait(self.driver, 20).until(
+            if WebDriverWait(self.driver, 60).until(
                     EC.presence_of_element_located((By.ID, "com.view.viewglass:id/navigation_scheduleTV"))):
                 self.driver.find_element_by_id("com.view.viewglass:id/navigation_scheduleTV").click()
             else:
@@ -752,7 +755,7 @@ class Schedule(unittest.TestCase):
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'RUO')
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/scheduleTV")) <= 0:
             commonFunctions.navIcon(self.driver)
-            if WebDriverWait(self.driver, 20).until(
+            if WebDriverWait(self.driver, 60).until(
                     EC.presence_of_element_located((By.ID, "com.view.viewglass:id/navigation_scheduleTV"))):
                 self.driver.find_element_by_id("com.view.viewglass:id/navigation_scheduleTV").click()
             else:
@@ -788,7 +791,7 @@ class Schedule(unittest.TestCase):
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'RUO')
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/scheduleTV")) <= 0:
             commonFunctions.navIcon(self.driver)
-            if WebDriverWait(self.driver, 20).until(
+            if WebDriverWait(self.driver, 60).until(
                     EC.presence_of_element_located((By.ID, "com.view.viewglass:id/navigation_scheduleTV"))):
                 self.driver.find_element_by_id("com.view.viewglass:id/navigation_scheduleTV").click()
             else:
@@ -825,7 +828,7 @@ class Schedule(unittest.TestCase):
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'RUO')
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/scheduleTV")) <= 0:
             commonFunctions.navIcon(self.driver)
-            if WebDriverWait(self.driver, 20).until(
+            if WebDriverWait(self.driver, 60).until(
                     EC.presence_of_element_located((By.ID, "com.view.viewglass:id/navigation_scheduleTV"))):
                 self.driver.find_element_by_id("com.view.viewglass:id/navigation_scheduleTV").click()
             else:
@@ -861,7 +864,7 @@ class Schedule(unittest.TestCase):
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'RUO')
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/scheduleTV")) <= 0:
             commonFunctions.navIcon(self.driver)
-            if WebDriverWait(self.driver, 20).until(
+            if WebDriverWait(self.driver, 60).until(
                     EC.presence_of_element_located((By.ID, "com.view.viewglass:id/navigation_scheduleTV"))):
                 self.driver.find_element_by_id("com.view.viewglass:id/navigation_scheduleTV").click()
             else:
@@ -898,7 +901,7 @@ class Schedule(unittest.TestCase):
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'RUO')
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/scheduleTV")) <= 0:
             commonFunctions.navIcon(self.driver)
-            if WebDriverWait(self.driver, 20).until(
+            if WebDriverWait(self.driver, 60).until(
                     EC.presence_of_element_located((By.ID, "com.view.viewglass:id/navigation_scheduleTV"))):
                 self.driver.find_element_by_id("com.view.viewglass:id/navigation_scheduleTV").click()
             else:
@@ -933,7 +936,7 @@ class Schedule(unittest.TestCase):
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'RUO')
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/scheduleTV")) <= 0:
             commonFunctions.navIcon(self.driver)
-            if WebDriverWait(self.driver, 20).until(
+            if WebDriverWait(self.driver, 60).until(
                     EC.presence_of_element_located((By.ID, "com.view.viewglass:id/navigation_scheduleTV"))):
                 self.driver.find_element_by_id("com.view.viewglass:id/navigation_scheduleTV").click()
             else:
@@ -970,7 +973,7 @@ class Schedule(unittest.TestCase):
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'RUO')
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/scheduleTV")) <= 0:
             commonFunctions.navIcon(self.driver)
-            if WebDriverWait(self.driver, 20).until(
+            if WebDriverWait(self.driver, 60).until(
                     EC.presence_of_element_located((By.ID, "com.view.viewglass:id/navigation_scheduleTV"))):
                 self.driver.find_element_by_id("com.view.viewglass:id/navigation_scheduleTV").click()
             else:
@@ -996,7 +999,7 @@ class Schedule(unittest.TestCase):
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'RUO')
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/scheduleTV")) <= 0:
             commonFunctions.navIcon(self.driver)
-            if WebDriverWait(self.driver, 20).until(
+            if WebDriverWait(self.driver, 60).until(
                     EC.presence_of_element_located((By.ID, "com.view.viewglass:id/navigation_scheduleTV"))):
                 self.driver.find_element_by_id("com.view.viewglass:id/navigation_scheduleTV").click()
             else:
@@ -1021,7 +1024,7 @@ class Schedule(unittest.TestCase):
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'RUO')
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/scheduleTV")) <= 0:
             commonFunctions.navIcon(self.driver)
-            if WebDriverWait(self.driver, 20).until(
+            if WebDriverWait(self.driver, 60).until(
                     EC.presence_of_element_located((By.ID, "com.view.viewglass:id/navigation_scheduleTV"))):
                 self.driver.find_element_by_id("com.view.viewglass:id/navigation_scheduleTV").click()
             else:
@@ -1056,7 +1059,7 @@ class Schedule(unittest.TestCase):
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'RUO')
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/scheduleTV")) <= 0:
             commonFunctions.navIcon(self.driver)
-            if WebDriverWait(self.driver, 20).until(
+            if WebDriverWait(self.driver, 60).until(
                     EC.presence_of_element_located((By.ID, "com.view.viewglass:id/navigation_scheduleTV"))):
                 self.driver.find_element_by_id("com.view.viewglass:id/navigation_scheduleTV").click()
             else:
@@ -1099,7 +1102,7 @@ class Schedule(unittest.TestCase):
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'RUO')
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/scheduleTV")) <= 0:
             commonFunctions.navIcon(self.driver)
-            if WebDriverWait(self.driver, 20).until(
+            if WebDriverWait(self.driver, 60).until(
                     EC.presence_of_element_located((By.ID, "com.view.viewglass:id/navigation_scheduleTV"))):
                 self.driver.find_element_by_id("com.view.viewglass:id/navigation_scheduleTV").click()
             else:
@@ -1142,7 +1145,7 @@ class Schedule(unittest.TestCase):
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'RUO')
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/scheduleTV")) <= 0:
             commonFunctions.navIcon(self.driver)
-            if WebDriverWait(self.driver, 20).until(
+            if WebDriverWait(self.driver, 60).until(
                     EC.presence_of_element_located((By.ID, "com.view.viewglass:id/navigation_scheduleTV"))):
                 self.driver.find_element_by_id("com.view.viewglass:id/navigation_scheduleTV").click()
             else:
@@ -1172,7 +1175,7 @@ class Schedule(unittest.TestCase):
 
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/scheduleTV")) <= 0:
             commonFunctions.navIcon(self.driver)
-            if WebDriverWait(self.driver, 20).until(
+            if WebDriverWait(self.driver, 60).until(
                     EC.presence_of_element_located((By.ID, "com.view.viewglass:id/navigation_scheduleTV"))):
                 self.driver.find_element_by_id("com.view.viewglass:id/navigation_scheduleTV").click()
             else:

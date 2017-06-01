@@ -43,9 +43,20 @@ from common import config as config
 
 
 def isUserLoggedIn(driver):
-    sleep(30)
+    sleep(50)
     if len(driver.find_elements(By.ID, "com.view.viewglass:id/retry_btn")) > 0:
         driver.find_element_by_id("com.view.viewglass:id/retry_btn").click()
+    try:
+        if WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, "//android.widget.TextView[@text='Recently Crashed!!!']"))):
+            common.respondToAlert(driver, 0)
+            return True
+    except TimeoutException:
+        pass
+
+    if len(driver.find_elements(By.XPATH, "//android.widget.TextView[@text='Authenticating, Please wait..']")) > 0:
+        print("Found authenticating progress")
+        sleep(50)
+
     if len(driver.find_elements(By.ID, "com.view.viewglass:id/home_controlIV")) > 0 or len(driver.find_elements(By.XPATH, "//android.widget.TextView[@text='Recently Crashed!!!']")) > 0:
         return True
     else:
@@ -57,9 +68,10 @@ def checkIfUserIsLoggedIn(driver, loginbool, user):
     # user needs to be logged in
     isLoggedIn = isUserLoggedIn(driver)
     if loginbool:
-        if not isLoggedIn:
+        if not isLoggedIn and user == 'RO':
             login(driver, config.users[user]['username'], config.users[user]['password'])
-            site.selectSite(driver, config.site[0])
+        else:
+            loginAndSelectSite(driver, config.users[user]['username'], config.users[user]['password'], config.site[0])
 
         if common.foundAlert(driver):
             common.respondToAlert(driver, 0)
@@ -90,8 +102,21 @@ def login(driver, username, password):
 
         if len(driver.find_elements(By.XPATH, "//android.widget.Button[@content-desc='LOGIN']")) > 0:
             loginOperation(driver, username, password)
+            sleep(50)
+        elif len(driver.find_elements(By.XPATH, "//android.widget.TextView[@text='Authenticating, Please wait..']")) > 0:
+            print("Found authenticating progress")
+            sleep(90)
 
-        if len(driver.find_elements(By.ID, "com.view.viewglass:id/search_image_view")) > 0 or len(driver.find_elements(By.ID, "com.view.viewglass:id/home_controlIV")) > 0 or len(driver.find_elements(By.XPATH, "//android.widget.TextView[@text='Recently Crashed!!!']")) > 0:
+        # after user enters valid credentials and clicks the login button, check if
+        # (1) user is led to the Select Site screen, or (2) in the Control screen (RO user), or (3) in Control
+        # screen with a 'Recently Crashed' alert. If so, break, and continue (maybe respond to alert)
+        if len(driver.find_elements(By.ID, "com.view.viewglass:id/search_image_view")) > 0 or len(driver.find_elements(By.ID, "com.view.viewglass:id/home_controlIV")) > 0:
+            break
+        elif len(driver.find_elements(By.XPATH, "//android.widget.TextView[@text='Recently Crashed!!!']")) > 0:
+            common.respondToAlert(driver, 0)
+            break
+        elif common.foundTour(driver):
+            common.exitTour(driver)
             break
         elif len(driver.find_elements(By.XPATH, "//android.widget.TextView[@text='Site is not reachable. Please try again later or contact Facilities Manager or View Support at support@viewglass.com or (855)-478-8468']")) > 0:
             raiseExceptions("Site is not reachable for the RO user at the moment")
@@ -99,7 +124,56 @@ def login(driver, username, password):
             attempts += 1
             driver.close_app()
             driver.launch_app()
-            sleep(30)
+            sleep(20)
+
+    if attempts == 3:
+        raiseExceptions("Unable to login after 3 tries")
+
+
+def loginAndSelectSite(driver, username, password, siteToLogInto):
+    attempts = 0
+    while attempts < 3:
+        if len(driver.find_elements(By.ID, "com.view.viewglass:id/retry_btn")) > 0:
+            driver.find_element_by_id("com.view.viewglass:id/retry_btn").click()
+
+        if len(driver.find_elements(By.XPATH, "//android.widget.Button[@content-desc='LOGIN']")) > 0:
+            loginOperation(driver, username, password)
+            sleep(50)
+        elif len(driver.find_elements(By.XPATH, "//android.widget.TextView[@text='Authenticating, Please wait..']")) > 0:
+            print("Found authenticating progress")
+            sleep(90)
+
+        # after user enters valid credentials and clicks the login button, check if
+        # (1) user is led to the Select Site screen, or (2) in the Control screen (RO user), or (3) in Control
+        # screen with a 'Recently Crashed' alert. If so, break, and continue (maybe respond to alert)
+        if len(driver.find_elements(By.ID, "com.view.viewglass:id/search_image_view")) > 0:
+            site.selectSite(driver, siteToLogInto)
+
+        if len(driver.find_elements(By.ID, "com.view.viewglass:id/home_controlIV")) > 0:
+            break
+        elif len(driver.find_elements(By.XPATH, "//android.widget.TextView[@text='Recently Crashed!!!']")) > 0:
+            common.respondToAlert(driver, 0)
+            sleep(5)
+            break
+        elif len(driver.find_elements(By.ID, "com.view.viewglass:id/view_btnTV")) > 0:
+            driver.find_element_by_id("com.view.viewglass:id/view_btnTV").click()
+            break
+        elif common.foundTour(driver):
+            common.exitTour(driver)
+            break
+        elif len(driver.find_elements(By.XPATH, "//android.widget.TextView[@text='Site is not reachable. Please try again later or contact Facilities Manager or View Support at support@viewglass.com or (855)-478-8468']")) > 0:
+            raiseExceptions("Site is not reachable at the moment")
+        else:
+            attempts += 1
+            driver.close_app()
+            driver.launch_app()
+            sleep(20)
+
+        if common.foundTour(driver):
+            common.exitTour(driver)
+        if len(driver.find_elements(By.ID, "com.view.viewglass:id/view_btnTV")) > 0:
+            driver.find_element_by_id("com.view.viewglass:id/view_btnTV").click()
+            sleep(5)
 
     if attempts == 3:
         raiseExceptions("Unable to login after 3 tries")
@@ -155,18 +229,17 @@ def loginOperation(driver, username, password):
     if WebDriverWait(driver, 5).until(
             EC.presence_of_element_located((By.XPATH, "//android.widget.Button[@content-desc='LOGIN']"))):
         # some devices have trouble navigating to the login button
-        location = driver.find_elements(By.CLASS_NAME, "android.webkit.WebView")[0].location
-        size = driver.find_elements(By.CLASS_NAME, "android.webkit.WebView")[0].size
-        x = location['x'] + size['width'] / 2
-        y = location['y'] + size['height'] - driver.find_element_by_xpath("//android.widget.Button[@content-desc='LOGIN']").size['height']
-        driver.tap([(x, y - 100)])
-        driver.tap([(x, y)])
-        sleep(10)
-
+        if len(driver.find_elements(By.XPATH, "//android.widget.Button[@content-desc='LOGIN']")) > 0:
+            location = driver.find_elements(By.CLASS_NAME, "android.webkit.WebView")[0].location
+            size = driver.find_elements(By.CLASS_NAME, "android.webkit.WebView")[0].size
+            x = location['x'] + size['width'] / 2
+            y = location['y'] + size['height'] - \
+                driver.find_element_by_xpath("//android.widget.Button[@content-desc='LOGIN']").size['height']
+            driver.tap([(x, y - 100)])
+            driver.tap([(x, y)])
+            sleep(5)
         if len(driver.find_elements(By.XPATH, "//android.widget.Button[@content-desc='LOGIN']")) > 0:
             driver.find_element_by_xpath("//android.widget.Button[@content-desc='LOGIN']").click()
-
-        sleep(30)
     else:
         raiseExceptions("Missing Login button")
 

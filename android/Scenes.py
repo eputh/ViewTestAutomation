@@ -72,7 +72,7 @@ class Scenes(unittest.TestCase):
     def testVerifyUIComponentsOfSceneScreen(self):
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         commonFunctions.navIcon(self.driver)
-        if WebDriverWait(self.driver, 20).until(
+        if WebDriverWait(self.driver, 60).until(
                 EC.presence_of_element_located((By.ID, "com.view.viewglass:id/navigation_scenesTV"))):
             self.driver.find_element_by_id("com.view.viewglass:id/navigation_scenesTV").click()
         else:
@@ -98,7 +98,7 @@ class Scenes(unittest.TestCase):
     def testVerifyUIComponentsOfSceneDetailScreen(self):
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         commonFunctions.navIcon(self.driver)
-        if WebDriverWait(self.driver, 20).until(
+        if WebDriverWait(self.driver, 60).until(
                 EC.presence_of_element_located((By.ID, "com.view.viewglass:id/navigation_scenesTV"))):
             self.driver.find_element_by_id("com.view.viewglass:id/navigation_scenesTV").click()
         else:
@@ -137,7 +137,7 @@ class Scenes(unittest.TestCase):
     def testVerifyUIComponentsOfEditSceneScreen(self):
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         commonFunctions.navIcon(self.driver)
-        if WebDriverWait(self.driver, 20).until(
+        if WebDriverWait(self.driver, 60).until(
                 EC.presence_of_element_located((By.ID, "com.view.viewglass:id/navigation_scenesTV"))):
             self.driver.find_element_by_id("com.view.viewglass:id/navigation_scenesTV").click()
         else:
@@ -173,7 +173,7 @@ class Scenes(unittest.TestCase):
     def testVerifyUIComponentsOfAddTintEventScreen(self):
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         commonFunctions.navIcon(self.driver)
-        if WebDriverWait(self.driver, 20).until(
+        if WebDriverWait(self.driver, 60).until(
                 EC.presence_of_element_located((By.ID, "com.view.viewglass:id/navigation_scenesTV"))):
             self.driver.find_element_by_id("com.view.viewglass:id/navigation_scenesTV").click()
         else:
@@ -209,7 +209,7 @@ class Scenes(unittest.TestCase):
     def testVerifyUIComponentsOfSceneEventScreen(self):
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         commonFunctions.navIcon(self.driver)
-        if WebDriverWait(self.driver, 20).until(
+        if WebDriverWait(self.driver, 60).until(
                 EC.presence_of_element_located((By.ID, "com.view.viewglass:id/navigation_scenesTV"))):
             self.driver.find_element_by_id("com.view.viewglass:id/navigation_scenesTV").click()
         else:
@@ -247,7 +247,7 @@ class Scenes(unittest.TestCase):
     def testVerifyUIComponentsOfAddNewScene(self):
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         commonFunctions.navIcon(self.driver)
-        if WebDriverWait(self.driver, 20).until(
+        if WebDriverWait(self.driver, 60).until(
                 EC.presence_of_element_located((By.ID, "com.view.viewglass:id/navigation_scenesTV"))):
             self.driver.find_element_by_id("com.view.viewglass:id/navigation_scenesTV").click()
         else:
@@ -282,7 +282,7 @@ class Scenes(unittest.TestCase):
     def testEditScene(self):
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         commonFunctions.navIcon(self.driver)
-        if WebDriverWait(self.driver, 20).until(
+        if WebDriverWait(self.driver, 60).until(
                 EC.presence_of_element_located((By.ID, "com.view.viewglass:id/navigation_scenesTV"))):
             self.driver.find_element_by_id("com.view.viewglass:id/navigation_scenesTV").click()
         else:
@@ -309,7 +309,7 @@ class Scenes(unittest.TestCase):
     def testAddTintEvent(self):
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         commonFunctions.navIcon(self.driver)
-        if WebDriverWait(self.driver, 20).until(
+        if WebDriverWait(self.driver, 60).until(
                 EC.presence_of_element_located((By.ID, "com.view.viewglass:id/navigation_scenesTV"))):
             self.driver.find_element_by_id("com.view.viewglass:id/navigation_scenesTV").click()
         else:
@@ -348,7 +348,7 @@ class Scenes(unittest.TestCase):
     def testAddTintEventExceptionHandling(self):
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         commonFunctions.navIcon(self.driver)
-        if WebDriverWait(self.driver, 20).until(
+        if WebDriverWait(self.driver, 60).until(
                 EC.presence_of_element_located((By.ID, "com.view.viewglass:id/navigation_scenesTV"))):
             self.driver.find_element_by_id("com.view.viewglass:id/navigation_scenesTV").click()
         else:
@@ -379,7 +379,7 @@ class Scenes(unittest.TestCase):
     def testEditTintEvent(self):
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         commonFunctions.navIcon(self.driver)
-        if WebDriverWait(self.driver, 20).until(
+        if WebDriverWait(self.driver, 60).until(
                 EC.presence_of_element_located((By.ID, "com.view.viewglass:id/navigation_scenesTV"))):
             self.driver.find_element_by_id("com.view.viewglass:id/navigation_scenesTV").click()
         else:
@@ -411,16 +411,11 @@ class Scenes(unittest.TestCase):
     # @unittest.skip('Test case temporarily disabled')
     def testAddNewSceneForCRUDO(self):
         auth.checkIfUserIsLoggedIn(self.driver, 0, 'CRUDO')
-        auth.login(self.driver, config.users['CRUDO']['username'], config.users['CRUDO']['password'])
-        site.selectSite(self.driver, config.site[0])
-        sleep(20)
-        if commonFunctions.foundAlert(self.driver):
-            commonFunctions.respondToAlert(self.driver, 0)
-        if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/view_btnTV")) > 0:
-            commonFunctions.navIcon(self.driver)
+        auth.loginAndSelectSite(self.driver, config.users['CRUDO']['username'], config.users['CRUDO']['password'],
+                                config.site[0])
 
         commonFunctions.navIcon(self.driver)
-        if WebDriverWait(self.driver, 20).until(
+        if WebDriverWait(self.driver, 60).until(
                 EC.presence_of_element_located((By.ID, "com.view.viewglass:id/navigation_scenesTV"))):
             self.driver.find_element_by_id("com.view.viewglass:id/navigation_scenesTV").click()
         else:
@@ -458,16 +453,11 @@ class Scenes(unittest.TestCase):
     # @unittest.skip('Test case temporarily disabled')
     def testAddNewSceneForRUO(self):
         auth.checkIfUserIsLoggedIn(self.driver, 0, 'RUO')
-        auth.login(self.driver, config.users['RUO']['username'], config.users['RUO']['password'])
-        site.selectSite(self.driver, config.site[0])
-        sleep(20)
-        if commonFunctions.foundAlert(self.driver):
-            commonFunctions.respondToAlert(self.driver, 0)
-        if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/view_btnTV")) > 0:
-            commonFunctions.navIcon(self.driver)
+        auth.loginAndSelectSite(self.driver, config.users['RUO']['username'], config.users['RUO']['password'],
+                                config.site[0])
 
         commonFunctions.navIcon(self.driver)
-        if WebDriverWait(self.driver, 20).until(
+        if WebDriverWait(self.driver, 60).until(
                 EC.presence_of_element_located((By.ID, "com.view.viewglass:id/navigation_scenesTV"))):
             self.driver.find_element_by_id("com.view.viewglass:id/navigation_scenesTV").click()
         else:
@@ -509,11 +499,9 @@ class Scenes(unittest.TestCase):
         sleep(20)
         if commonFunctions.foundAlert(self.driver):
             commonFunctions.respondToAlert(self.driver, 0)
-        if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/view_btnTV")) > 0:
-            commonFunctions.navIcon(self.driver)
 
         commonFunctions.navIcon(self.driver)
-        if WebDriverWait(self.driver, 20).until(
+        if WebDriverWait(self.driver, 60).until(
                 EC.presence_of_element_located((By.ID, "com.view.viewglass:id/navigation_scenesTV"))):
             self.driver.find_element_by_id("com.view.viewglass:id/navigation_scenesTV").click()
         else:
@@ -529,9 +517,12 @@ class Scenes(unittest.TestCase):
     # @attr('acceptance', sid='TC-SCS-8.2-8.5', bv=10)
     # @unittest.skip('Test case temporarily disabled')
     def testAddNewSceneWithMultipleTintEvents(self):
-        auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
+        auth.checkIfUserIsLoggedIn(self.driver, 0, 'CRUDO')
+        auth.loginAndSelectSite(self.driver, config.users['CRUDO']['username'], config.users['CRUDO']['password'],
+                                config.site[0])
+
         commonFunctions.navIcon(self.driver)
-        if WebDriverWait(self.driver, 20).until(
+        if WebDriverWait(self.driver, 60).until(
                 EC.presence_of_element_located((By.ID, "com.view.viewglass:id/navigation_scenesTV"))):
             self.driver.find_element_by_id("com.view.viewglass:id/navigation_scenesTV").click()
         else:
@@ -571,7 +562,7 @@ class Scenes(unittest.TestCase):
     def testCreateAndRemoveFutureSceneSchedule(self):
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         commonFunctions.navIcon(self.driver)
-        if WebDriverWait(self.driver, 20).until(
+        if WebDriverWait(self.driver, 60).until(
                 EC.presence_of_element_located((By.ID, "com.view.viewglass:id/navigation_scenesTV"))):
             self.driver.find_element_by_id("com.view.viewglass:id/navigation_scenesTV").click()
         else:
@@ -607,7 +598,7 @@ class Scenes(unittest.TestCase):
     def tesCreateCurrentSceneSchedule(self):
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         commonFunctions.navIcon(self.driver)
-        if WebDriverWait(self.driver, 20).until(
+        if WebDriverWait(self.driver, 60).until(
                 EC.presence_of_element_located((By.ID, "com.view.viewglass:id/navigation_scenesTV"))):
             self.driver.find_element_by_id("com.view.viewglass:id/navigation_scenesTV").click()
         else:
@@ -643,7 +634,7 @@ class Scenes(unittest.TestCase):
     def testCreateEverydaySceneSchedule(self):
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         commonFunctions.navIcon(self.driver)
-        if WebDriverWait(self.driver, 20).until(
+        if WebDriverWait(self.driver, 60).until(
                 EC.presence_of_element_located((By.ID, "com.view.viewglass:id/navigation_scenesTV"))):
             self.driver.find_element_by_id("com.view.viewglass:id/navigation_scenesTV").click()
         else:
@@ -669,7 +660,7 @@ class Scenes(unittest.TestCase):
     def testCreateWeeklySceneSchedule(self):
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         commonFunctions.navIcon(self.driver)
-        if WebDriverWait(self.driver, 20).until(
+        if WebDriverWait(self.driver, 60).until(
                 EC.presence_of_element_located((By.ID, "com.view.viewglass:id/navigation_scenesTV"))):
             self.driver.find_element_by_id("com.view.viewglass:id/navigation_scenesTV").click()
         else:

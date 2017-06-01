@@ -62,9 +62,17 @@ def selectSite(driver, site):
         if len(driver.find_elements(By.ID, "com.view.viewglass:id/viewLogoLL")) > 0:
             y = location['y'] + size['height'] * 2.5
             driver.tap([(x, y)])
-            sleep(20)
+            sleep(30)
     except TimeoutException:
         raiseExceptions("Failed to reach Select Site screen")
+
+    try:
+        WebDriverWait(driver, 50).until(EC.presence_of_element_located((By.ID, "com.view.viewglass:id/home_controlIV")))
+    except TimeoutException:
+        try:
+            WebDriverWait(driver, 50).until(EC.presence_of_element_located((By.XPATH, "//android.widget.TextView[@text='Recently Crashed!!!']")))
+        except TimeoutException:
+            print("Processing the select site took too long. Unable to reach site.")
 
 
 def changeSite(driver, site):

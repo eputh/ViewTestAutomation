@@ -36,11 +36,14 @@ from logging import raiseExceptions
 from time import sleep
 
 from appium import webdriver
+from selenium.common.exceptions import *
+
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
-from common import auth as auth
+from common import auth
+from common import config
 from common import commonFunctions as common
 from common import control
 
@@ -152,7 +155,6 @@ class Control(unittest.TestCase):
         """
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
 
-        print("Cancel a change from tint 1 to tint 2  and verify that the tint is still 1")
         # Check to see if the current tint is at 1
         control.clickTintLevelNum(self.driver)
         if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='1']")) > 0:
@@ -173,7 +175,6 @@ class Control(unittest.TestCase):
         """
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
 
-        print("Cancel a change from tint 1 to tint 2  and verify that the tint is not 2, 3, or 4")
         # Check to see if the current tint is at 1
         control.clickTintLevelNum(self.driver)
         if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='1']")) > 0:
@@ -194,7 +195,6 @@ class Control(unittest.TestCase):
         """
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
 
-        print("Cancel a change from tint 1 to tint 3  and verify that the tint is still 1")
         # Check to see if the current tint is at 1
         control.clickTintLevelNum(self.driver)
         if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='1']")) > 0:
@@ -215,7 +215,6 @@ class Control(unittest.TestCase):
         """
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
 
-        print(" Cancel a change from tint 1 to tint 3  and verify that the tint is not 2, 3, or 4")
         # Check to see if the current tint is at 1
         control.clickTintLevelNum(self.driver)
         if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='1']")) > 0:
@@ -236,7 +235,6 @@ class Control(unittest.TestCase):
         """
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
 
-        print("Cancel a change from tint 1 to tint 4  and verify that the tint is still 1")
         # Check to see if the current tint is at 1
         control.clickTintLevelNum(self.driver)
         if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='1']")) > 0:
@@ -257,7 +255,6 @@ class Control(unittest.TestCase):
         """
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
 
-        print(" Cancel a change from tint 1 to tint 4  and verify that the tint is not 2, 3, or 4")
         # Check to see if the current tint is at 1
         control.clickTintLevelNum(self.driver)
         if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='1']")) > 0:
@@ -278,7 +275,6 @@ class Control(unittest.TestCase):
         """
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
 
-        print("Override a change from tint 1 to tint 2  and verify that the tint is now 2")
         # Check to see if the current tint is at 1
         control.clickTintLevelNum(self.driver)
         if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='1']")) > 0:
@@ -297,7 +293,6 @@ class Control(unittest.TestCase):
         """
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
 
-        print("Override a change from tint 1 to tint 2  and verify that the tint is not 1, 3, or 4")
         # Check to see if the current tint is at 1
         control.clickTintLevelNum(self.driver)
         if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='1']")) > 0:
@@ -316,7 +311,6 @@ class Control(unittest.TestCase):
         """
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
 
-        print("Override a change from tint 1 to tint 3  and verify that the tint is now 3")
         # Check to see if the current tint is at 1
         control.clickTintLevelNum(self.driver)
         if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='1']")) > 0:
@@ -335,7 +329,6 @@ class Control(unittest.TestCase):
         """
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
 
-        print("Override a change from tint 1 to tint 3  and verify that the tint is not 1, 2, or 4")
         # Check to see if the current tint is at 1
         control.clickTintLevelNum(self.driver)
         if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='1']")) > 0:
@@ -354,7 +347,6 @@ class Control(unittest.TestCase):
         """
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
 
-        print("Override a change from tint 1 to tint 4  and verify that the tint is now 4")
         # Check to see if the current tint is at 1
         control.clickTintLevelNum(self.driver)
         if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='1']")) > 0:
@@ -373,7 +365,6 @@ class Control(unittest.TestCase):
         """
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
 
-        print("Override a change from tint 1 to tint 4  and verify that the tint is not 1, 2, or 3")
         # Check to see if the current tint is at 1
         control.clickTintLevelNum(self.driver)
         if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='1']")) > 0:
@@ -394,7 +385,6 @@ class Control(unittest.TestCase):
         """
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         
-        print("Cancel a change from tint 2 to tint 1  and verify that the tint is still 2")
         # Check to see if the current tint is at 2
         control.clickTintLevelNum(self.driver)
         if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='2']")) > 0:
@@ -415,7 +405,6 @@ class Control(unittest.TestCase):
         """
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         
-        print("Cancel a change from tint 2 to tint 1  and verify that the tint is not 1, 3, or 4")
         # Check to see if the current tint is at 2
         control.clickTintLevelNum(self.driver)
         if len(self.driver.find_elements(By.XPATH, "//*[@id='tintLevelNum_controlTV' and text='2']")) > 0:
@@ -436,7 +425,6 @@ class Control(unittest.TestCase):
         """
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         
-        print("Cancel a change from tint 2 to tint 3  and verify that the tint is still 2")
         # Check to see if the current tint is at 2
         control.clickTintLevelNum(self.driver)
         if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='2']")) > 0:
@@ -457,7 +445,6 @@ class Control(unittest.TestCase):
         """
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         
-        print(" Cancel a change from tint 2 to tint 3  and verify that the tint is not 1, 3, or 4")
         # Check to see if the current tint is at 2
         control.clickTintLevelNum(self.driver)
         if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='2']")) > 0:
@@ -478,7 +465,6 @@ class Control(unittest.TestCase):
         """
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         
-        print("Cancel a change from tint 2 to tint 4  and verify that the tint is still 2")
         # Check to see if the current tint is at 2
         control.clickTintLevelNum(self.driver)
         if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='2']")) > 0:
@@ -499,7 +485,6 @@ class Control(unittest.TestCase):
         """
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         
-        print(" Cancel a change from tint 2 to tint 4  and verify that the tint is not 1, 3, or 4")
         # Check to see if the current tint is at 2
         control.clickTintLevelNum(self.driver)
         if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='2']")) > 0:
@@ -520,7 +505,6 @@ class Control(unittest.TestCase):
         """
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         
-        print("Override a change from tint 2 to tint 1  and verify that the tint is now 1")
         # Check to see if the current tint is at 2
         control.clickTintLevelNum(self.driver)
         if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='2']")) > 0:
@@ -539,7 +523,6 @@ class Control(unittest.TestCase):
         """
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         
-        print("Override a change from tint 2 to tint 1  and verify that the tint is not 2, 3, or 4")
         # Check to see if the current tint is at 2
         control.clickTintLevelNum(self.driver)
         if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='2']")) > 0:
@@ -558,7 +541,6 @@ class Control(unittest.TestCase):
         """
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         
-        print("Override a change from tint 2 to tint 3  and verify that the tint is now 3")
         # Check to see if the current tint is at 2
         control.clickTintLevelNum(self.driver)
         if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='2']")) > 0:
@@ -577,7 +559,6 @@ class Control(unittest.TestCase):
         """
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         
-        print("Override a change from tint 2 to tint 3  and verify that the tint is not 1, 2, or 4")
         # Check to see if the current tint is at 2
         control.clickTintLevelNum(self.driver)
         if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='2']")) > 0:
@@ -597,7 +578,6 @@ class Control(unittest.TestCase):
         """
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         
-        print("Override a change from tint 2 to tint 4  and verify that the tint is now 4")
         # Check to see if the current tint is at 2
         control.clickTintLevelNum(self.driver)
         if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='2']")) > 0:
@@ -616,7 +596,6 @@ class Control(unittest.TestCase):
         """
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         
-        print("Override a change from tint 2 to tint 4  and verify that the tint is not 1, 2, or 3")
         # Check to see if the current tint is at 2
         control.clickTintLevelNum(self.driver)
         if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='2']")) > 0:
@@ -637,7 +616,6 @@ class Control(unittest.TestCase):
         """
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         
-        print("Cancel a change from tint 3 to tint 2  and verify that the tint is still 3")
         # Check to see if the current tint is at 3
         control.clickTintLevelNum(self.driver)
         if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='3']")) > 0:
@@ -658,7 +636,6 @@ class Control(unittest.TestCase):
         """
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         
-        print("Cancel a change from tint 3 to tint 2  and verify that the tint is not 1, 2, or 4")
         # Check to see if the current tint is at 3
         control.clickTintLevelNum(self.driver)
         if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='3']")) > 0:
@@ -679,7 +656,6 @@ class Control(unittest.TestCase):
         """
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         
-        print("Cancel a change from tint 3 to tint 1  and verify that the tint is still 3")
         # Check to see if the current tint is at 3
         control.clickTintLevelNum(self.driver)
         if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='3']")) > 0:
@@ -700,7 +676,6 @@ class Control(unittest.TestCase):
         """
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         
-        print(" Cancel a change from tint 3 to tint 1  and verify that the tint is not 1, 2, or 4")
         # Check to see if the current tint is at 3
         control.clickTintLevelNum(self.driver)
         if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='3']")) > 0:
@@ -742,7 +717,6 @@ class Control(unittest.TestCase):
         """
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         
-        print(" Cancel a change from tint 3 to tint 4  and verify that the tint is not 1, 2, or 4")
         # Check to see if the current tint is at 3
         control.clickTintLevelNum(self.driver)
         if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='3']")) > 0:
@@ -763,7 +737,6 @@ class Control(unittest.TestCase):
         """
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         
-        print("Override a change from tint 3 to tint 1  and verify that the tint is now 1")
         # Check to see if the current tint is at 3
         control.clickTintLevelNum(self.driver)
         if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='3']")) > 0:
@@ -782,7 +755,6 @@ class Control(unittest.TestCase):
         """
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         
-        print("Override a change from tint 3 to tint 1  and verify that the tint is not 2, 3, or 4")
         # Check to see if the current tint is at 3
         control.clickTintLevelNum(self.driver)
         if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='3']")) > 0:
@@ -801,7 +773,6 @@ class Control(unittest.TestCase):
         """
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         
-        print("Override a change from tint 3 to tint 2  and verify that the tint is now 2")
         # Check to see if the current tint is at 3
         control.clickTintLevelNum(self.driver)
         if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='3']")) > 0:
@@ -820,7 +791,6 @@ class Control(unittest.TestCase):
         """
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         
-        print("Override a change from tint 3 to tint 2  and verify that the tint is not 1, 3, or 4")
         # Check to see if the current tint is at 3
         control.clickTintLevelNum(self.driver)
         if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='3']")) > 0:
@@ -839,7 +809,6 @@ class Control(unittest.TestCase):
         """
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         
-        print("Override a change from tint 3 to tint 4  and verify that the tint is now 4")
         # Check to see if the current tint is at 3
         control.clickTintLevelNum(self.driver)
         if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='3']")) > 0:
@@ -858,7 +827,6 @@ class Control(unittest.TestCase):
         """
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         
-        print("Override a change from tint 3 to tint 4  and verify that the tint is not 1, 2, or 3")
         # Check to see if the current tint is at 3
         control.clickTintLevelNum(self.driver)
         if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='3']")) > 0:
@@ -879,7 +847,6 @@ class Control(unittest.TestCase):
         """
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         
-        print("Cancel a change from tint 4 to tint 2  and verify that the tint is still 4")
         # Check to see if the current tint is at 4
         control.clickTintLevelNum(self.driver)
         if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='4']")) > 0:
@@ -900,7 +867,6 @@ class Control(unittest.TestCase):
         """
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         
-        print("Cancel a change from tint 4 to tint 2  and verify that the tint is not 1, 2, or 3")
         # Check to see if the current tint is at 4
         control.clickTintLevelNum(self.driver)
         if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='4']")) > 0:
@@ -921,7 +887,6 @@ class Control(unittest.TestCase):
         """
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         
-        print("Cancel a change from tint 4 to tint 3  and verify that the tint is still 4")
         # Check to see if the current tint is at 4
         control.clickTintLevelNum(self.driver)
         if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='4']")) > 0:
@@ -942,7 +907,6 @@ class Control(unittest.TestCase):
         """
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         
-        print(" Cancel a change from tint 4 to tint 3  and verify that the tint is not 1, 2, or 3")
         # Check to see if the current tint is at 4
         control.clickTintLevelNum(self.driver)
         if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='4']")) > 0:
@@ -963,7 +927,6 @@ class Control(unittest.TestCase):
         """
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         
-        print("Cancel a change from tint 4 to tint 1  and verify that the tint is still 4")
         # Check to see if the current tint is at 4
         control.clickTintLevelNum(self.driver)
         if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='4']")) > 0:
@@ -984,7 +947,6 @@ class Control(unittest.TestCase):
         """
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         
-        print(" Cancel a change from tint 4 to tint 1  and verify that the tint is not 1, 2, or 3")
         # Check to see if the current tint is at 4
         control.clickTintLevelNum(self.driver)
         if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='4']")) > 0:
@@ -1005,7 +967,6 @@ class Control(unittest.TestCase):
         """
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         
-        print("Override a change from tint 4 to tint 1  and verify that the tint is now 1")
         # Check to see if the current tint is at 4
         control.clickTintLevelNum(self.driver)
         if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='4']")) > 0:
@@ -1024,7 +985,6 @@ class Control(unittest.TestCase):
         """
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         
-        print("Override a change from tint 4 to tint 1  and verify that the tint is not 2, 3, or 4")
         # Check to see if the current tint is at 4
         control.clickTintLevelNum(self.driver)
         if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='4']")) > 0:
@@ -1043,7 +1003,6 @@ class Control(unittest.TestCase):
         """
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         
-        print("Override a change from tint 4 to tint 2  and verify that the tint is now 4")
         # Check to see if the current tint is at 4
         control.clickTintLevelNum(self.driver)
         if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='4']")) > 0:
@@ -1062,7 +1021,6 @@ class Control(unittest.TestCase):
         """
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         
-        print("Override a change from tint 4 to tint 2  and verify that the tint is not 1, 3, or 4")
         # Check to see if the current tint is at 4
         control.clickTintLevelNum(self.driver)
         if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='4']")) > 0:
@@ -1081,7 +1039,6 @@ class Control(unittest.TestCase):
         """
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         
-        print("Override a change from tint 4 to tint 3  and verify that the tint is now 3")
         # Check to see if the current tint is at 4
         control.clickTintLevelNum(self.driver)
         if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='4']")) > 0:
@@ -1100,7 +1057,6 @@ class Control(unittest.TestCase):
         """
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         
-        print("Override a change from tint 4 to tint 3  and verify that the tint is not 1, 2, or 4")
         # Check to see if the current tint is at 4
         control.clickTintLevelNum(self.driver)
         if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='4']")) > 0:
@@ -1121,7 +1077,6 @@ class Control(unittest.TestCase):
         """
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         
-        print("check tint duration UI components")
         tint1 = control.getTint1(self.driver)
         self.driver.tap([(tint1[0], tint1[1])])
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/time_remaining_controlLL")) > 0:
@@ -1163,7 +1118,6 @@ class Control(unittest.TestCase):
         """
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         
-        print("check time selection functionality")
         tint1 = control.getTint1(self.driver)
         self.driver.tap([(tint1[0], tint1[1])])
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/time_remaining_controlLL")) > 0:
@@ -1191,15 +1145,17 @@ class Control(unittest.TestCase):
     # @attr('acceptance', sid='TC-ctrltint-5.7, TC-ctrltint-5.8', bv=10)
     # @unittest.skip('Test case temporarily disabled')
     def testCancelOverride(self):
-        auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
+        auth.checkIfUserIsLoggedIn(self.driver, 0, 'CRUDO')
+        auth.loginAndSelectSite(self.driver, config.users['CRUDO']['username'], config.users['CRUDO']['password'],
+                                config.site[0])
 
+        currentTint = control.getCurrentTint(self.driver)
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/clear_quick_control_requestsLL")) > 0:
             pass
         else:
-            currentTint = control.getCurrentTint(self.driver)
             control.selectTint(self.driver, currentTint)
-        currentTint = control.getCurrentTint(self.driver)
-        control.selectRandomTint(self.driver)
+        newTint = control.selectRandomTint(self.driver)
+        common.overridebutton(self.driver)
 
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/clear_quick_control_requestsLL")) > 0:
             self.driver.find_element_by_id("com.view.viewglass:id/clear_quick_control_requestsLL").click()
@@ -1208,11 +1164,14 @@ class Control(unittest.TestCase):
         if common.foundAlert(self.driver):
             common.respondToAlert(self.driver, 1)
 
-        newTint = control.getCurrentTint(self.driver)
-        if currentTint == newTint:
-            pass
-        else:
-            raiseExceptions("cancel override did not return to previous tint")
+        try:
+            tintStr = "//android.widget.TextView[@text='" + str(currentTint) + "']"
+            WebDriverWait(self.driver, 120).until(
+                EC.presence_of_element_located((By.XPATH, tintStr)))
+            # if currentTint == newTint:
+            #     pass
+        except TimeoutException:
+            raiseExceptions("Cancel override did not return to previous tint after 2 minutes")
 
 if __name__ == '__main__':
     suite = unittest.TestLoader().loadTestsFromTestCase(Control)

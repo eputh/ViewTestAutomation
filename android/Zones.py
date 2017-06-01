@@ -336,7 +336,10 @@ class Zones(unittest.TestCase):
     # @attr('acceptance', sid='TC-crtzngp-9.2 to TC-crtzngp-9.8', bv=10)
     # @unittest.skip('Test case temporarily disabled')
     def testCreateZoneGroupForCRUDO(self):
-        auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
+        auth.checkIfUserIsLoggedIn(self.driver, 0, 'CRUDO')
+        auth.loginAndSelectSite(self.driver, config.users['CRUDO']['username'], config.users['CRUDO']['password'],
+                                config.site[0])
+
         commonFunctions.navIcon(self.driver)
         if WebDriverWait(self.driver, 10).until(
                 EC.presence_of_element_located((By.ID, "com.view.viewglass:id/navigation_zonesTV"))):
@@ -378,13 +381,8 @@ class Zones(unittest.TestCase):
     # @unittest.skip('Test case temporarily disabled')
     def testCreateZoneGroupForRUO(self):
         auth.checkIfUserIsLoggedIn(self.driver, 0, 'RUO')
-        auth.login(self.driver, config.users['RUO']['username'], config.users['RUO']['password'])
-        site.selectSite(self.driver, config.site[0])
-        sleep(20)
-        if commonFunctions.foundAlert(self.driver):
-            commonFunctions.respondToAlert(self.driver, 0)
-        if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/view_btnTV")) > 0:
-            commonFunctions.navIcon(self.driver)
+        auth.loginAndSelectSite(self.driver, config.users['RUO']['username'], config.users['RUO']['password'],
+                                config.site[0])
 
         commonFunctions.navIcon(self.driver)
         if WebDriverWait(self.driver, 10).until(
@@ -474,7 +472,10 @@ class Zones(unittest.TestCase):
     # @attr('acceptance', sid='TC-zngrpdet-2.7, TC-zndet-3.5, TC-crtzngp-9.11, TC-crtzngp-9.12', bv=10)
     # @unittest.skip('Test case temporarily disabled')
     def testEditZoneGroupForCRUDO(self):
-        auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
+        auth.checkIfUserIsLoggedIn(self.driver, 0, 'CRUDO')
+        auth.loginAndSelectSite(self.driver, config.users['CRUDO']['username'], config.users['CRUDO']['password'],
+                                config.site[0])
+
         commonFunctions.navIcon(self.driver)
         if WebDriverWait(self.driver, 10).until(
                 EC.presence_of_element_located((By.ID, "com.view.viewglass:id/navigation_zonesTV"))):
@@ -511,13 +512,8 @@ class Zones(unittest.TestCase):
     # @unittest.skip('Test case temporarily disabled')
     def testEditZoneGroupForRUO(self):
         auth.checkIfUserIsLoggedIn(self.driver, 0, 'RUO')
-        auth.login(self.driver, config.users['RUO']['username'], config.users['RUO']['password'])
-        site.selectSite(self.driver, config.site[0])
-        sleep(20)
-        if commonFunctions.foundAlert(self.driver):
-            commonFunctions.respondToAlert(self.driver, 0)
-        if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/view_btnTV")) > 0:
-            commonFunctions.navIcon(self.driver)
+        auth.loginAndSelectSite(self.driver, config.users['RUO']['username'], config.users['RUO']['password'],
+                                config.site[0])
 
         commonFunctions.navIcon(self.driver)
         if WebDriverWait(self.driver, 10).until(
@@ -595,7 +591,10 @@ class Zones(unittest.TestCase):
     # @attr('acceptance', sid='TC-crtzngp-9.9, TC-crtzngp-9.10', bv=10)
     # @unittest.skip('Test case temporarily disabled')
     def testRemoveZoneGroupForCRUDO(self):
-        auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
+        auth.checkIfUserIsLoggedIn(self.driver, 0, 'CRUDO')
+        auth.loginAndSelectSite(self.driver, config.users['CRUDO']['username'], config.users['CRUDO']['password'],
+                                config.site[0])
+
         commonFunctions.navIcon(self.driver)
         if WebDriverWait(self.driver, 10).until(
                 EC.presence_of_element_located((By.ID, "com.view.viewglass:id/navigation_zonesTV"))):
@@ -639,13 +638,8 @@ class Zones(unittest.TestCase):
     # @unittest.skip('Test case temporarily disabled')
     def testRemoveDeleteZoneGroupForRUO(self):
         auth.checkIfUserIsLoggedIn(self.driver, 0, 'RUO')
-        auth.login(self.driver, config.users['RUO']['username'], config.users['RUO']['password'])
-        site.selectSite(self.driver, config.site[0])
-        sleep(20)
-        if commonFunctions.foundAlert(self.driver):
-            commonFunctions.respondToAlert(self.driver, 0)
-        if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/view_btnTV")) > 0:
-            commonFunctions.navIcon(self.driver)
+        auth.loginAndSelectSite(self.driver, config.users['RUO']['username'], config.users['RUO']['password'],
+                                config.site[0])
 
         commonFunctions.navIcon(self.driver)
         if WebDriverWait(self.driver, 10).until(

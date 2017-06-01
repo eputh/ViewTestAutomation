@@ -53,7 +53,6 @@ class RunTests(unittest.TestCase):
         # suite of TestCases
         self.suite = unittest.TestSuite()
         self.suite.addTests([
-            unittest.defaultTestLoader.loadTestsFromTestCase(Network.Network),
             unittest.defaultTestLoader.loadTestsFromTestCase(Profile.Profile),
             unittest.defaultTestLoader.loadTestsFromTestCase(Settings.Settings),
             unittest.defaultTestLoader.loadTestsFromTestCase(LiveView.LiveView),
@@ -62,11 +61,11 @@ class RunTests(unittest.TestCase):
             unittest.defaultTestLoader.loadTestsFromTestCase(Scenes.Scenes),
             unittest.defaultTestLoader.loadTestsFromTestCase(Schedule.Schedule),
             unittest.defaultTestLoader.loadTestsFromTestCase(Authentication.Authentication),
-            unittest.defaultTestLoader.loadTestsFromTestCase(SelectSite.SelectSite)
+            unittest.defaultTestLoader.loadTestsFromTestCase(SelectSite.SelectSite),
+            unittest.defaultTestLoader.loadTestsFromTestCase(Network.Network)
         ])
         self.suite2 = unittest.TestSuite()
         self.suite2.addTests([
-            unittest.defaultTestLoader.loadTestsFromTestCase(Network.Network),
             unittest.defaultTestLoader.loadTestsFromTestCase(Profile.Profile),
             unittest.defaultTestLoader.loadTestsFromTestCase(Settings.Settings),
             unittest.defaultTestLoader.loadTestsFromTestCase(LiveView.LiveView),
@@ -75,7 +74,8 @@ class RunTests(unittest.TestCase):
             unittest.defaultTestLoader.loadTestsFromTestCase(Scenes.Scenes),
             unittest.defaultTestLoader.loadTestsFromTestCase(Schedule.Schedule),
             unittest.defaultTestLoader.loadTestsFromTestCase(Authentication.Authentication),
-            unittest.defaultTestLoader.loadTestsFromTestCase(SelectSite.SelectSite)
+            unittest.defaultTestLoader.loadTestsFromTestCase(SelectSite.SelectSite),
+            unittest.defaultTestLoader.loadTestsFromTestCase(Network.Network)
         ])
 
         # Invoke TestRunner
@@ -91,15 +91,13 @@ class RunTests(unittest.TestCase):
             description='View Inc Automation TestCases for iOS and Android.'
         )
 
-        print("Beginning test suite")
-        if runner.run(self.systemReadySuite).wasSuccessful():
-            # self.driver.quit()
-            # print("good")
-            runner.run(self.suite)
-            if runner.run(self.networkConnectionSuite).wasSuccessful():
-                runner.run(self.suite2)
-        else:
-            print("Unsuccessful launch of test suite. System was not ready.")
+        runner.run(self.suite)
+        # if runner.run(self.systemReadySuite).wasSuccessful():
+        #     runner.run(self.suite)
+        #     # if runner.run(self.networkConnectionSuite).wasSuccessful():
+        #     #     runner.run(self.suite2)
+        # else:
+        #     print("Unsuccessful launch of test suite. System was not ready.")
         outfile.close()
 
 

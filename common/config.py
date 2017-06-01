@@ -29,35 +29,45 @@
 #
 ########################################################################
 """
-device = 'RKumar iPhone'
-site = ["tintserver7700", "APPCLOUDTest1"]
+import os
 
+device = 'RKumar iPhone'
+site = ["NC20test", "tintserver7700", "APPCLOUDTest1"]
+
+# if a new device is added, make sure to update the ViewTestReport template
 devices = {
     '0abad235030d17a3': {
         'name': 'Galaxy Tab S2',
-        'hasData': False
+        'hasData': False,
+        'nodeCommand': 'appium --nodeconfig ' + os.path.abspath(os.path.join(os.getcwd(), 'capabilities/GalaxyTabS2.json')) + ' -p 4760 -bp 4765 -U 0abad235030d17a3'
     },
 
     'FA68W0308348': {
         'name': 'Google Pixel',
-        'hasData': True
+        'hasData': True,
+        'nodeCommand': 'appium --nodeconfig ' + os.path.abspath(os.path.join(os.getcwd(), 'capabilities/GooglePixel.json')) + ' -p 4740 -bp 4745 -U FA68W0308348'
     },
 
     'HT6AE0100527': {
         'name': 'HTC 10',
-        'hasData': True
+        'hasData': True,
+        'nodeCommand': 'appium --nodeconfig ' + os.path.abspath(os.path.join(os.getcwd(), 'capabilities/HTC10.json')) + ' -p 4730 -bp 4735 -U HT6AE0100527'
     },
     '09c119410bfc3c60': {
         'name': 'Nexus 5',
-        'hasData': False
+        'hasData': False,
+        'nodeCommand': 'appium --nodeconfig ' + os.path.abspath(os.path.join(os.getcwd(), 'capabilities/nexus5.json')) + ' -p 3030 -bp 3035 -U 09c119410bfc3c60'
     },
     '092326c6': {
         'name': 'Nexus 7',
-        'hasData': False
+        'hasData': False,
+        'nodeCommand': 'appium --nodeconfig ' + os.path.abspath(os.path.join(os.getcwd(), 'capabilities/nexus7.json')) + ' -p 4723 -bp 4725 -U 092326c6'
     },
     '45ddeb64': {
         'name': 'Samsung Galaxy S7',
-        'hasData': True
+        'hasData': True,
+        'nodeCommand': 'appium --nodeconfig ' + os.path.abspath(os.path.join(os.getcwd(), 'capabilities/SamsungGalaxy.json')) + ' -p 4780 -bp 4785 -U 45ddeb64'
+
     }
 }
 
@@ -95,6 +105,10 @@ users = {
         'password': ''
     },
     'UserNotConfiguredInVRM': {
+        'username': 'view.test02@viewglass.com',
+        'password': 'Passw0rd!'
+    },
+    '1dot2System': {
         'username': 'view.test02@viewglass.com',
         'password': 'Passw0rd!'
     }

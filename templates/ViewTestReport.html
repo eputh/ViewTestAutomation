@@ -52,6 +52,8 @@
 			.bgcolor-9 { background: #8781bd; color: #fff; }
 			.bgcolor-10 { background: #6C6C6C; }
 
+            .btn {cursor: pointer; }
+
 			body .nomargin-bottom {
 				margin-bottom: 0;
 			}
@@ -68,6 +70,8 @@
 				line-height: 1;
 				margin: 0.25em 0 0;
 			}
+
+            h2 {color: #425c78 !important;}
 
 			.header h1 span {
 				display: block;
@@ -228,6 +232,12 @@
 				padding: 0 40px 0 40px
 			}
 
+            .selected-devices { margin: 50px 50px; }
+
+            .option {
+                cursor: pointer; width: 20%; height: 100px; background: #425c78; display: inline-block; color: #f5f5f5; padding-top: 35px; margin: 10px;
+            }
+            .option:hover {background: #5bc0de;}
 
 			/* -- css div popup ------------------------------------------------------------------------ */
 			a.popup_link {
@@ -287,182 +297,96 @@
 		<!--[if IE]>
   		<script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]-->
+        <script type="text/javascript">
+            var testDevices = new Set(), testCases = new Set();
+            function addDevice(device) {
+                testDevices.add(device)
+                document.getElementById(device).style.background = "#5bc0de"
+                console.log(testDevices);
+            }
+            function addTestCase(testcase) {
+                testCases.add(testcase)
+                document.getElementById(testcase).style.background = "#5bc0de"
+                console.log(testCases);
+            }
+
+            $(document).ready(function(){
+
+                $("#launch-tests").click(function(e) {
+                    e.preventDefault();
+                    devices = "";
+                    let d = Array.from(testDevices)
+                    console.log("test devices: ", d);
+                    for (var i=0; i < d.length; i++)
+                        devices += d[i] + ';';
+                    console.log("devices: ", devices);
+                    if (testDevices.length != 0) {
+                        if (testCases.length != 0) {
+                            alert("starting tests")
+                            beginTests(devices)
+                        } else {
+                            alert("Please select one or more tests to run.")
+                        }
+                    } else {
+                        alert("Please enter the number of connected devices.")
+                    }
+                });
+
+                function beginTests(input) {
+                    $.ajax({
+                        type: "POST",
+                        url: "/run_tests",
+                        data: { param: input },
+                        dataType: "text",
+                        success: function(result) {
+                            console.log('starting tests');
+                        },
+                        error: function(result) {
+                            alert('error');
+                        }
+                    });
+                }
+
+            });
+	    </script>
 	</head>
 	<body>
 	<div class="nav">
 
 	</div>
-	<div class="container">
+	<div class="container bgcolor-4">
 		<header class="header">
 			<h1>View Test Automation <span>Test automation scripts for iOS and Android</span></h1>
 		</header>
-		<div class="container bgcolor-4">
-			<form action="runner.py" method="post">
-				<span class="input input--kyo">
-					<input name="num_of_connected_devices" class="input__field input__field--kyo" type="text" id="num_devices" />
-					<label class="input__label input__label--kyo" for="num_devices">
-						<span class="input__label-content input__label-content--kyo">How many devices are connected for testing?</span>
-					</label>
-				</span>
-				<span class="test_case_list">
-					<label class="checkbox-inline"><input class="checkbox" type="checkbox" value="on" name="authentication">Authentication</label>
-					<label class="checkbox-inline"><input class="checkbox" type="checkbox" value="on" name="control">Control</label>
-					<label class="checkbox-inline"><input class="checkbox" type="checkbox" value="">LiveView</label>
-					<label class="checkbox-inline"><input class="checkbox" type="checkbox" value="">Profile</label>
-					<label class="checkbox-inline"><input class="checkbox" type="checkbox" value="">Scenes</label>
-					<label class="checkbox-inline"><input class="checkbox" type="checkbox" value="">Schedule</label>
-					<label class="checkbox-inline"><input class="checkbox" type="checkbox" value="on" name="select-site">SelectSite</label>
-					<label class="checkbox-inline"><input class="checkbox" type="checkbox" value="">Settings</label>
-					<label class="checkbox-inline"><input class="checkbox" type="checkbox" value="">Zones</label>
-				</span>
-				<button type="submit" class="btn btn-info">Launch Tests</button>
-			</form>
+		<div class="container bgcolor-3">
+			<h2>Step 1: Select device(s)</h2>
+            <div class="selected-devices">
+                <span class="option" id="0abad235030d17a3" onclick="addDevice('0abad235030d17a3')">Galaxy Tab S2</span>
+                <span class="option" id="FA68W0308348" onclick="addDevice('FA68W0308348')">Google Pixel</span>
+                <span class="option" id="HT6AE0100527" onclick="addDevice('HT6AE0100527')">HTC 10</span>
+                <span class="option" id="09c119410bfc3c60" onclick="addDevice('09c119410bfc3c60')">Nexus 5</span>
+                <span class="option" id="092326c6" onclick="addDevice('092326c6')">Nexus 7</span>
+                <span class="option" id="45ddeb64" onclick="addDevice('45ddeb64')">Samsung Galaxy S7</span>
+            </div>
 		</div>
-		<div class="reports">
-			<!--<div class="container bgcolor-3">-->
-				<!--<div class="col-xs-offset-1 col-xs-10 col-sm-10 col-md-10 col-lg-10">-->
-					<!--<h2>Test Group: Control</h2>-->
-					<!--<table class="table">-->
-						<!--<thead>-->
-						<!--<tr>-->
-							<!--<th>Test Group/Test case</th>-->
-							<!--<th>Count/Pass/Fail/Error/View</th>-->
-						<!--</tr>-->
-						<!--</thead>-->
-						<!--<tbody>-->
-						<!--<tr>-->
-							<!--<td>testCancelOverride</td>-->
-							<!--<td>pass</td>-->
-						<!--</tr>-->
-						<!--<tr>-->
-							<!--<td>testControlScreenUIComponents</td>-->
-							<!--<td>pass</td>-->
-						<!--</tr>-->
-						<!--<tr>-->
-							<!--<td>testTimeSelection</td>-->
-							<!--<td>pass</td>-->
-						<!--</tr>-->
-						<!--</tbody>-->
-					<!--</table>-->
-				<!--</div>-->
-			<!--</div>-->
-			<!--<div class="container bgcolor-4">-->
-				<!--<div class="col-xs-offset-1 col-xs-10 col-sm-10 col-md-10 col-lg-10">-->
-					<!--<h2>Test Group: Select Site</h2>-->
-					<!--<table class="table">-->
-						<!--<thead>-->
-						<!--<tr>-->
-							<!--<th>Test Group/Test case</th>-->
-							<!--<th>Count/Pass/Fail/Error/View</th>-->
-						<!--</tr>-->
-						<!--</thead>-->
-						<!--<tbody>-->
-						<!--<tr>-->
-							<!--<td>testCancelOverride</td>-->
-							<!--<td>pass</td>-->
-						<!--</tr>-->
-						<!--<tr>-->
-							<!--<td>testControlScreenUIComponents</td>-->
-							<!--<td>pass</td>-->
-						<!--</tr>-->
-						<!--<tr>-->
-							<!--<td>testTimeSelection</td>-->
-							<!--<td>pass</td>-->
-						<!--</tr>-->
-						<!--</tbody>-->
-					<!--</table>-->
-				<!--</div>-->
-			<!--</div>-->
-			<!--<div class="container bgcolor-5">-->
-				<!--<div class="col-xs-offset-1 col-xs-10 col-sm-10 col-md-10 col-lg-10">-->
-					<!--<h2>Test Group: LiveView</h2>-->
-					<!--<table class="table">-->
-						<!--<thead>-->
-						<!--<tr>-->
-							<!--<th>Test Group/Test case</th>-->
-							<!--<th>Count/Pass/Fail/Error/View</th>-->
-						<!--</tr>-->
-						<!--</thead>-->
-						<!--<tbody>-->
-						<!--<tr>-->
-							<!--<td>testCancelOverride</td>-->
-							<!--<td>pass</td>-->
-						<!--</tr>-->
-						<!--<tr>-->
-							<!--<td>testControlScreenUIComponents</td>-->
-							<!--<td>pass</td>-->
-						<!--</tr>-->
-						<!--<tr>-->
-							<!--<td>testTimeSelection</td>-->
-							<!--<td>pass</td>-->
-						<!--</tr>-->
-						<!--</tbody>-->
-					<!--</table>-->
-				<!--</div>-->
-			<!--</div>-->
-		</div>
+
+        <div class="container bgcolor-2">
+            <h2>Step 2: Select Test Cases</h2>
+            <div class="selected-testcases">
+                <span class="option" id="Authentication" onclick="addTestCase('Authentication')">Authentication</span>
+                <span class="option" id="Control" onclick="addTestCase('Control')">Control</span>
+                <span class="option" id="LiveView" onclick="addTestCase('LiveView')">LiveView</span>
+                <span class="option" id="Network" onclick="addTestCase('Network')">Network</span>
+                <span class="option" id="Profile" onclick="addTestCase('Profile')">Profile</span>
+                <span class="option" id="Scenes" onclick="addTestCase('Scenes')">Scenes</span>
+                <span class="option" id="Schedule" onclick="addTestCase('Schedule')">Schedule</span>
+                <span class="option" id="SelectSite" onclick="addTestCase('SelectSite')">SelectSite</span>
+                <span class="option" id="Settings" onclick="addTestCase('Settings')">Settings</span>
+                <span class="option" id="Zones" onclick="addTestCase('Zones')">Zones</span>
+            </div>
+            <button type="submit" class="btn btn-info" id="launch-tests">Launch Tests</button>
+        </div>
 	</div>
-	<script type="text/javascript">
-		$(document).ready(function(){
 
-			function setDevices() {
-				$.ajax({
-					type: "POST",
-					url: "/set_devices",
-					data: { },
-					dataType: "text",
-					success: function(result) {
-						console.log('setting up Appium nodes');
-					},
-					error: function(result) {
-						alert('error');
-					}
-				});
-			}
-			setDevices()
-
-			checkboxes = document.getElementsByClassName('checkbox');
-			for(var i=0, n=checkboxes.length;i<n;i++)
-				checkboxes[i].checked = true;
-
-			$("button").click(function(e) {
-				e.preventDefault();
-				if ($("#num_devices").val() != "") {
-					if (atLeastOneTestSelected()) {
-						alert("starting tests")
-						beginTests($("#num_devices").val())
-					} else {
-						alert("Please select one or more tests to run.")
-					}
-				} else {
-					alert("Please enter the number of connected devices.")
-				}
-			});
-
-			function beginTests(input) {
-				$.ajax({
-					type: "POST",
-					url: "/run_tests",
-					data: { param: input },
-					dataType: "text",
-					success: function(result) {
-						console.log('starting tests');
-					},
-					error: function(result) {
-						alert('error');
-					}
-				});
-			}
-
-			function atLeastOneTestSelected() {
-				checks = false
-				checkboxes = document.getElementsByClassName('checkbox');
-				for(var i=0, n=checkboxes.length;i<n;i++)
-					if (checkboxes[i].checked == true)
-						checks = true;
-				return checks;
-			}
-		});
-	</script>
 	</body>
 </html>

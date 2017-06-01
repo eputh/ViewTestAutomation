@@ -41,6 +41,8 @@ from logging import raiseExceptions
 from datetime import datetime
 from time import sleep
 
+from common import config
+
 
 def changeSite(driver, site):
     navIcon(driver)
@@ -240,7 +242,7 @@ def checkLiveViewAccess(driver):
     if len(driver.find_elements(By.ID, "com.view.viewglass:id/noLiveView_liveViewTV")) > 0:
         print("Live View Data not available")
         # change site? find a zone with accessible zone data?
-        changeSite(driver, "APPCloudTest1")
+        changeSite(driver, config.site[2])
         WebDriverWait(driver, 10).until(
             EC.presence_of_element_located((By.ID, "com.view.viewglass:id/zoneSelector_liveViewTV")))
         driver.find_element_by_id("com.view.viewglass:id/zoneSelector_liveViewTV").click()

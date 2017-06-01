@@ -75,8 +75,11 @@ class LiveView(unittest.TestCase):
         """
         To verify the UI components of the "LiveView screen"
         """
-        auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
+        auth.checkIfUserIsLoggedIn(self.driver, 0, 'CRUDO')
+        auth.loginAndSelectSite(self.driver, config.users['CRUDO']['username'], config.users['CRUDO']['password'],
+                                config.site[0])
         commonFunctions.navIcon(self.driver)
+
         if WebDriverWait(self.driver, 10).until(
                 EC.presence_of_element_located((By.ID, "com.view.viewglass:id/navigation_live_viewTV"))):
             self.driver.find_element_by_id("com.view.viewglass:id/navigation_live_viewTV").click()
@@ -489,18 +492,6 @@ class LiveView(unittest.TestCase):
         timeSelectedInGraph = self.driver.find_element_by_id("com.view.viewglass:id/curTimeTV").text
         if timeSelectedInGraph != firstActivityTime:
             raiseExceptions("The Data Entry and Graph are not in sync")
-
-    def testUIUpdateAfterCancelingOverride(self):
-        """
-        Verify the Intelligence entry after canceling the Override from control screen
-        """
-
-    def testUIUpdateAfterOverridingSchedule(self):
-        """
-        Verify the Override entry when it's override running schedule
-        Eg: If schedule is set between 2-6 PM PST and around 3:00 PM user opens the app and
-        override that for 3 hrs. Then goto LiveView and verify the entry for schedule and override
-        """
 
     def testUIUpdateAfterApplyingTintFromWallInterface(self):
         """
