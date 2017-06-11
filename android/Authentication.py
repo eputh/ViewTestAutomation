@@ -131,7 +131,8 @@ class Authentication(unittest.TestCase):
         logging.info(" login with CRUDO user")
         auth.login(self.driver, config.users['CRUDO']['username'], config.users['CRUDO']['password'])
         print(config.users['CRUDO']['password'])
-        # site.selectSite(self.driver, config.site[0])
+        # site.selectSite(self.driverEPwbo921oz
+        # , config.site[0])
         auth.signout(self.driver)
 
     # @attr('acceptance', sid='TC-login-1.5-05', bv=10)
@@ -142,8 +143,10 @@ class Authentication(unittest.TestCase):
         """
         auth.checkIfUserIsLoggedIn(self.driver, 0, 'RUO')
         auth.login(self.driver, config.users['RUO']['username'], config.users['RUO']['password'])
-        # site.selectSite(self.driver, config.site[0])
-        auth.signout(self.driver)
+        if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/home_controlIV")) > 0:
+            auth.logout(self.driver)
+        elif len(self.driver.find_elements(By.XPATH, "//android.widget.Button[@resource-id='com.view.viewglass:id/button_cancel']")) > 0:
+            auth.signout(self.driver)
 
     # @attr('acceptance', sid='TC-login-1.5-06', bv=10)
     # @unittest.skip('Test case temporarily disabled')
@@ -153,9 +156,10 @@ class Authentication(unittest.TestCase):
         """
         auth.checkIfUserIsLoggedIn(self.driver, 0, 'RO')
         auth.login(self.driver, config.users['RO']['username'], config.users['RO']['password'])
-        WebDriverWait(self.driver, 30).until(
-            EC.presence_of_element_located((By.ID, "com.view.viewglass:id/home_controlIV")))
-        auth.logout(self.driver)
+        if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/home_controlIV")) > 0:
+            auth.logout(self.driver)
+        elif len(self.driver.find_elements(By.XPATH, "//android.widget.Button[@resource-id='com.view.viewglass:id/button_cancel']")) > 0:
+            auth.signout(self.driver)
 
     # @attr('acceptance', sid='TC-login-1.5-06', bv=10)
     # @unittest.skip('Test case temporarily disabled')
@@ -166,7 +170,6 @@ class Authentication(unittest.TestCase):
         auth.checkIfUserIsLoggedIn(self.driver, 0, 'CRUDO')
         auth.login(self.driver, config.users['1dot2System']['username'], config.users['1dot2System']['password'])
         site.selectSite(self.driver, 'B195 Ballroom')
-        auth.logout(self.driver)
 
     # @attr('acceptance', sid='TC-login-1.5-07', bv=10)
     # @unittest.skip('Test case temporarily disabled')  
@@ -192,7 +195,7 @@ class Authentication(unittest.TestCase):
     # @unittest.skip('Test case temporarily disabled')
     def testLoginUsingSpecialPwd(self):
         auth.checkIfUserIsLoggedIn(self.driver, 0, 'CRUDO')
-        auth.login(self.driver, config.users['PwdStartingSpecialChar']['username'], config.users['PwdStartingSpecialChar']['password'])
+        auth.loginOperation(self.driver, config.users['PwdStartingSpecialChar']['username'], config.users['PwdStartingSpecialChar']['password'])
         auth.loginScreenValidations(self.driver)
 
     def testLoginUsingMissingUsername(self):

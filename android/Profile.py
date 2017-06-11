@@ -43,7 +43,8 @@ from common import auth
 from common import config
 from common import commonFunctions
 from common import site
-
+from android import LiveView
+LiveView.LiveView
 
 class Profile(unittest.TestCase):
     """Class to run tests against the View app"""
@@ -132,6 +133,10 @@ class Profile(unittest.TestCase):
         auth.checkIfUserIsLoggedIn(self.driver, 0, 'RO')
         auth.login(self.driver, config.users['RO']['username'], config.users['RO']['password'])
         sleep(20)
+        if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/home_controlIV")) > 0:
+            pass
+        elif len(self.driver.find_elements(By.XPATH, "//android.widget.Button[@resource-id='com.view.viewglass:id/button_cancel']")) > 0:
+            site.selectSite(self.driver, config.users['RO']['testsite'])
         if commonFunctions.foundAlert(self.driver):
             commonFunctions.respondToAlert(self.driver, 0)
 

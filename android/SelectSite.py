@@ -38,6 +38,7 @@ from appium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
+from selenium.common.exceptions import TimeoutException
 
 from common import auth
 from common import commonFunctions as common
@@ -71,14 +72,24 @@ class SelectSite(unittest.TestCase):
         auth.checkIfUserIsLoggedIn(self.driver, 0, 'CRUDO')
         auth.login(self.driver, config.users['CRUDO']['username'], config.users['CRUDO']['password'])
 
-        if WebDriverWait(self.driver, 50).until(EC.presence_of_element_located((By.XPATH, "//android.widget.TextView[@text='Select Site']"))):
-            headingHeight = self.driver.find_element_by_id("com.view.viewglass:id/viewLogoLL").size['height']
-            middle = self.driver.find_element_by_id("com.view.viewglass:id/viewLogoLL").size['width']/2
-            list = self.driver.find_element_by_id("com.view.viewglass:id/FL_siteListView")
-            endx = headingHeight * 2
-            startx = list.size['height'] - headingHeight
-            self.driver.swipe(middle, startx, middle, endx, 3000)
-        else:
+        try:
+            WebDriverWait(self.driver, 50).until(
+                EC.presence_of_element_located((By.ID, "com.view.viewglass:id/search_image_view")))
+            search = self.driver.find_element_by_id("com.view.viewglass:id/search_image_view")
+            search.click()
+            search_text = self.driver.find_element_by_id("com.view.viewglass:id/search_site_edit_text")
+            # search for the site and press ENTER
+            search_text.send_keys(config.site[0])
+            # self.self.driver.press_keycode(66)
+            size = self.driver.find_element_by_id("com.view.viewglass:id/viewLogoLL").size
+            location = self.driver.find_element_by_id("com.view.viewglass:id/viewLogoLL").location
+            x = size['width'] / 2
+            y = location['y'] + size['height'] * 2
+            self.driver.tap([(x, y)])
+            if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/viewLogoLL")) > 0:
+                y = location['y'] + size['height'] * 2.5
+                self.driver.tap([(x, y)])
+        except TimeoutException:
             raiseExceptions("Failed to reach Select Site screen")
 
     def testSelectSiteForRUOUser(self):
@@ -88,13 +99,28 @@ class SelectSite(unittest.TestCase):
         auth.checkIfUserIsLoggedIn(self.driver, 0, 'RUO')
         auth.login(self.driver, config.users['RUO']['username'], config.users['RUO']['password'])
 
-        if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='Select Site']")) > 0:
-            headingHeight = self.driver.find_element_by_id("com.view.viewglass:id/viewLogoLL").size['height']
-            middle = self.driver.find_element_by_id("com.view.viewglass:id/viewLogoLL").size['width'] / 2
-            list = self.driver.find_element_by_id("com.view.viewglass:id/FL_siteListView")
-            endx = headingHeight * 2
-            startx = list.size['height'] - headingHeight
-            self.driver.swipe(middle, startx, middle, endx, 3000)
+        if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/home_controlIV")) > 0:
+            print("RUO user only has one site")
+        elif len(self.driver.find_elements(By.XPATH, "//android.widget.Button[@resource-id='com.view.viewglass:id/button_cancel']")) > 0:
+            try:
+                WebDriverWait(self.driver, 50).until(
+                    EC.presence_of_element_located((By.ID, "com.view.viewglass:id/search_image_view")))
+                search = self.driver.find_element_by_id("com.view.viewglass:id/search_image_view")
+                search.click()
+                search_text = self.driver.find_element_by_id("com.view.viewglass:id/search_site_edit_text")
+                # search for the site and press ENTER
+                search_text.send_keys(config.site[0])
+                # self.self.driver.press_keycode(66)
+                size = self.driver.find_element_by_id("com.view.viewglass:id/viewLogoLL").size
+                location = self.driver.find_element_by_id("com.view.viewglass:id/viewLogoLL").location
+                x = size['width'] / 2
+                y = location['y'] + size['height'] * 2
+                self.driver.tap([(x, y)])
+                if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/viewLogoLL")) > 0:
+                    y = location['y'] + size['height'] * 2.5
+                    self.driver.tap([(x, y)])
+            except TimeoutException:
+                raiseExceptions("Failed to reach Select Site screen")
 
     def testSelectSiteForROUser(self):
         """
@@ -102,14 +128,28 @@ class SelectSite(unittest.TestCase):
         """
         auth.checkIfUserIsLoggedIn(self.driver, 0, 'RO')
         auth.login(self.driver, config.users['RO']['username'], config.users['RO']['password'])
-
-        if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='Select Site']")) > 0:
-            headingHeight = self.driver.find_element_by_id("com.view.viewglass:id/viewLogoLL").size['height']
-            middle = self.driver.find_element_by_id("com.view.viewglass:id/viewLogoLL").size['width'] / 2
-            list = self.driver.find_element_by_id("com.view.viewglass:id/FL_siteListView")
-            endx = headingHeight * 2
-            startx = list.size['height'] - headingHeight
-            self.driver.swipe(middle, startx, middle, endx, 3000)
+        if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/home_controlIV")) > 0:
+            print("RO user only has one site")
+        elif len(self.driver.find_elements(By.XPATH, "//android.widget.Button[@resource-id='com.view.viewglass:id/button_cancel']")) > 0:
+            try:
+                WebDriverWait(self.driver, 50).until(
+                    EC.presence_of_element_located((By.ID, "com.view.viewglass:id/search_image_view")))
+                search = self.driver.find_element_by_id("com.view.viewglass:id/search_image_view")
+                search.click()
+                search_text = self.driver.find_element_by_id("com.view.viewglass:id/search_site_edit_text")
+                # search for the site and press ENTER
+                search_text.send_keys(config.site[0])
+                # self.self.driver.press_keycode(66)
+                size = self.driver.find_element_by_id("com.view.viewglass:id/viewLogoLL").size
+                location = self.driver.find_element_by_id("com.view.viewglass:id/viewLogoLL").location
+                x = size['width'] / 2
+                y = location['y'] + size['height'] * 2
+                self.driver.tap([(x, y)])
+                if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/viewLogoLL")) > 0:
+                    y = location['y'] + size['height'] * 2.5
+                    self.driver.tap([(x, y)])
+            except TimeoutException:
+                raiseExceptions("Failed to reach Select Site screen")
 
     def testSelectNotReachableSite(self):
         """
@@ -147,14 +187,24 @@ class SelectSite(unittest.TestCase):
         auth.checkIfUserIsLoggedIn(self.driver, 0, 'CRUDO')
         auth.login(self.driver, config.users['CRUDO']['username'], config.users['CRUDO']['password'])
 
-        if WebDriverWait(self.driver, 50).until(EC.presence_of_element_located((By.XPATH, "//android.widget.TextView[@text='Select Site']"))):
-            headingHeight = self.driver.find_element_by_id("com.view.viewglass:id/viewLogoLL").size['height']
-            middle = self.driver.find_element_by_id("com.view.viewglass:id/viewLogoLL").size['width']/2
-            list = self.driver.find_element_by_id("com.view.viewglass:id/FL_siteListView")
-            endx = headingHeight * 2
-            startx = list.size['height'] - headingHeight
-            self.driver.swipe(middle, startx, middle, endx, 3000)
-        else:
+        try:
+            WebDriverWait(self.driver, 50).until(
+                EC.presence_of_element_located((By.ID, "com.view.viewglass:id/search_image_view")))
+            search = self.driver.find_element_by_id("com.view.viewglass:id/search_image_view")
+            search.click()
+            search_text = self.driver.find_element_by_id("com.view.viewglass:id/search_site_edit_text")
+            # search for the site and press ENTER
+            search_text.send_keys(config.site[0])
+            # self.self.driver.press_keycode(66)
+            size = self.driver.find_element_by_id("com.view.viewglass:id/viewLogoLL").size
+            location = self.driver.find_element_by_id("com.view.viewglass:id/viewLogoLL").location
+            x = size['width'] / 2
+            y = location['y'] + size['height'] * 2
+            self.driver.tap([(x, y)])
+            if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/viewLogoLL")) > 0:
+                y = location['y'] + size['height'] * 2.5
+                self.driver.tap([(x, y)])
+        except TimeoutException:
             raiseExceptions("Failed to reach Select Site screen")
 
     def testSelectSiteForOneSiteAssignToUser(self):
@@ -187,9 +237,10 @@ class SelectSite(unittest.TestCase):
         auth.checkIfUserIsLoggedIn(self.driver, 0, 'CRUDO')
         auth.login(self.driver, config.users['CRUDO']['username'], config.users['CRUDO']['password'])
 
-        if WebDriverWait(self.driver, 50).until(EC.presence_of_element_located((By.ID, "com.view.viewglass:id/button_cancel"))):
+        try:
+            WebDriverWait(self.driver, 50).until(EC.presence_of_element_located((By.ID, "com.view.viewglass:id/button_cancel")))
             self.driver.find_element_by_id("com.view.viewglass:id/button_cancel").click()
-        else:
+        except TimeoutException:
             raiseExceptions(" Missing Sign Out button")
 
     def testSelectSiteSearchFunctionality(self):
@@ -199,25 +250,27 @@ class SelectSite(unittest.TestCase):
         auth.checkIfUserIsLoggedIn(self.driver, 0, 'CRUDO')
         auth.login(self.driver, config.users['CRUDO']['username'], config.users['CRUDO']['password'])
 
-        if WebDriverWait(self.driver, 50).until(EC.presence_of_element_located((By.ID, "com.view.viewglass:id/search_image_view"))):
-            search = self.driver.find_element_by_id("com.view.viewglass:id/search_image_view")
-            search.click()
-            search_text = self.driver.find_element_by_id("com.view.viewglass:id/search_site_edit_text")
-            # search for the site and press ENTER
-            search_text.send_keys(config.site[0])
-            self.driver.press_keycode(66)
-            size = self.driver.find_element_by_id("com.view.viewglass:id/siteList_searchResultCountTV").size
-            location = self.driver.find_element_by_id("com.view.viewglass:id/siteList_searchResultCountTV").location
-            x = size['width'] / 2
-            y = location['y'] + size['height'] * 3
+        try:
+            WebDriverWait(self.driver, 50).until(
+                EC.presence_of_element_located((By.ID, "com.view.viewglass:id/search_image_view")))
+        except TimeoutException:
+            raiseExceptions("Search field is missing")
+        search = self.driver.find_element_by_id("com.view.viewglass:id/search_image_view")
+        search.click()
+        search_text = self.driver.find_element_by_id("com.view.viewglass:id/search_site_edit_text")
+        # search for the site and press ENTER
+        search_text.send_keys(config.site[0])
+        # self.self.driver.press_keycode(66)
+        size = self.driver.find_element_by_id("com.view.viewglass:id/viewLogoLL").size
+        location = self.driver.find_element_by_id("com.view.viewglass:id/viewLogoLL").location
+        x = size['width'] / 2
+        y = location['y'] + size['height'] * 2
+        self.driver.tap([(x, y)])
+        if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/viewLogoLL")) > 0:
+            y = location['y'] + size['height'] * 2.5
             self.driver.tap([(x, y)])
         else:
-            raiseExceptions("Failed to reach Select Site screen")
-
-        sleep(10)
-        if common.foundAlert(self.driver):
-            common.respondToAlert(self.driver, 0)
-        auth.logout(self.driver)
+            raiseExceptions("Search function did not return any results.")
 
     def testSelectSiteCancelFunctionality(self):
         """
@@ -226,10 +279,33 @@ class SelectSite(unittest.TestCase):
         auth.checkIfUserIsLoggedIn(self.driver, 0, 'CRUDO')
         auth.login(self.driver, config.users['CRUDO']['username'], config.users['CRUDO']['password'])
 
-        site.selectSite(self.driver, config.site[0])
-        if WebDriverWait(self.driver, 50).until(EC.presence_of_element_located((By.XPATH, "//android.widget.TextView[@text='Cancel']"))):
-            self.driver.find_element_by_xpath("//android.widget.TextView[@text='Cancel']").click()
-        else:
+        try:
+            WebDriverWait(self.driver, 50).until(
+                EC.presence_of_element_located((By.ID, "com.view.viewglass:id/search_image_view")))
+            search = self.driver.find_element_by_id("com.view.viewglass:id/search_image_view")
+            search.click()
+            search_text = self.driver.find_element_by_id("com.view.viewglass:id/search_site_edit_text")
+            # search for the site and press ENTER
+            search_text.send_keys(config.site[0])
+            # self.self.driver.press_keycode(66)
+            size = self.driver.find_element_by_id("com.view.viewglass:id/viewLogoLL").size
+            location = self.driver.find_element_by_id("com.view.viewglass:id/viewLogoLL").location
+            x = size['width'] / 2
+            y = location['y'] + size['height'] * 2
+            self.driver.tap([(x, y)])
+            if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/viewLogoLL")) > 0:
+                y = location['y'] + size['height'] * 2.5
+                self.driver.tap([(x, y)])
+        except TimeoutException:
+            raiseExceptions("Failed to reach Select Site screen")
+
+        try:
+            WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, "//android.widget.TextView[@text='Cancel']")))
+            if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='Cancel']")) == 0:
+                raiseExceptions("Cancel button was not found in time.")
+            else:
+                self.driver.find_element_by_xpath("//android.widget.TextView[@text='Cancel']").click()
+        except TimeoutException:
             raiseExceptions("Cancel button did not stop the process")
 
         if common.foundAlert(self.driver):

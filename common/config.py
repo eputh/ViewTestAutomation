@@ -82,7 +82,8 @@ users = {
     },
     'RO': {
         'username': 'view.test05@viewglass.com',
-        'password': 'Passw0rd!'
+        'password': 'Passw0rd!',
+        'testsite': 'B155salesOP'
     },
     'InvalidEmail': {
         'username': 'view.test05@vglass.com',

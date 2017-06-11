@@ -245,6 +245,11 @@ class LiveView(unittest.TestCase):
         else:
             raiseExceptions("Control option in navigation menu is missing")
 
+        # search for a specific zone to cross-check with LiveView (With NC20Test, use Zone1)
+        self.driver.find_element_by_id("com.view.viewglass:id/selected_zone_name_controlTV").click()
+        self.driver.find_element_by_id("com.view.viewglass:id/search_ImageView").click()
+        self.driver.find_element_by_id("com.view.viewglass:id/control_searchETV").send_keys("Zone1")
+        self.driver.find_element_by_xpath("//android.widget.TextView[@text='Zone1']").click()
         control.selectRandomTint(self.driver)
         commonFunctions.overridebutton(self.driver)
         format = '%I:%M %p'

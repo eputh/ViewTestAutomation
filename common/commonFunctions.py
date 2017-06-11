@@ -42,6 +42,7 @@ from datetime import datetime
 from time import sleep
 
 from common import config
+from common import control
 
 
 def changeSite(driver, site):
@@ -242,10 +243,34 @@ def checkLiveViewAccess(driver):
     if len(driver.find_elements(By.ID, "com.view.viewglass:id/noLiveView_liveViewTV")) > 0:
         print("Live View Data not available")
         # change site? find a zone with accessible zone data?
-        changeSite(driver, config.site[2])
-        WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.ID, "com.view.viewglass:id/zoneSelector_liveViewTV")))
-        driver.find_element_by_id("com.view.viewglass:id/zoneSelector_liveViewTV").click()
-        x = driver.find_element_by_class_name("android.widget.RelativeLayout").size['width'] + 10
-        y = driver.find_element_by_class_name("android.widget.RelativeLayout").location['y'] + 10
-        driver.tap([(x, y)])
+        # changeSite(driver, config.site[2])
+        # WebDriverWait(driver, 10).until(
+        #     EC.presence_of_element_located((By.ID, "com.view.viewglass:id/zoneSelector_liveViewTV")))
+        # driver.find_element_by_id("com.view.viewglass:id/zoneSelector_liveViewTV").click()
+        # x = driver.find_element_by_class_name("android.widget.RelativeLayout").size['width'] + 10
+        # y = driver.find_element_by_class_name("android.widget.RelativeLayout").location['y'] + 10
+        # driver.tap([(x, y)])
+
+        selectedZone = driver.find_element_by_id("com.view.viewglass:id/zoneSelector_liveViewTV").text
+        navIcon(driver)
+        if WebDriverWait(driver, 10).until(
+                EC.presence_of_element_located((By.ID, "com.view.viewglass:id/navigation_controlTV"))):
+            driver.find_element_by_id("com.view.viewglass:id/navigation_controlTV").click()
+        else:
+            raiseExceptions("Control option in navigation menu is missing")
+        driver.find_element_by_id("com.view.viewglass:id/selected_zone_name_controlTV").click()
+        driver.find_element_by_id("com.view.viewglass:id/search_ImageView").click()
+        driver.find_element_by_id("com.view.viewglass:id/control_searchETV").send_keys(selectedZone)
+        results = driver.find_elements(By.ID, "com.view.viewglass:id/exapdChildTitle")
+        for r in results:
+            if r.text == "Zone1":
+                r.click()
+        control.selectRandomTint(driver)
+        overridebutton(driver)
+
+        navIcon(driver)
+        if WebDriverWait(driver, 10).until(
+                EC.presence_of_element_located((By.ID, "com.view.viewglass:id/navigation_live_viewTV"))):
+            driver.find_element_by_id("com.view.viewglass:id/navigation_live_viewTV").click()
+        else:
+            raiseExceptions("LiveView option in navigation menu is missing")
