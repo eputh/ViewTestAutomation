@@ -32,6 +32,7 @@
 
 import random
 import datetime
+import time, threading
 
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support.ui import WebDriverWait
@@ -232,6 +233,22 @@ def generateRandomNumber(min, max):
 def getToday():
     today = datetime.now()
     return today.day
+
+
+def findAnyOneOfTheseElements(driver, listOfTupleElements):
+    for locator in listOfTupleElements:
+        if len(driver.find_elements(eval("By." + locator[0]), locator[1])) > 0:
+            print("Found: ", locator[1])
+            return True
+    return False
+
+
+def waitForElement(driver, listOfTupleElements, timeout):
+    start = time.time()
+    while (time.time() - start) < timeout:
+        if findAnyOneOfTheseElements(driver, listOfTupleElements):
+            return True
+    raiseExceptions("Neither one of the elements given were found.")
 
 
 """

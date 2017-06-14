@@ -93,7 +93,7 @@ class Zones(unittest.TestCase):
             if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/search_zonesIV")) <= 0:
                 raiseExceptions("Search icon is missing")
 
-    # @attr('acceptance', sid='TC-zones-1.3,TC-zones-1.8-1.12', bv=10)
+    # @attr('acceptance', sid='TC-zones-1.3,TC-zones-1.6-1.12', bv=10)
     # @unittest.skip('Test case temporarily disabled')
     def testFunctionalityOfUIComponentsForZonesScreen(self):
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')

@@ -116,7 +116,7 @@ class Authentication(unittest.TestCase):
         else:
             raiseExceptions(" Remember me is missing on login screen")
 
-        if len(self.driver.find_elements(By.XPATH, "//android.widget.Button[@content-desc='LOGIN']")) > 0:
+        if len(self.driver.find_elements(By.XPATH, "//android.widget.Button[@content-desc='Login']")) > 0:
             pass
         else:
             raiseExceptions("unable to find login button")
@@ -128,11 +128,7 @@ class Authentication(unittest.TestCase):
         Verify the app authentication by logging using valid CRUDO privilege user
         """
         auth.checkIfUserIsLoggedIn(self.driver, 0, 'CRUDO')
-        logging.info(" login with CRUDO user")
         auth.login(self.driver, config.users['CRUDO']['username'], config.users['CRUDO']['password'])
-        print(config.users['CRUDO']['password'])
-        # site.selectSite(self.driverEPwbo921oz
-        # , config.site[0])
         auth.signout(self.driver)
 
     # @attr('acceptance', sid='TC-login-1.5-05', bv=10)

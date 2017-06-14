@@ -44,7 +44,7 @@ from common import config
 from common import commonFunctions
 from common import site
 from android import LiveView
-LiveView.LiveView
+
 
 class Profile(unittest.TestCase):
     """Class to run tests against the View app"""
@@ -65,6 +65,8 @@ class Profile(unittest.TestCase):
         """Tear down the test"""
         self.driver.quit()
 
+    # @attr('acceptance', sid='TC-profile-1.1', bv=10)
+    # @unittest.skip('Test case temporarily disabled')
     def testUIComponentsOfProfileScreenForCRUDO(self):
         auth.checkIfUserIsLoggedIn(self.driver, 0, 'CRUDO')
         auth.loginAndSelectSite(self.driver, config.users['CRUDO']['username'], config.users['CRUDO']['password'],
@@ -97,6 +99,8 @@ class Profile(unittest.TestCase):
             raiseExceptions("Sign Out button is missing")
         self.driver.find_element_by_xpath("//android.widget.TextView[@text='Sign Out']").click()
 
+    # @attr('acceptance', sid='TC-profile-1.1', bv=10)
+    # @unittest.skip('Test case temporarily disabled')
     def testUIComponentsOfProfileScreenForRUO(self):
         auth.checkIfUserIsLoggedIn(self.driver, 0, 'RUO')
         auth.loginAndSelectSite(self.driver, config.users['RUO']['username'], config.users['RUO']['password'],
@@ -129,6 +133,8 @@ class Profile(unittest.TestCase):
             raiseExceptions("Sign Out button is missing")
         self.driver.find_element_by_xpath("//android.widget.TextView[@text='Sign Out']").click()
 
+    # @attr('acceptance', sid='TC-profile-1.1', bv=10)
+    # @unittest.skip('Test case temporarily disabled')
     def testUIComponentsOfProfileScreenForRO(self):
         auth.checkIfUserIsLoggedIn(self.driver, 0, 'RO')
         auth.login(self.driver, config.users['RO']['username'], config.users['RO']['password'])
@@ -165,6 +171,8 @@ class Profile(unittest.TestCase):
             raiseExceptions("Sign Out button is missing")
         self.driver.find_element_by_xpath("//android.widget.TextView[@text='Sign Out']").click()
 
+    # @attr('acceptance', sid='TC-profile-1.4, TC-profile-1.5, TC-sprt-4.1', bv=10)
+    # @unittest.skip('Test case temporarily disabled')
     def testSendFeedback(self):
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         commonFunctions.navIcon(self.driver)
@@ -188,6 +196,8 @@ class Profile(unittest.TestCase):
         else:
             raiseExceptions("Send Device Logs panel is missing")
 
+    # @attr('acceptance', sid='TC-profile-1.1', bv=10)
+    # @unittest.skip('Test case temporarily disabled')
     def testChangeSite(self):
         auth.checkIfUserIsLoggedIn(self.driver, 0, 'CRUDO')
         auth.loginAndSelectSite(self.driver, config.users['CRUDO']['username'], config.users['CRUDO']['password'],
@@ -222,6 +232,8 @@ class Profile(unittest.TestCase):
         else:
             raiseExceptions("confirmation message for changing site is missing")
 
+    # @attr('acceptance', sid='TC-profile-1.1', bv=10)
+    # @unittest.skip('Test case temporarily disabled')
     def testChangeAppserverIP(self):
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         commonFunctions.navIcon(self.driver)
@@ -246,6 +258,8 @@ class Profile(unittest.TestCase):
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/done_myProfileTV")) <= 0:
             raiseExceptions("Done button is missing")
 
+    # @attr('acceptance', sid='TC-profile-1.1', bv=10)
+    # @unittest.skip('Test case temporarily disabled')
     def testTourPreference(self):
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         commonFunctions.navIcon(self.driver)
@@ -268,6 +282,8 @@ class Profile(unittest.TestCase):
         else:
             self.driver.find_element_by_id("com.view.viewglass:id/togglebtn_tourPreferenceIV").click()
 
+    # @attr('acceptance', sid='TC-profile-1.1', bv=10)
+    # @unittest.skip('Test case temporarily disabled')
     def testCellularData(self):
         auth.checkIfUserIsLoggedIn(self.driver, 0, 'CRUDO')
         auth.loginAndSelectSite(self.driver, config.users['CRUDO']['username'], config.users['CRUDO']['password'],
@@ -302,6 +318,8 @@ class Profile(unittest.TestCase):
             # return to previous setting
             self.driver.find_element_by_id("com.view.viewglass:id/togglebtn_mobiledataIV").click()
 
+    # @attr('acceptance', sid='TC-profile-1.6', bv=10)
+    # @unittest.skip('Test case temporarily disabled')
     def testSignOutButton(self):
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         commonFunctions.navIcon(self.driver)

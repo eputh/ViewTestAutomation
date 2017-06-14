@@ -63,6 +63,8 @@ class Network(unittest.TestCase):
         """Tear down the test"""
         self.driver.quit()
 
+    # @attr('acceptance', sid='TC-login-1.5-21, TC_1.11, TC_1.12', bv=10)
+    # @unittest.skip('Test case temporarily disabled')
     def testLoginForLostNetworkConnectivity(self):
         """
         Verify the exceptional handling for when network connectivity is lost in the Login screen
@@ -91,11 +93,13 @@ class Network(unittest.TestCase):
             self.driver.set_network_connection(6)
             raiseExceptions("Exception handling for lost network connection is missing")
 
-        if WebDriverWait(self.driver, 30).until(EC.presence_of_element_located((By.XPATH, "//android.widget.Button[@content-desc='LOGIN']"))):
+        if WebDriverWait(self.driver, 30).until(EC.presence_of_element_located((By.XPATH, "//android.widget.Button[@content-desc='Login']"))):
             pass
         else:
             raiseExceptions("Retry button unsuccessfully recovers the app from lost network connectivity")
 
+    # @attr('acceptance', sid='TC-login-1.5-21, TC_1.13', bv=10)
+    # @unittest.skip('Test case temporarily disabled')
     def testSelectSiteForLostNetworkConnectivity(self):
         """
         Verify the exceptional handling for when network connectivity is lost in the Select Site screen
@@ -124,11 +128,13 @@ class Network(unittest.TestCase):
             self.driver.set_network_connection(6)
             raiseExceptions("Exception handling for lost network connection is missing")
 
-        if WebDriverWait(self.driver, 30).until(EC.presence_of_element_located((By.XPATH, "//android.widget.Button[@content-desc='LOGIN']"))):
+        if WebDriverWait(self.driver, 30).until(EC.presence_of_element_located((By.XPATH, "//android.widget.Button[@content-desc='Login']"))):
             pass
         else:
             raiseExceptions("Retry button unsuccessfully recovers the app from lost network connectivity")
 
+    # @attr('acceptance', sid='TC-login-1.5-21, TC_1.14, TC-Net- 7.1, TC-Net- 7.2', bv=10)
+    # @unittest.skip('Test case temporarily disabled')
     def testLostNetworkConnectivityInLoggedInSession(self):
         """
         Verify the exceptional handling for when network connectivity is lost within the app

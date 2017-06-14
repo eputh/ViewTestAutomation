@@ -47,10 +47,11 @@ def isUserLoggedIn(driver):
     if len(driver.find_elements(By.ID, "com.view.viewglass:id/retry_btn")) > 0:
         driver.find_element_by_id("com.view.viewglass:id/retry_btn").click()
     try:
-        WebDriverWait(driver, 120).until(lambda s: len(s.find_elements(By.XPATH, "//android.widget.TextView[@text='Recently Crashed!!!']")) > 0 or s.find_element_by_xpath("//android.widget.Button[@content-desc='LOGIN']").is_displayed() or s.find_element_by_id("com.view.viewglass:id/home_controlIV").is_displayed())
-        if len(driver.find_elements(By.ID, "com.view.viewglass:id/home_controlIV")) > 0 or len(driver.find_elements(By.XPATH, "//android.widget.TextView[@text='Recently Crashed!!']")) > 0:
+        findElements = [("XPATH", "//android.widget.Button[@content-desc='Login']"), ("XPATH", "//android.widget.TextView[@text='Recently Crashed!!!']"), ("ID", "com.view.viewglass:id/home_controlIV")]
+        common.waitForElement(driver, findElements, 120)
+        if len(driver.find_elements(By.ID, "com.view.viewglass:id/home_controlIV")) > 0 or len(driver.find_elements(By.XPATH, "//android.widget.TextView[@text='Recently Crashed!!!']")) > 0:
             return True
-        elif len(driver.find_elements(By.XPATH, "//android.widget.Button[@content-desc='LOGIN']")) > 0:
+        elif len(driver.find_elements(By.XPATH, "//android.widget.Button[@content-desc='Login']")) > 0:
             return False
     except TimeoutException:
         if len(driver.find_elements(By.XPATH, "//android.widget.TextView[@text='Authenticating, Please wait..']")) > 0:
@@ -62,6 +63,7 @@ def checkIfUserIsLoggedIn(driver, loginbool, user):
     """ Check if user needs to be logged in or logged out"""
     # user needs to be logged in
     isLoggedIn = isUserLoggedIn(driver)
+    print("Logged in: ", isLoggedIn)
     if loginbool:
         if not isLoggedIn and user == 'RO':
             login(driver, config.users[user]['username'], config.users[user]['password'])
@@ -95,13 +97,10 @@ def login(driver, username, password):
         if len(driver.find_elements(By.ID, "com.view.viewglass:id/retry_btn")) > 0:
             driver.find_element_by_id("com.view.viewglass:id/retry_btn").click()
 
-        if len(driver.find_elements(By.XPATH, "//android.widget.Button[@content-desc='LOGIN']")) > 0:
+        if len(driver.find_elements(By.XPATH, "//android.widget.Button[@content-desc='Login']")) > 0:
             loginOperation(driver, username, password)
             try:
-                WebDriverWait(driver, 120).until(lambda driver: driver.find_element_by_id(
-                    "com.view.viewglass:id/search_image_view").is_displayed() or driver.find_element_by_xpath(
-                    "//android.widget.TextView[@text='Recently Crashed!!!']").is_displayed() or driver.find_element_by_id(
-                    "com.view.viewglass:id/home_controlIV").is_displayed())
+                WebDriverWait(driver, 120).until(lambda driver: len(driver.find_elements(By.ID,"com.view.viewglass:id/search_image_view")) > 0 or len(driver.find_elements(By.XPATH,"//android.widget.TextView[@text='Recently Crashed!!!']")) > 0 or len(driver.find_elements(By.ID,"com.view.viewglass:id/home_controlIV")) > 0)
             except TimeoutException:
                 print("didn't find anything after 2 minutes")
                 pass
@@ -135,13 +134,10 @@ def loginAndSelectSite(driver, username, password, siteToLogInto):
         if len(driver.find_elements(By.ID, "com.view.viewglass:id/retry_btn")) > 0:
             driver.find_element_by_id("com.view.viewglass:id/retry_btn").click()
 
-        if len(driver.find_elements(By.XPATH, "//android.widget.Button[@content-desc='LOGIN']")) > 0:
+        if len(driver.find_elements(By.XPATH, "//android.widget.Button[@content-desc='Login']")) > 0:
             loginOperation(driver, username, password)
             try:
-                WebDriverWait(driver, 120).until(lambda driver: driver.find_element_by_id(
-                    "com.view.viewglass:id/search_image_view").is_displayed() or driver.find_element_by_xpath(
-                    "//android.widget.TextView[@text='Recently Crashed!!!']").is_displayed() or driver.find_element_by_id(
-                    "com.view.viewglass:id/home_controlIV").is_displayed())
+                WebDriverWait(driver, 120).until(lambda driver: len(driver.find_elements(By.ID,"com.view.viewglass:id/search_image_view")) > 0 or len(driver.find_elements(By.XPATH,"//android.widget.TextView[@text='Recently Crashed!!!']")) > 0 or len(driver.find_elements(By.ID,"com.view.viewglass:id/home_controlIV")) > 0)
             except TimeoutException:
                 print("didn't find anything after 2 minutes")
                 pass
@@ -230,19 +226,19 @@ def loginOperation(driver, username, password):
         raiseExceptions("Missing Remember Me check box")
 
     if WebDriverWait(driver, 5).until(
-            EC.presence_of_element_located((By.XPATH, "//android.widget.Button[@content-desc='LOGIN']"))):
+            EC.presence_of_element_located((By.XPATH, "//android.widget.Button[@content-desc='Login']"))):
         # some devices have trouble navigating to the login button
-        if len(driver.find_elements(By.XPATH, "//android.widget.Button[@content-desc='LOGIN']")) > 0:
+        if len(driver.find_elements(By.XPATH, "//android.widget.Button[@content-desc='Login']")) > 0:
             location = driver.find_elements(By.CLASS_NAME, "android.webkit.WebView")[0].location
             size = driver.find_elements(By.CLASS_NAME, "android.webkit.WebView")[0].size
             x = location['x'] + size['width'] / 2
             y = location['y'] + size['height'] - \
-                driver.find_element_by_xpath("//android.widget.Button[@content-desc='LOGIN']").size['height']
+                driver.find_element_by_xpath("//android.widget.Button[@content-desc='Login']").size['height']
             driver.tap([(x, y - 100)])
             driver.tap([(x, y)])
             sleep(5)
-        if len(driver.find_elements(By.XPATH, "//android.widget.Button[@content-desc='LOGIN']")) > 0:
-            driver.find_element_by_xpath("//android.widget.Button[@content-desc='LOGIN']").click()
+        if len(driver.find_elements(By.XPATH, "//android.widget.Button[@content-desc='Login']")) > 0:
+            driver.find_element_by_xpath("//android.widget.Button[@content-desc='Login']").click()
     else:
         raiseExceptions("Missing Login button")
 
@@ -250,7 +246,7 @@ def loginOperation(driver, username, password):
 def loginScreenValidations(driver):
     if len(driver.find_elements(By.XPATH, "//android.view.View[@content-desc='User Authentication Failed']")) > 0:
         pass
-    elif len(driver.find_elements(By.XPATH, "//android.widget.Button[@content-desc='LOGIN']")) > 0:
+    elif len(driver.find_elements(By.XPATH, "//android.widget.Button[@content-desc='Login']")) > 0:
         pass
     else:
         raiseExceptions("Missing login Screen Exceptional handling")
@@ -312,8 +308,8 @@ def negativeTestCaseLoginValidation(driver, username, password):
         print("Remember me validation ")
 
     if WebDriverWait(driver, 5).until(
-            EC.presence_of_element_located((By.XPATH, "//android.widget.Button[@content-desc='LOGIN']"))):
-        driver.find_element_by_xpath("//android.widget.Button[@content-desc='LOGIN']").click()
+            EC.presence_of_element_located((By.XPATH, "//android.widget.Button[@content-desc='Login']"))):
+        driver.find_element_by_xpath("//android.widget.Button[@content-desc='Login']").click()
     else:
         print("Login button validation ")
 

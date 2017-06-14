@@ -40,7 +40,7 @@ class SystemReady(unittest.TestCase):
             if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/retry_btn")) > 0:
                 self.driver.find_element_by_id("com.view.viewglass:id/retry_btn").click()
 
-            if len(self.driver.find_elements(By.XPATH, "//android.widget.Button[@content-desc='LOGIN']")) > 0:
+            if len(self.driver.find_elements(By.XPATH, "//android.widget.Button[@content-desc='Login']")) > 0:
                 auth.loginOperation(self.driver, config.users['CRUDO']['username'], config.users['CRUDO']['password'])
 
             if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/search_image_view")) > 0:
