@@ -32,7 +32,7 @@
 
 import random
 import datetime
-import time, threading
+import time
 
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support.ui import WebDriverWait
@@ -280,7 +280,7 @@ def checkLiveViewAccess(driver):
         driver.find_element_by_id("com.view.viewglass:id/control_searchETV").send_keys(selectedZone)
         results = driver.find_elements(By.ID, "com.view.viewglass:id/exapdChildTitle")
         for r in results:
-            if r.text == "Zone1":
+            if r.text == selectedZone:
                 r.click()
         control.selectRandomTint(driver)
         overridebutton(driver)

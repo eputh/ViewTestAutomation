@@ -63,20 +63,27 @@ def quickCreateSchedule(driver):
         commonFunctions.addbutton(driver)
         changeTint(driver)
         commonFunctions.savebutton(driver)
+        WebDriverWait(driver, 30).until(
+            EC.presence_of_element_located((By.ID, "com.view.viewglass:id/scheduleTV")))
     else:
         raiseExceptions("add schedule button is missing")
 
     if commonFunctions.foundAlert(driver):
         commonFunctions.respondToAlert(driver, 1)
+        sleep(5)
         commonFunctions.goback(driver)
     
 
 def deleteSchedule(driver, schedule):
-    size = schedule.size
-    location = schedule.location
-    x = location['x'] + size['width'] - 10
-    y = location['y'] + 10
-    driver.tap([(x, y)])
+    # size = schedule.size
+    # location = schedule.location
+    # x = location['x'] + size['width'] - 10
+    # y = location['y'] + 10
+    # driver.tap([(x, y)])
+    if len(driver.find_elements(By.XPATH, "//android.widget.ImageView[index='4']")) > 0:
+        driver.find_element_by_xpath("//android.widget.ImageView[index='4']").click()
+    else:
+        raiseExceptions("Missing delete schedule button")
 
 """
 Helper functions for navigating through the control ring

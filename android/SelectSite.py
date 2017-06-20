@@ -213,7 +213,7 @@ class SelectSite(unittest.TestCase):
         to only one site
         """
         auth.checkIfUserIsLoggedIn(self.driver, 0, 'RUO')
-        auth.login(self.driver, config.users['RUO']['username'], config.users['RUO']['password'])
+        auth.login(self.driver, config.users['SingleSite']['username'], config.users['SingleSite']['password'])
 
         if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='Select Site']")) > 0:
             raiseExceptions("This user has more than one site")

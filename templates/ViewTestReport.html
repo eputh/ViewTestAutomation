@@ -235,7 +235,7 @@
             .selected-devices { margin: 50px 50px; }
 
             .option {
-                cursor: pointer; width: 20%; height: 100px; background: #425c78; display: inline-block; color: #f5f5f5; padding-top: 35px; margin: 10px;
+                cursor: pointer; width: 20%; height: 100px; background: #425c78; display: inline-block; color: #f5f5f5; padding-top: 35px; margin: 10px; font-size: 1.3vw;
             }
             .option:hover {background: #5bc0de;}
 
@@ -297,58 +297,7 @@
 		<!--[if IE]>
   		<script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]-->
-        <script type="text/javascript">
-            var testDevices = new Set(), testCases = new Set();
-            function addDevice(device) {
-                testDevices.add(device)
-                document.getElementById(device).style.background = "#5bc0de"
-                console.log(testDevices);
-            }
-            function addTestCase(testcase) {
-                testCases.add(testcase)
-                document.getElementById(testcase).style.background = "#5bc0de"
-                console.log(testCases);
-            }
 
-            $(document).ready(function(){
-
-                $("#launch-tests").click(function(e) {
-                    e.preventDefault();
-                    devices = "";
-                    let d = Array.from(testDevices)
-                    console.log("test devices: ", d);
-                    for (var i=0; i < d.length; i++)
-                        devices += d[i] + ';';
-                    console.log("devices: ", devices);
-                    if (testDevices.length != 0) {
-                        if (testCases.length != 0) {
-                            alert("starting tests")
-                            beginTests(devices)
-                        } else {
-                            alert("Please select one or more tests to run.")
-                        }
-                    } else {
-                        alert("Please enter the number of connected devices.")
-                    }
-                });
-
-                function beginTests(input) {
-                    $.ajax({
-                        type: "POST",
-                        url: "/run_tests",
-                        data: { param: input },
-                        dataType: "text",
-                        success: function(result) {
-                            console.log('starting tests');
-                        },
-                        error: function(result) {
-                            alert('error');
-                        }
-                    });
-                }
-
-            });
-	    </script>
 	</head>
 	<body>
 	<div class="nav">
@@ -360,13 +309,15 @@
 		</header>
 		<div class="container bgcolor-3">
 			<h2>Step 1: Select device(s)</h2>
-            <div class="selected-devices">
+            <div class="selected-devices" id="list-of-devices">
                 <span class="option" id="0abad235030d17a3" onclick="addDevice('0abad235030d17a3')">Galaxy Tab S2</span>
                 <span class="option" id="FA68W0308348" onclick="addDevice('FA68W0308348')">Google Pixel</span>
                 <span class="option" id="HT6AE0100527" onclick="addDevice('HT6AE0100527')">HTC 10</span>
                 <span class="option" id="09c119410bfc3c60" onclick="addDevice('09c119410bfc3c60')">Nexus 5</span>
                 <span class="option" id="092326c6" onclick="addDevice('092326c6')">Nexus 7</span>
                 <span class="option" id="45ddeb64" onclick="addDevice('45ddeb64')">Samsung Galaxy S7</span>
+				<span class="option" id="98877638575030504c" onclick="addDevice('98877638575030504c')">Samsung Galaxy S8</span>
+				<span class="option" id="98895a36453348354d" onclick="addDevice('98895a36453348354d')">Samsung Galaxy S8 Plus</span>
             </div>
 		</div>
 
@@ -387,6 +338,112 @@
             <button type="submit" class="btn btn-info" id="launch-tests">Launch Tests</button>
         </div>
 	</div>
+	<script type="text/javascript">
+		var isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+		console.log("System is a Mac: ", isMac);
+		if (isMac) {
+			var devicesList = document.getElementById('list-of-devices');
+			var iphonesimulatorSpan = document.createElement('span');
+			iphonesimulatorSpan.innerText = 'iPhone Simulator';
+			iphonesimulatorSpan.setAttribute("class", "option");
+			iphonesimulatorSpan.id = 'iPhone Simulator';
+			iphonesimulatorSpan.setAttribute("onClick", "addDevice('iPhone Simulator')");
+			devicesList.appendChild(iphonesimulatorSpan);
+		}
 
+		var testDevices = new Set(), testCases = new Set();
+		function addDevice(device) {
+			$.ajax({
+				type: "POST",
+				url: "/get_adb_devices",
+				data: { param: device },
+				dataType: "text",
+				success: function(result) {
+					if (testDevices.has(device)) {
+						testDevices.delete(device);
+						document.getElementById(device).style.background = "#425c78";
+						console.log(testDevices);
+					} else {
+						if (result.indexOf(device) > 0) {
+							testDevices.add(device);
+							document.getElementById(device).style.background = "#5bc0de";
+							console.log(testDevices);
+						} else {
+							alert("That device is not plugged in.")
+						}
+					}
+				},
+				error: function(result) {
+					alert('error');
+				}
+			});
+		}
+
+		function addTestCase(testcase) {
+			if (testCases.has(testcase)) {
+				testCases.delete(testcase);
+				document.getElementById(testcase).style.background = "#425c78";
+				console.log(testCases);
+			} else {
+				testCases.add(testcase)
+				document.getElementById(testcase).style.background = "#5bc0de"
+				console.log(testCases);
+			}
+		}
+
+		$("#launch-tests").click(function(e) {
+			e.preventDefault();
+
+			devices = "";
+			let d = Array.from(testDevices)
+			let c = Array.from(testCases)
+			for (var i=0; i < d.length; i++)
+				devices += d[i] + ';';
+			console.log("devices: ", devices);
+			if (d.length > 0) {
+				<!--if (c.length > 0) {-->
+					console.log("starting tests")
+					beginTests(devices)
+				<!--} else {-->
+					<!--alert("Please select one or more tests to run.")-->
+				<!--}-->
+			} else {
+				alert("Please select the connected devices you'd like to use for testing.")
+			}
+		});
+
+		function beginTests(input) {
+			$.ajax({
+				type: "POST",
+				url: "/run_tests",
+				data: { param: input },
+				dataType: "text",
+				success: function(result) {
+					console.log('starting tests');
+				},
+				error: function(result) {
+					alert('error');
+				}
+			});
+		}
+
+		function getadbDevices(input) {
+			console.log("Checking devices...");
+			$.ajax({
+				type: "POST",
+				url: "/get_adb_devices",
+				data: { param: input },
+				dataType: "text",
+				success: function(result) {
+					console.log(result.indexOf(input) <= 0);
+					return (result.indexOf(input) > 0)
+				},
+				error: function(result) {
+					alert('error');
+				}
+			});
+		}
+
+	</script>
 	</body>
 </html>

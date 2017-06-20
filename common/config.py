@@ -32,7 +32,7 @@
 import os
 
 device = 'RKumar iPhone'
-site = ["NC20test", "tintserver7700", "APPCLOUDTest1"]
+site = ["NC20test", "tintserver7700", "APPCloudTest1"]
 
 # if a new device is added, make sure to update the ViewTestReport template
 devices = {
@@ -67,7 +67,21 @@ devices = {
         'name': 'Samsung Galaxy S7',
         'hasData': True,
         'nodeCommand': 'appium --nodeconfig ' + os.path.abspath(os.path.join(os.getcwd(), 'capabilities/SamsungGalaxy.json')) + ' -p 4780 -bp 4785 -U 45ddeb64'
-
+    },
+    '98877638575030504c': {
+        'name': 'Samsung Galaxy S8',
+        'hasData': True,
+        'nodeCommand': 'appium --nodeconfig ' + os.path.abspath(os.path.join(os.getcwd(), 'capabilities/SamsungGalaxyS8.json')) + ' -p 4810 -bp 4815 -U 98877638575030504c'
+    },
+    '98895a36453348354d': {
+        'name': 'Samsung Galaxy S8 Plus',
+        'hasData': True,
+        'nodeCommand': 'appium --nodeconfig ' + os.path.abspath(os.path.join(os.getcwd(), 'capabilities/SamsungGalaxyS8Plus.json')) + ' -p 4790 -bp 4795 -U 98895a36453348354d'
+    },
+    'iPhone Simulator': {
+        'name': 'iPhone Simulator',
+        'hasData': False,
+        'nodeCommand': 'appium --nodeconfig ' + os.path.abspath(os.path.join(os.getcwd(), 'capabilities/iPhone.json')) + ' -p 4820 -bp 4825'
     }
 }
 
@@ -111,6 +125,10 @@ users = {
     },
     '1dot2System': {
         'username': 'view.test02@viewglass.com',
+        'password': 'Passw0rd!'
+    },
+    'SingleSite': {
+        'username': 'view.test09@viewglass.com',
         'password': 'Passw0rd!'
     }
 }

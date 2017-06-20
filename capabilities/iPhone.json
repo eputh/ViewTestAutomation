@@ -1,0 +1,23 @@
+{
+    "capabilities": [
+        {
+            "deviceName": "iPhone Simulator",
+            "platformVersion":"10.3",
+            "platformName": "iOS",
+            "maxInstances": 1,
+            "automationName": "XCUITest"
+        }
+    ],
+    "configuration": {
+        "cleanUpCycle": 2000,
+        "timeout": 90000,
+        "browserTimeout": 100000,
+        "proxy": "org.openqa.grid.selenium.proxy.DefaultRemoteProxy",
+        "port": 4820,
+        "maxSession": 1,
+        "register": true,
+        "registerCycle": 5000,
+        "hubPort": 4444,
+        "hubHost": "localhost"
+    }
+}

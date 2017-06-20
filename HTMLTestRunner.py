@@ -92,12 +92,12 @@ class RunTests(unittest.TestCase):
         )
 
         runner.run(self.suite)
-        # if runner.run(self.systemReadySuite).wasSuccessful():
-        #     runner.run(self.suite)
-        #     # if runner.run(self.networkConnectionSuite).wasSuccessful():
-        #     #     runner.run(self.suite2)
-        # else:
-        #     print("Unsuccessful launch of test suite. System was not ready.")
+        if runner.run(self.systemReadySuite).wasSuccessful():
+            runner.run(self.suite)
+            if runner.run(self.networkConnectionSuite).wasSuccessful():
+                runner.run(self.suite2)
+        else:
+            print("Unsuccessful launch of test suite. System was not ready.")
         outfile.close()
 
 

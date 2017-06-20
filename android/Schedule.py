@@ -39,6 +39,7 @@ from appium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
+from selenium.common.exceptions import TimeoutException
 
 from common import auth
 from common import commonFunctions
@@ -171,8 +172,11 @@ class Schedule(unittest.TestCase):
             schedule.click()
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/copy_schdTintTV")):
             self.driver.find_element_by_id("com.view.viewglass:id/copy_schdTintTV").click()
-        WebDriverWait(self.driver, 10).until(
-                EC.presence_of_element_located((By.ID, "com.view.viewglass:id/copy_tint_eventTV")))
+        try:
+            WebDriverWait(self.driver, 10).until(
+                    EC.presence_of_element_located((By.ID, "com.view.viewglass:id/copy_tint_eventTV")))
+        except TimeoutException:
+            raiseExceptions("Unable to navigate to Copy Tint Event screen.")
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/copyTint_listItem_radioBtnIV")) > 0:
             firstZonegroup = self.driver.find_elements(By.ID, "com.view.viewglass:id/copyTint_listItem_radioBtnIV")[0]
             firstZonegroup.click()
@@ -182,8 +186,9 @@ class Schedule(unittest.TestCase):
             self.driver.find_element_by_id("com.view.viewglass:id/perform_copy_textTV").click()
         if commonFunctions.foundAlert(self.driver):
             commonFunctions.respondToAlert(self.driver, 1)
+            raiseExceptions("Unable to copy schedule event even when zone(s)/zonegroup(s) are selected.")
+        else:
             commonFunctions.goback(self.driver)
-        commonFunctions.goback(self.driver)
 
     # @attr('acceptance', sid='TC-schedule-1.7', bv=10)
     # @unittest.skip('Test case temporarily disabled')              
@@ -199,22 +204,24 @@ class Schedule(unittest.TestCase):
 
         control.quickCreateSchedule(self.driver)
         schedule = ""
-        while schedule == "":
-            timeSlots = self.driver.find_elements(By.CLASS_NAME, "android.widget.RelativeLayout")
-            for slot in timeSlots:
-                if slot.size['height'] > 90:
-                    schedule = slot
-            if schedule == "" and len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='12AM']")):
-                raiseExceptions("Unable to edit a schedule because the schedule is empty")
-            elif schedule == "":
-                # scroll down to see if there is an event
-                location = self.driver.find_element_by_id("com.view.viewglass:id/vLineScroll_schdLL").location
-                size = self.driver.find_element_by_id("com.view.viewglass:id/vLineScroll_schdLL").size
-                self.driver.swipe(location['x'] + size['width'] / 2, location['y'], location['x'] + size['width'] / 2,
-                                  location['y'] + size['height'], 2000)
+        # while schedule == "":
+        #     timeSlots = self.driver.find_elements(By.CLASS_NAME, "android.widget.RelativeLayout")
+        #     for slot in timeSlots:
+        #         if slot.size['height'] > 90:
+        #             schedule = slot
+        #     if schedule == "" and len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='12AM']")):
+        #         raiseExceptions("Unable to edit a schedule because the schedule is empty")
+        #     elif schedule == "":
+        #         # scroll down to see if there is an event
+        #         location = self.driver.find_element_by_id("com.view.viewglass:id/vLineScroll_schdLL").location
+        #         size = self.driver.find_element_by_id("com.view.viewglass:id/vLineScroll_schdLL").size
+        #         self.driver.swipe(location['x'] + size['width'] / 2, location['y'], location['x'] + size['width'] / 2,
+        #                           location['y'] + size['height'], 2000)
 
         if schedule != "":
             control.deleteSchedule(self.driver, schedule)
+        else:
+            raiseExceptions("Unable to find a schedule to delete")
         if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='Select Delete Type']")) > 0:
             self.driver.find_element_by_xpath("//android.widget.TextView[@text='All Repeated Days']").click()
         else:
@@ -288,6 +295,8 @@ class Schedule(unittest.TestCase):
 
         if schedule != "":
             control.deleteSchedule(self.driver, schedule)
+        else:
+            raiseExceptions("Unable to find a schedule to delete")
         if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='Select Delete Type']")) > 0:
             self.driver.find_element_by_xpath("//android.widget.TextView[@text='All Repeated Days']").click()
         else:
@@ -361,6 +370,8 @@ class Schedule(unittest.TestCase):
 
         if schedule != "":
             control.deleteSchedule(self.driver, schedule)
+        else:
+            raiseExceptions("Unable to find a schedule to delete")
         if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='Select Delete Type']")) > 0:
             self.driver.find_element_by_xpath("//android.widget.TextView[@text='All Repeated Days']").click()
         else:
@@ -434,6 +445,8 @@ class Schedule(unittest.TestCase):
 
         if schedule != "":
             control.deleteSchedule(self.driver, schedule)
+        else:
+            raiseExceptions("Unable to find a schedule to delete")
         if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='Select Delete Type']")) > 0:
             self.driver.find_element_by_xpath("//android.widget.TextView[@text='All Repeated Days']").click()
         else:
@@ -742,6 +755,8 @@ class Schedule(unittest.TestCase):
 
         if schedule != "":
             control.deleteSchedule(self.driver, schedule)
+        else:
+            raiseExceptions("Unable to find a schedule to delete")
         if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='Select Delete Type']")) > 0:
             self.driver.find_element_by_xpath("//android.widget.TextView[@text='All Repeated Days']").click()
         else:
@@ -815,6 +830,8 @@ class Schedule(unittest.TestCase):
 
         if schedule != "":
             control.deleteSchedule(self.driver, schedule)
+        else:
+            raiseExceptions("Unable to find a schedule to delete")
         if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='Select Delete Type']")) > 0:
             self.driver.find_element_by_xpath("//android.widget.TextView[@text='All Repeated Days']").click()
         else:
@@ -888,6 +905,8 @@ class Schedule(unittest.TestCase):
 
         if schedule != "":
             control.deleteSchedule(self.driver, schedule)
+        else:
+            raiseExceptions("Unable to find a schedule to delete")
         if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='Select Delete Type']")) > 0:
             self.driver.find_element_by_xpath("//android.widget.TextView[@text='All Repeated Days']").click()
         else:
@@ -960,6 +979,8 @@ class Schedule(unittest.TestCase):
 
         if schedule != "":
             control.deleteSchedule(self.driver, schedule)
+        else:
+            raiseExceptions("Unable to find a schedule to delete")
         if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='Select Delete Type']")) > 0:
             self.driver.find_element_by_xpath("//android.widget.TextView[@text='All Repeated Days']").click()
         else:

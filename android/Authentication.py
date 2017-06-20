@@ -250,7 +250,7 @@ class Authentication(unittest.TestCase):
         Verify the exceptional handling by logging using invalid user
         """
         auth.checkIfUserIsLoggedIn(self.driver, 0, 'RUO')
-        auth.login(self.driver, config.users['RUO']['username'], config.users['RUO']['password'])
+        auth.login(self.driver, config.users['SingleSite']['username'], config.users['SingleSite']['password'])
         sleep(30)
         auth.logout(self.driver)
          

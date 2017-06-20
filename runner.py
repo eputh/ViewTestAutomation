@@ -33,8 +33,9 @@ import os
 import sys
 import subprocess
 from time import sleep
+from sys import platform
 
-from flask import Flask, render_template, redirect, url_for, request
+from flask import Flask, render_template, redirect, url_for, request, jsonify
 from flask import make_response
 app = Flask(__name__)
 
@@ -52,7 +53,7 @@ def run_tests():
         connected_devices = request.form['param']
         devices = connected_devices.split(";")
         devices.pop(-1)
-        print("Devices for testing: ", devices)
+        print("Devices selected for testing:", devices)
         set_appium_nodes(devices)
         sleep(15)
 
@@ -68,6 +69,16 @@ def run_tests():
         resp = make_response('{"response": ' + result + '}')
         resp.headers['Content-Type'] = "application/json"
         return resp
+    return "running"
+
+
+@app.route('/get_adb_devices', methods=['GET', 'POST'])
+def getadbDevices():
+    cmd = 'adb devices'
+    d = subprocess.check_output(cmd.split())
+    devs = str(d)
+    devs = devs.replace("\\tdevice", "").replace("'", "").split("\\r\\n")
+    return jsonify(result=devs[1:len(devs)-2])
 
 
 def set_appium_nodes(devices):
