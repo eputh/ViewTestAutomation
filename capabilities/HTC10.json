@@ -2,6 +2,7 @@
     "capabilities": [
         {
             "applicationName": "HT6AE0100527",
+            "udid": "HT6AE0100527",
             "deviceName": "HTC10",
             "platformVersion":"6.0.1",
             "browserName": "HTC10",

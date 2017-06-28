@@ -72,6 +72,16 @@ def changeSite(driver, site):
 
 
 def navIcon(driver):
+    try:
+        findElements = [("ID", "com.view.viewglass:id/home_controlIV"),
+                        ("ID", "com.view.viewglass:id/home_zonesIV"),
+                        ("ID", "com.view.viewglass:id/homeBtnLiveViewLL"),
+                        ("ID", "com.view.viewglass:id/home_schdIV"),
+                        ("ID", "com.view.viewglass:id/menuBtn_scene")
+                        ]
+        waitForElement(driver, findElements, 20)
+    except TypeError:
+        raiseExceptions("Navigation icon is missing")
     if len(driver.find_elements(By.ID, "com.view.viewglass:id/home_controlIV")) > 0:
         driver.find_element_by_id("com.view.viewglass:id/home_controlIV").click()
     elif len(driver.find_elements(By.ID, "com.view.viewglass:id/home_zonesIV")) > 0:

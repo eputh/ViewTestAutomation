@@ -70,7 +70,7 @@ class Profile(unittest.TestCase):
     def testUIComponentsOfProfileScreenForCRUDO(self):
         auth.checkIfUserIsLoggedIn(self.driver, 0, 'CRUDO')
         auth.loginAndSelectSite(self.driver, config.users['CRUDO']['username'], config.users['CRUDO']['password'],
-                                config.site[0])
+                                config.sites['Default'])
         commonFunctions.navIcon(self.driver)
 
         if WebDriverWait(self.driver, 20).until(
@@ -104,7 +104,7 @@ class Profile(unittest.TestCase):
     def testUIComponentsOfProfileScreenForRUO(self):
         auth.checkIfUserIsLoggedIn(self.driver, 0, 'RUO')
         auth.loginAndSelectSite(self.driver, config.users['RUO']['username'], config.users['RUO']['password'],
-                                config.site[0])
+                                config.sites['Default'])
         commonFunctions.navIcon(self.driver)
 
         if WebDriverWait(self.driver, 20).until(
@@ -201,7 +201,7 @@ class Profile(unittest.TestCase):
     def testChangeSite(self):
         auth.checkIfUserIsLoggedIn(self.driver, 0, 'CRUDO')
         auth.loginAndSelectSite(self.driver, config.users['CRUDO']['username'], config.users['CRUDO']['password'],
-                                config.site[0])
+                                config.sites['Default'])
         commonFunctions.navIcon(self.driver)
 
         if WebDriverWait(self.driver, 20).until(
@@ -287,7 +287,7 @@ class Profile(unittest.TestCase):
     def testCellularData(self):
         auth.checkIfUserIsLoggedIn(self.driver, 0, 'CRUDO')
         auth.loginAndSelectSite(self.driver, config.users['CRUDO']['username'], config.users['CRUDO']['password'],
-                                config.site[0])
+                                config.sites['Default'])
         commonFunctions.navIcon(self.driver)
 
         if WebDriverWait(self.driver, 20).until(

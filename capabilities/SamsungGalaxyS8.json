@@ -2,6 +2,7 @@
     "capabilities": [
         {
             "applicationName": "98877638575030504c",
+            "udid": "98877638575030504c",
             "deviceName": "SamsungGalaxy8",
             "platformVersion":"7.0",
             "browserName": "SamsungGalaxy8",

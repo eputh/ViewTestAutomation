@@ -2,6 +2,7 @@
     "capabilities": [
         {
             "applicationName": "FA68W0308348",
+            "udid": "FA68W0308348",
             "deviceName": "GooglePixel",
             "platformVersion":"7.1.1",
             "browserName": "GooglePixel",

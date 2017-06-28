@@ -79,7 +79,7 @@ class SelectSite(unittest.TestCase):
             search.click()
             search_text = self.driver.find_element_by_id("com.view.viewglass:id/search_site_edit_text")
             # search for the site and press ENTER
-            search_text.send_keys(config.site[0])
+            search_text.send_keys(config.sites['Default'])
             # self.self.driver.press_keycode(66)
             size = self.driver.find_element_by_id("com.view.viewglass:id/viewLogoLL").size
             location = self.driver.find_element_by_id("com.view.viewglass:id/viewLogoLL").location
@@ -109,7 +109,7 @@ class SelectSite(unittest.TestCase):
                 search.click()
                 search_text = self.driver.find_element_by_id("com.view.viewglass:id/search_site_edit_text")
                 # search for the site and press ENTER
-                search_text.send_keys(config.site[0])
+                search_text.send_keys(config.sites['Default'])
                 # self.self.driver.press_keycode(66)
                 size = self.driver.find_element_by_id("com.view.viewglass:id/viewLogoLL").size
                 location = self.driver.find_element_by_id("com.view.viewglass:id/viewLogoLL").location
@@ -138,7 +138,7 @@ class SelectSite(unittest.TestCase):
                 search.click()
                 search_text = self.driver.find_element_by_id("com.view.viewglass:id/search_site_edit_text")
                 # search for the site and press ENTER
-                search_text.send_keys(config.site[0])
+                search_text.send_keys(config.sites['Default'])
                 # self.self.driver.press_keycode(66)
                 size = self.driver.find_element_by_id("com.view.viewglass:id/viewLogoLL").size
                 location = self.driver.find_element_by_id("com.view.viewglass:id/viewLogoLL").location
@@ -194,7 +194,7 @@ class SelectSite(unittest.TestCase):
             search.click()
             search_text = self.driver.find_element_by_id("com.view.viewglass:id/search_site_edit_text")
             # search for the site and press ENTER
-            search_text.send_keys(config.site[0])
+            search_text.send_keys(config.sites['Default'])
             # self.self.driver.press_keycode(66)
             size = self.driver.find_element_by_id("com.view.viewglass:id/viewLogoLL").size
             location = self.driver.find_element_by_id("com.view.viewglass:id/viewLogoLL").location
@@ -259,7 +259,7 @@ class SelectSite(unittest.TestCase):
         search.click()
         search_text = self.driver.find_element_by_id("com.view.viewglass:id/search_site_edit_text")
         # search for the site and press ENTER
-        search_text.send_keys(config.site[0])
+        search_text.send_keys(config.sites['Default'])
         # self.self.driver.press_keycode(66)
         size = self.driver.find_element_by_id("com.view.viewglass:id/viewLogoLL").size
         location = self.driver.find_element_by_id("com.view.viewglass:id/viewLogoLL").location
@@ -286,7 +286,7 @@ class SelectSite(unittest.TestCase):
             search.click()
             search_text = self.driver.find_element_by_id("com.view.viewglass:id/search_site_edit_text")
             # search for the site and press ENTER
-            search_text.send_keys(config.site[0])
+            search_text.send_keys(config.sites['Default'])
             # self.self.driver.press_keycode(66)
             size = self.driver.find_element_by_id("com.view.viewglass:id/viewLogoLL").size
             location = self.driver.find_element_by_id("com.view.viewglass:id/viewLogoLL").location
@@ -303,8 +303,7 @@ class SelectSite(unittest.TestCase):
             WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, "//android.widget.TextView[@text='Cancel']")))
             if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@text='Cancel']")) == 0:
                 raiseExceptions("Cancel button was not found in time.")
-            else:
-                self.driver.find_element_by_xpath("//android.widget.TextView[@text='Cancel']").click()
+            else:                self.driver.find_element_by_xpath("//android.widget.TextView[@text='Cancel']").click()
         except TimeoutException:
             raiseExceptions("Cancel button did not stop the process")
 
@@ -315,5 +314,3 @@ class SelectSite(unittest.TestCase):
 if __name__ == '__main__':
     suite = unittest.TestLoader().loadTestsFromTestCase(SelectSite)
     unittest.TextTestRunner(verbosity=2).run(suite)
-
-

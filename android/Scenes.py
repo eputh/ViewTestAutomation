@@ -40,6 +40,7 @@ from appium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
+from selenium.common.exceptions import TimeoutException
 
 from common import auth
 from common import commonFunctions
@@ -72,16 +73,17 @@ class Scenes(unittest.TestCase):
     def testVerifyUIComponentsOfSceneScreen(self):
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         commonFunctions.navIcon(self.driver)
-        if WebDriverWait(self.driver, 60).until(
-                EC.presence_of_element_located((By.ID, "com.view.viewglass:id/navigation_scenesTV"))):
+        try:
+            WebDriverWait(self.driver, 60).until(
+                EC.presence_of_element_located((By.ID, "com.view.viewglass:id/navigation_scenesTV")))
             self.driver.find_element_by_id("com.view.viewglass:id/navigation_scenesTV").click()
-        else:
+        except TimeoutException:
             raiseExceptions("Scenes option in navigation menu is missing")
 
-        if WebDriverWait(self.driver, 20).until(
-                EC.presence_of_element_located((By.ID, "com.view.viewglass:id/scene_headertext"))):
-            pass
-        else:
+        try:
+            WebDriverWait(self.driver, 20).until(
+                EC.presence_of_element_located((By.ID, "com.view.viewglass:id/scene_headertext")))
+        except TimeoutException:
             raiseExceptions("Scenes heading is missing")
         commonFunctions.navIcon(self.driver)
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/view_btnTV")) <= 0:
@@ -98,23 +100,25 @@ class Scenes(unittest.TestCase):
     def testVerifyUIComponentsOfSceneDetailScreen(self):
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
         commonFunctions.navIcon(self.driver)
-        if WebDriverWait(self.driver, 60).until(
-                EC.presence_of_element_located((By.ID, "com.view.viewglass:id/navigation_scenesTV"))):
+        try:
+            WebDriverWait(self.driver, 60).until(
+                EC.presence_of_element_located((By.ID, "com.view.viewglass:id/navigation_scenesTV")))
             self.driver.find_element_by_id("com.view.viewglass:id/navigation_scenesTV").click()
-        else:
+        except TimeoutException:
             raiseExceptions("Scenes option in navigation menu is missing")
 
-        if WebDriverWait(self.driver, 20).until(
-                EC.presence_of_element_located((By.ID, "com.view.viewglass:id/scene_headertext"))):
+        try:
+            WebDriverWait(self.driver, 20).until(
+                EC.presence_of_element_located((By.ID, "com.view.viewglass:id/scene_headertext")))
             firstScene = self.driver.find_elements(By.ID, "com.view.viewglass:id/parent_scene_item")[0]
             firstScene.click()
-        else:
+        except TimeoutException:
             raiseExceptions("Scenes heading is missing")
 
-        if WebDriverWait(self.driver, 20).until(
-                EC.presence_of_element_located((By.ID, "com.view.viewglass:id/scene_Detail"))):
-            pass
-        else:
+        try:
+            WebDriverWait(self.driver, 20).until(
+                EC.presence_of_element_located((By.ID, "com.view.viewglass:id/scene_Detail")))
+        except TimeoutException:
             raiseExceptions("Scene Detail heading is missing")
 
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/back_scene_detailLL")) <= 0:
@@ -412,7 +416,7 @@ class Scenes(unittest.TestCase):
     def testAddNewSceneForCRUDO(self):
         auth.checkIfUserIsLoggedIn(self.driver, 0, 'CRUDO')
         auth.loginAndSelectSite(self.driver, config.users['CRUDO']['username'], config.users['CRUDO']['password'],
-                                config.site[0])
+                                config.sites['Default'])
 
         commonFunctions.navIcon(self.driver)
         if WebDriverWait(self.driver, 60).until(
@@ -454,7 +458,7 @@ class Scenes(unittest.TestCase):
     def testAddNewSceneForRUO(self):
         auth.checkIfUserIsLoggedIn(self.driver, 0, 'RUO')
         auth.loginAndSelectSite(self.driver, config.users['RUO']['username'], config.users['RUO']['password'],
-                                config.site[0])
+                                config.sites['Default'])
 
         commonFunctions.navIcon(self.driver)
         if WebDriverWait(self.driver, 60).until(
@@ -523,7 +527,7 @@ class Scenes(unittest.TestCase):
     def testAddNewSceneWithMultipleTintEvents(self):
         auth.checkIfUserIsLoggedIn(self.driver, 0, 'CRUDO')
         auth.loginAndSelectSite(self.driver, config.users['CRUDO']['username'], config.users['CRUDO']['password'],
-                                config.site[0])
+                                config.sites['Default'])
 
         commonFunctions.navIcon(self.driver)
         if WebDriverWait(self.driver, 60).until(

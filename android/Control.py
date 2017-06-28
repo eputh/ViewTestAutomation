@@ -1147,7 +1147,7 @@ class Control(unittest.TestCase):
     def testCancelOverride(self):
         auth.checkIfUserIsLoggedIn(self.driver, 0, 'CRUDO')
         auth.loginAndSelectSite(self.driver, config.users['CRUDO']['username'], config.users['CRUDO']['password'],
-                                config.site[0])
+                                config.sites['Default'])
 
         currentTint = control.getCurrentTint(self.driver)
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/clear_quick_control_requestsLL")) > 0:

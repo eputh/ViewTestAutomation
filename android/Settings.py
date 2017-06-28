@@ -108,7 +108,7 @@ class Settings(unittest.TestCase):
 
     def testAboutForCRUDO(self):
         auth.checkIfUserIsLoggedIn(self.driver, 0, 'CRUDO')
-        auth.loginAndSelectSite(self.driver, config.users['CRUDO']['username'], config.users['CRUDO']['password'], config.site[0])
+        auth.loginAndSelectSite(self.driver, config.users['CRUDO']['username'], config.users['CRUDO']['password'], config.sites['Default'])
         commonFunctions.navIcon(self.driver)
 
         if WebDriverWait(self.driver, 20).until(
@@ -161,7 +161,7 @@ class Settings(unittest.TestCase):
 
     def testAboutForRUO(self):
         auth.checkIfUserIsLoggedIn(self.driver, 0, 'RUO')
-        auth.loginAndSelectSite(self.driver, config.users['RUO']['username'], config.users['RUO']['password'], config.site[0])
+        auth.loginAndSelectSite(self.driver, config.users['RUO']['username'], config.users['RUO']['password'], config.sites['Default'])
         commonFunctions.navIcon(self.driver)
 
         if WebDriverWait(self.driver, 20).until(

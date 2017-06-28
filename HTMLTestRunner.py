@@ -31,6 +31,7 @@ from __future__ import print_function
 """
 
 import os
+import sys
 import unittest
 from datetime import datetime
 from random import randint
@@ -44,6 +45,7 @@ from common import networkConnection as NetworkConnection
 
 
 class RunTests(unittest.TestCase):
+    reportfile = ""
 
     def test_main(self):
         # Run HTMLTestRunner. Verify the HTML report.
@@ -77,13 +79,10 @@ class RunTests(unittest.TestCase):
             unittest.defaultTestLoader.loadTestsFromTestCase(SelectSite.SelectSite),
             unittest.defaultTestLoader.loadTestsFromTestCase(Network.Network)
         ])
-
         # Invoke TestRunner
-        random = randint(1, 200)
-        id = datetime.strftime(datetime.now(), '%m%d%y-%H%M%S-')
-        reportfile = os.path.abspath(os.path.join(os.path.dirname(__file__), 'report/ViewTestReport' + id + str(random) + '.html'))
-        print("Creating file: ", reportfile)
-        outfile = open(reportfile, "w+")
+        # id = datetime.strftime(datetime.now(), '%m-%d-%y-%H%M%S-')
+        # reportfile = os.path.abspath(os.path.join(os.path.dirname(__file__), 'report/ViewTestReport' + id + '.html'))
+        outfile = open(self.reportfile, "w+")
         # runner = unittest.TextTestRunner(buf)       #DEBUG: this is the unittest baseline
         runner = TestRunner.HTMLTestRunner(
             stream=outfile,
@@ -92,14 +91,16 @@ class RunTests(unittest.TestCase):
         )
 
         runner.run(self.suite)
-        if runner.run(self.systemReadySuite).wasSuccessful():
-            runner.run(self.suite)
-            if runner.run(self.networkConnectionSuite).wasSuccessful():
-                runner.run(self.suite2)
-        else:
-            print("Unsuccessful launch of test suite. System was not ready.")
+        # if runner.run(self.systemReadySuite).wasSuccessful():
+        #     runner.run(self.suite)
+        #     if runner.run(self.networkConnectionSuite).wasSuccessful():
+        #         runner.run(self.suite2)
+        # else:
+        #     print("Unsuccessful launch of test suite. System was not ready.")
         outfile.close()
 
 
 if __name__ == '__main__':
+    if len(sys.argv) > 1:
+        RunTests.reportfile = sys.argv.pop()
     unittest.main()

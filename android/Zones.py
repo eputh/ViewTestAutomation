@@ -338,7 +338,7 @@ class Zones(unittest.TestCase):
     def testCreateZoneGroupForCRUDO(self):
         auth.checkIfUserIsLoggedIn(self.driver, 0, 'CRUDO')
         auth.loginAndSelectSite(self.driver, config.users['CRUDO']['username'], config.users['CRUDO']['password'],
-                                config.site[0])
+                                config.sites['Default'])
 
         commonFunctions.navIcon(self.driver)
         if WebDriverWait(self.driver, 10).until(
@@ -382,7 +382,7 @@ class Zones(unittest.TestCase):
     def testCreateZoneGroupForRUO(self):
         auth.checkIfUserIsLoggedIn(self.driver, 0, 'RUO')
         auth.loginAndSelectSite(self.driver, config.users['RUO']['username'], config.users['RUO']['password'],
-                                config.site[0])
+                                config.sites['Default'])
 
         commonFunctions.navIcon(self.driver)
         if WebDriverWait(self.driver, 10).until(
@@ -449,36 +449,15 @@ class Zones(unittest.TestCase):
         else:
             raiseExceptions("Zones heading is missing")
 
-        commonFunctions.addbutton(self.driver)
-        if WebDriverWait(self.driver, 10).until(
-                EC.presence_of_element_located((By.ID, "com.view.viewglass:id/title_createZoneGrpTV"))):
-            pass
-        else:
-            raiseExceptions("Add button led to the wrong screen")
-
-        if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/name_createZoneGrp_addETV")) > 0:
-            self.driver.find_element_by_id("com.view.viewglass:id/name_createZoneGrp_addETV").send_keys("abc")
-            firstZone = self.driver.find_elements(By.ID, "com.view.viewglass:id/zone_item_select_zoneTV")[0]
-            firstZone.click()
-            commonFunctions.savebutton(self.driver)
-        else:
-            raiseExceptions("Name text field is missing")
-
-        foundCreatedZonegroup = False
-        if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/listItemNameTV")) > 0:
-            zonegroups = self.driver.find_elements(By.ID, "com.view.viewglass:id/listItemNameTV")
-            for group in zonegroups:
-                if group.text == "abc":
-                    foundCreatedZonegroup = True
-        if not foundCreatedZonegroup:
-            raiseExceptions("Zonegroup 'abc' was not created")
+        if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/actZone_addIV")) > 0:
+            raiseExceptions("RO user is able to add a zonegroup")
 
     # @attr('acceptance', sid='TC-zngrpdet-2.7, TC-zndet-3.5, TC-crtzngp-9.11, TC-crtzngp-9.12', bv=10)
     # @unittest.skip('Test case temporarily disabled')
     def testEditZoneGroupForCRUDO(self):
         auth.checkIfUserIsLoggedIn(self.driver, 0, 'CRUDO')
         auth.loginAndSelectSite(self.driver, config.users['CRUDO']['username'], config.users['CRUDO']['password'],
-                                config.site[0])
+                                config.sites['Default'])
 
         commonFunctions.navIcon(self.driver)
         if WebDriverWait(self.driver, 10).until(
@@ -493,12 +472,10 @@ class Zones(unittest.TestCase):
         else:
             raiseExceptions("Zones heading is missing")
 
-        if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/listItemNameTV")) > 0:
-            zonegroups = self.driver.find_elements(By.ID, "com.view.viewglass:id/listItemNameTV")
-            for group in zonegroups:
-                if group.text == "abc":
-                    group.click()
-                    break
+        if zones_and_scenes.findZonegroup(self.driver, "abc") == False:
+            zones_and_scenes.quickCreateZonegroup(self.driver, "abc")
+            zones_and_scenes.findZonegroup(self.driver, "abc")
+
         if WebDriverWait(self.driver, 10).until(
                 EC.presence_of_element_located((By.XPATH, "//android.widget.TextView[@text='abc']"))):
             commonFunctions.editbutton(self.driver)
@@ -517,7 +494,7 @@ class Zones(unittest.TestCase):
     def testEditZoneGroupForRUO(self):
         auth.checkIfUserIsLoggedIn(self.driver, 0, 'RUO')
         auth.loginAndSelectSite(self.driver, config.users['RUO']['username'], config.users['RUO']['password'],
-                                config.site[0])
+                                config.sites['Default'])
 
         commonFunctions.navIcon(self.driver)
         if WebDriverWait(self.driver, 10).until(
@@ -532,12 +509,10 @@ class Zones(unittest.TestCase):
         else:
             raiseExceptions("Zones heading is missing")
 
-        if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/listItemNameTV")) > 0:
-            zonegroups = self.driver.find_elements(By.ID, "com.view.viewglass:id/listItemNameTV")
-            for group in zonegroups:
-                if group.text == "abc":
-                    group.click()
-                    break
+        if zones_and_scenes.findZonegroup(self.driver, "abc") == False:
+            zones_and_scenes.quickCreateZonegroup(self.driver, "abc")
+            zones_and_scenes.findZonegroup(self.driver, "abc")
+
         if WebDriverWait(self.driver, 10).until(
                 EC.presence_of_element_located((By.XPATH, "//android.widget.TextView[@text='abc']"))):
             commonFunctions.editbutton(self.driver)
@@ -574,12 +549,10 @@ class Zones(unittest.TestCase):
         else:
             raiseExceptions("Zones heading is missing")
 
-        if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/listItemNameTV")) > 0:
-            zonegroups = self.driver.find_elements(By.ID, "com.view.viewglass:id/listItemNameTV")
-            for group in zonegroups:
-                if group.text == "abc":
-                    group.click()
-                    break
+        if zones_and_scenes.findZonegroup(self.driver, "abc") == False:
+            zones_and_scenes.quickCreateZonegroup(self.driver, "abc")
+            zones_and_scenes.findZonegroup(self.driver, "abc")
+
         if WebDriverWait(self.driver, 10).until(
                 EC.presence_of_element_located((By.XPATH, "//android.widget.TextView[@text='abc']"))):
             commonFunctions.editbutton(self.driver)
@@ -597,7 +570,7 @@ class Zones(unittest.TestCase):
     def testRemoveZoneGroupForCRUDO(self):
         auth.checkIfUserIsLoggedIn(self.driver, 0, 'CRUDO')
         auth.loginAndSelectSite(self.driver, config.users['CRUDO']['username'], config.users['CRUDO']['password'],
-                                config.site[0])
+                                config.sites['Default'])
 
         commonFunctions.navIcon(self.driver)
         if WebDriverWait(self.driver, 10).until(
@@ -643,7 +616,7 @@ class Zones(unittest.TestCase):
     def testRemoveDeleteZoneGroupForRUO(self):
         auth.checkIfUserIsLoggedIn(self.driver, 0, 'RUO')
         auth.loginAndSelectSite(self.driver, config.users['RUO']['username'], config.users['RUO']['password'],
-                                config.site[0])
+                                config.sites['Default'])
 
         commonFunctions.navIcon(self.driver)
         if WebDriverWait(self.driver, 10).until(

@@ -72,7 +72,7 @@ class Schedule(unittest.TestCase):
     def test01CreateNoRepeatScheduleForCRUDO(self):
         auth.checkIfUserIsLoggedIn(self.driver, 0, 'CRUDO')
         auth.loginAndSelectSite(self.driver, config.users['CRUDO']['username'], config.users['CRUDO']['password'],
-                                config.site[0])
+                                config.sites['Default'])
 
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/scheduleTV")) <= 0:
             commonFunctions.navIcon(self.driver)
@@ -605,7 +605,7 @@ class Schedule(unittest.TestCase):
     def test16CreateNoRepeatScheduleForRUO(self):
         auth.checkIfUserIsLoggedIn(self.driver, 0, 'RUO')
         auth.login(self.driver, config.users['RUO']['username'], config.users['RUO']['password'])
-        site.selectSite(self.driver, config.site[0])
+        site.selectSite(self.driver, config.sites['Default'])
         sleep(20)
         if commonFunctions.foundAlert(self.driver):
             commonFunctions.respondToAlert(self.driver, 0)

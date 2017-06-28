@@ -2,6 +2,7 @@
     "capabilities": [
         {
             "applicationName": "45ddeb64",
+            "udid": "45ddeb64",
             "deviceName": "SamsungGalaxy",
             "platformVersion":"7.0",
             "browserName": "SamsungGalaxy",

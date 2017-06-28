@@ -3,6 +3,7 @@
         {
             "applicationName": "09c119410bfc3c60",
             "deviceName": "Nexus5",
+            "udid": "09c119410bfc3c60",
             "platformVersion":"6.0.1",
             "browserName": "Nexus5",
             "platformName": "ANDROID",

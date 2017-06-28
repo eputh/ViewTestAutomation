@@ -77,7 +77,7 @@ class LiveView(unittest.TestCase):
         """
         auth.checkIfUserIsLoggedIn(self.driver, 0, 'CRUDO')
         auth.loginAndSelectSite(self.driver, config.users['CRUDO']['username'], config.users['CRUDO']['password'],
-                                config.site[0])
+                                config.sites['Default'])
         commonFunctions.navIcon(self.driver)
 
         if WebDriverWait(self.driver, 10).until(

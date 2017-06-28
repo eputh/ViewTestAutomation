@@ -34,6 +34,9 @@ import os
 device = 'RKumar iPhone'
 site = ["NC20test", "tintserver7700", "APPCloudTest1"]
 
+sites = {
+    'Default': "NC20test"
+}
 # if a new device is added, make sure to update the ViewTestReport template
 devices = {
     '0abad235030d17a3': {
@@ -61,7 +64,7 @@ devices = {
     '092326c6': {
         'name': 'Nexus 7',
         'hasData': False,
-        'nodeCommand': 'appium --nodeconfig ' + os.path.abspath(os.path.join(os.getcwd(), 'capabilities/nexus7.json')) + ' -p 4723 -bp 4725 -U 092326c6'
+        'nodeCommand': 'appium --nodeconfig ' + os.path.abspath(os.path.join(os.getcwd(), 'capabilities/nexus7.json')) + ' -p 4720 -bp 4725 -U 092326c6'
     },
     '45ddeb64': {
         'name': 'Samsung Galaxy S7',
@@ -84,6 +87,40 @@ devices = {
         'nodeCommand': 'appium --nodeconfig ' + os.path.abspath(os.path.join(os.getcwd(), 'capabilities/iPhone.json')) + ' -p 4820 -bp 4825'
     }
 }
+
+testcases = {
+    'Profile': {
+        'unittestCommand' : 'unittest.defaultTestLoader.loadTestsFromTestCase(Profile.Profile)'
+    },
+    'Settings': {
+        'unittestCommand' : 'unittest.defaultTestLoader.loadTestsFromTestCase(Settings.Settings)'
+    },
+    'LiveView': {
+        'unittestCommand' : 'unittest.defaultTestLoader.loadTestsFromTestCase(LiveView.LiveView)'
+    },
+    'Control': {
+        'unittestCommand': 'unittest.defaultTestLoader.loadTestsFromTestCase(Control.Control)'
+    },
+    'Zones': {
+        'unittestCommand': 'unittest.defaultTestLoader.loadTestsFromTestCase(Zones.Zones)'
+    },
+    'Scenes': {
+        'unittestCommand': 'unittest.defaultTestLoader.loadTestsFromTestCase(Scenes.Scenes)'
+    },
+    'Schedule': {
+        'unittestCommand': 'unittest.defaultTestLoader.loadTestsFromTestCase(Schedule.Schedule)'
+    },
+    'Authentication': {
+        'unittestCommand': 'unittest.defaultTestLoader.loadTestsFromTestCase(Authentication.Authentication)'
+    },
+    'SelectSite': {
+        'unittestCommand': 'unittest.defaultTestLoader.loadTestsFromTestCase(SelectSite.SelectSite)'
+    },
+    'Network': {
+        'unittestCommand': 'unittest.defaultTestLoader.loadTestsFromTestCase(Network.Network)'
+    }
+}
+
 
 users = {
     'CRUDO': {
