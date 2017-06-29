@@ -81,6 +81,8 @@ def navIcon(driver):
                         ]
         waitForElement(driver, findElements, 20)
     except TypeError:
+        driver.get_screenshot_as_png()
+        driver.save_screenshot("navigation.png")
         raiseExceptions("Navigation icon is missing")
     if len(driver.find_elements(By.ID, "com.view.viewglass:id/home_controlIV")) > 0:
         driver.find_element_by_id("com.view.viewglass:id/home_controlIV").click()
@@ -135,15 +137,24 @@ def savebutton(driver):
     else:
         raiseExceptions("Save button is missing")
 
+
 def addbutton(driver):
+    try:
+        findElements = [("ID", "com.view.viewglass:id/home_controlIV"),
+                        ("ID", "com.view.viewglass:id/home_zonesIV"),
+                        ("ID", "com.view.viewglass:id/homeBtnLiveViewLL"),
+                        ("ID", "com.view.viewglass:id/home_schdIV"),
+                        ("ID", "com.view.viewglass:id/menuBtn_scene")
+                        ]
+        waitForElement(driver, findElements, 20)
+    except TypeError:
+        raiseExceptions("Add button is missing")
     if len(driver.find_elements(By.ID, "com.view.viewglass:id/add_schdIV")) > 0:
         driver.find_element_by_id("com.view.viewglass:id/add_schdIV").click()
     elif len(driver.find_elements(By.ID, "com.view.viewglass:id/actZone_addIV")) > 0:
         driver.find_element_by_id("com.view.viewglass:id/actZone_addIV").click()
     elif len(driver.find_elements(By.ID, "com.view.viewglass:id/scene_addIconIV")) > 0:
         driver.find_element_by_id("com.view.viewglass:id/scene_addIconIV").click()
-    else:
-        raiseExceptions("Add button is missing")
 
 
 def editbutton(driver):

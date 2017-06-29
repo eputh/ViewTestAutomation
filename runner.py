@@ -43,6 +43,7 @@ from time import sleep
 from flask import Flask, render_template, redirect, url_for, request, jsonify
 from flask import make_response
 app = Flask(__name__)
+import MySQLdb
 
 from common import config
 
@@ -69,16 +70,16 @@ def home():
 def run_tests():
     if request.method == 'POST':
         connected_devices = request.form['param']
-        devices = connected_devices.split(";")
-        devices.pop(-1)
+        devices = connected_devices.split("|")[0].split(";")
+        devices.pop()
+        testcases = connected_devices.split("|")[1]
         print("Devices selected for testing:", devices)
         set_appium_nodes(devices)
         sleep(15)
 
         processes = []
         for d in devices:
-            file = create_file(d)
-            p = subprocess.Popen([sys.executable, "HTMLTestRunner.py", file])
+            p = subprocess.Popen([sys.executable, "HTMLTestRunner.py", d, testcases])
             processes.append(p)
 
         for process in processes:

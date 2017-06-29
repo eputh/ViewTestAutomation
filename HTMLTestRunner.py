@@ -42,10 +42,37 @@ from third_party import HTMLTestRunner as TestRunner
 
 from android import Authentication, Control, LiveView, Profile, Scenes, Schedule, SelectSite, Settings, Zones, Network
 from common import networkConnection as NetworkConnection
+from common import config
+
+
+# for each device, create a report file where the name includes
+# the name of the device and the time at which the test began
+def create_file(device):
+    id = datetime.strftime(datetime.now(), '%m-%d-%y-%H%M%S-')
+    device_name = config.devices[device]['name'].replace(" ", "")
+    reportfile = os.path.abspath(
+        os.path.join(os.path.dirname(__file__), 'report/' + device_name + 'Report' + id + '.html'))
+    outfile = open(reportfile, "w+")
+    print("Created file: ", reportfile)
+    return reportfile
+
+
+def set_up_test_suite(testCases):
+    suite = unittest.TestSuite()
+    if "Select All" in testCases:
+        tests = config.testcases
+    else:
+        tests = testCases
+
+    for testcase in tests:
+        suite.addTest(eval(config.testcases[testcase]['unittestCommand']))
+        print("Added test case:", testcase)
+    return suite
 
 
 class RunTests(unittest.TestCase):
-    reportfile = ""
+    device = ""
+    testCases = []
 
     def test_main(self):
         # Run HTMLTestRunner. Verify the HTML report.
@@ -53,36 +80,11 @@ class RunTests(unittest.TestCase):
         self.networkConnectionSuite = unittest.defaultTestLoader.loadTestsFromTestCase(NetworkConnection.NetworkConnection)
 
         # suite of TestCases
-        self.suite = unittest.TestSuite()
-        self.suite.addTests([
-            unittest.defaultTestLoader.loadTestsFromTestCase(Profile.Profile),
-            unittest.defaultTestLoader.loadTestsFromTestCase(Settings.Settings),
-            unittest.defaultTestLoader.loadTestsFromTestCase(LiveView.LiveView),
-            unittest.defaultTestLoader.loadTestsFromTestCase(Control.Control),
-            unittest.defaultTestLoader.loadTestsFromTestCase(Zones.Zones),
-            unittest.defaultTestLoader.loadTestsFromTestCase(Scenes.Scenes),
-            unittest.defaultTestLoader.loadTestsFromTestCase(Schedule.Schedule),
-            unittest.defaultTestLoader.loadTestsFromTestCase(Authentication.Authentication),
-            unittest.defaultTestLoader.loadTestsFromTestCase(SelectSite.SelectSite),
-            unittest.defaultTestLoader.loadTestsFromTestCase(Network.Network)
-        ])
-        self.suite2 = unittest.TestSuite()
-        self.suite2.addTests([
-            unittest.defaultTestLoader.loadTestsFromTestCase(Profile.Profile),
-            unittest.defaultTestLoader.loadTestsFromTestCase(Settings.Settings),
-            unittest.defaultTestLoader.loadTestsFromTestCase(LiveView.LiveView),
-            unittest.defaultTestLoader.loadTestsFromTestCase(Control.Control),
-            unittest.defaultTestLoader.loadTestsFromTestCase(Zones.Zones),
-            unittest.defaultTestLoader.loadTestsFromTestCase(Scenes.Scenes),
-            unittest.defaultTestLoader.loadTestsFromTestCase(Schedule.Schedule),
-            unittest.defaultTestLoader.loadTestsFromTestCase(Authentication.Authentication),
-            unittest.defaultTestLoader.loadTestsFromTestCase(SelectSite.SelectSite),
-            unittest.defaultTestLoader.loadTestsFromTestCase(Network.Network)
-        ])
+        self.suite = set_up_test_suite(self.testCases)
+
         # Invoke TestRunner
-        # id = datetime.strftime(datetime.now(), '%m-%d-%y-%H%M%S-')
-        # reportfile = os.path.abspath(os.path.join(os.path.dirname(__file__), 'report/ViewTestReport' + id + '.html'))
-        outfile = open(self.reportfile, "w+")
+        reportfile = create_file(self.device)
+        outfile = open(reportfile, "w+")
         # runner = unittest.TextTestRunner(buf)       #DEBUG: this is the unittest baseline
         runner = TestRunner.HTMLTestRunner(
             stream=outfile,
@@ -102,5 +104,8 @@ class RunTests(unittest.TestCase):
 
 if __name__ == '__main__':
     if len(sys.argv) > 1:
-        RunTests.reportfile = sys.argv.pop()
+        testcases = sys.argv.pop()
+        RunTests.testCases = testcases.split(";")
+        RunTests.testCases.pop()
+        RunTests.device = sys.argv.pop()
     unittest.main()

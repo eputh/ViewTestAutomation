@@ -114,7 +114,6 @@ class Control(unittest.TestCase):
         To verify the functionality of the quick list
         """
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
-        print("check select zone group")
         if len(self.driver.find_elements(By.XPATH, "//android.widget.TextView[@resource-id='com.view.viewglass:id/selected_zone_name_controlTV']")) > 0:
             self.driver.find_element_by_xpath("//android.widget.TextView[@resource-id='com.view.viewglass:id/selected_zone_name_controlTV']").click()
         else:
@@ -132,7 +131,6 @@ class Control(unittest.TestCase):
         Verify the functionality of the Control Ring
         """
         auth.checkIfUserIsLoggedIn(self.driver, 1, 'CRUDO')
-        print("check if the control ring is there and working")
         if len(self.driver.find_elements(By.ID, "com.view.viewglass:id/tintImage_controlIV")) > 0:
             self.driver.find_element_by_id("com.view.viewglass:id/tintImage_controlIV").click()
             self.driver.find_element_by_id("com.view.viewglass:id/tintLevelNum_controlTV")

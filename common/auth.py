@@ -191,8 +191,9 @@ def loginAndSelectSite(driver, username, password, siteToLogInto):
 
 
 def loginOperation(driver, username, password):
-    if WebDriverWait(driver, 30).until(
-            EC.presence_of_element_located((By.XPATH, "//android.widget.EditText[@index='0']"))):
+    try:
+        WebDriverWait(driver, 30).until(
+            EC.presence_of_element_located((By.XPATH, "//android.widget.EditText[@index='0']")))
         # some devices have trouble navigating to the username text field
         location = driver.find_element_by_id("com.view.viewglass:id/web_view_LL").location
         size = driver.find_element_by_id("com.view.viewglass:id/web_view_LL").size
@@ -209,7 +210,7 @@ def loginOperation(driver, username, password):
         else:
             email.clear()
             email.send_keys(username)
-    else:
+    except TimeoutException:
         raiseExceptions("Missing Email text field")
 
     if WebDriverWait(driver, 5).until(
@@ -226,8 +227,7 @@ def loginOperation(driver, username, password):
     else:
         raiseExceptions("Missing Password text field")
 
-    if WebDriverWait(driver, 5).until(
-            EC.presence_of_element_located((By.CLASS_NAME, "android.widget.CheckBox"))):
+    if len(driver.find_elements(By.CLASS_NAME, "android.widget.CheckBox")):
         rememberMe = driver.find_element_by_class_name("android.widget.CheckBox")
         if rememberMe.get_attribute("checked") == "false":
             rememberMe.click()
@@ -238,8 +238,7 @@ def loginOperation(driver, username, password):
     else:
         raiseExceptions("Missing Remember Me check box")
 
-    if WebDriverWait(driver, 5).until(
-            EC.presence_of_element_located((By.XPATH, "//android.widget.Button[@content-desc='Login']"))):
+    if len(driver.find_elements(By.XPATH, "//android.widget.Button[@content-desc='Login']")):
         # some devices have trouble navigating to the login button
         if len(driver.find_elements(By.XPATH, "//android.widget.Button[@content-desc='Login']")) > 0:
             location = driver.find_elements(By.CLASS_NAME, "android.webkit.WebView")[0].location

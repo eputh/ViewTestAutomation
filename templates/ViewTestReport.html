@@ -333,6 +333,7 @@
                 <span class="option" id="SelectSite" onclick="addTestCase('SelectSite')">SelectSite</span>
                 <span class="option" id="Settings" onclick="addTestCase('Settings')">Settings</span>
                 <span class="option" id="Zones" onclick="addTestCase('Zones')">Zones</span>
+				 <span style="background: #2a3e54" class="option" id="Select All" onclick="addTestCase('Select All')">Select All</span>
             </div>
             <button type="submit" class="btn btn-info" id="launch-tests">Launch Tests</button>
         </div>
@@ -393,19 +394,21 @@
 		$("#launch-tests").click(function(e) {
 			e.preventDefault();
 
-			devices = "";
+			devicesAndTestCases = "";
 			let d = Array.from(testDevices)
 			let c = Array.from(testCases)
 			for (var i=0; i < d.length; i++)
-				devices += d[i] + ';';
-			console.log("devices: ", devices);
+				devicesAndTestCases += d[i] + ';';
+			devicesAndTestCases +="|";
+			for (var i=0; i < c.length; i++)
+				devicesAndTestCases += c[i] + ';';
 			if (d.length > 0) {
-				<!--if (c.length > 0) {-->
+				if (c.length > 0) {
 					console.log("starting tests")
-					beginTests(devices)
-				<!--} else {-->
-					<!--alert("Please select one or more tests to run.")-->
-				<!--}-->
+					beginTests(devicesAndTestCases)
+				} else {
+					alert("Please select one or more tests to run.")
+				}
 			} else {
 				alert("Please select the connected devices you'd like to use for testing.")
 			}
